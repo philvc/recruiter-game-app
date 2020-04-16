@@ -2,13 +2,12 @@ import * as React from 'react';
 
 // packages
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
-import { Redirect, navigate } from '@reach/router';
+import { navigate } from '@reach/router';
 
 // graphql
 import { LOGIN_MUTATION } from '../../graphql/mutations';
 
 // constants
-import { EMAIL } from '../../constants';
 
 
 const actions = {
@@ -96,20 +95,29 @@ const Login = ({ path }: any) => {
   const [loginMutation] = useMutation(LOGIN_MUTATION, {
     update(cache, { data: loginMutation }) {
       console.log('login data :', loginMutation)
-      const { id, firstName, lastName, email } = loginMutation.login;
-      cache.writeData({
-        data: {
-          player: {
-            id,
-            firstName,
-            lastName,
-            email
+      if (loginMutation.login) {
+        const { id, firstName, lastName, email } = loginMutation.login;
+        cache.writeData({
+          data: {
+            player: {
+              id,
+              firstName,
+              lastName,
+              email,
+              _typename: 'player'
+            }
           }
+        })
+        // save in localStorage
+        if (!localStorage.hasOwnProperty('player')) {
+          const player = { id, firstName, lastName, email }
+          const playerString = JSON.stringify(player)
+          localStorage.setItem('player', playerString)
         }
-      })
-      // if (loginMutation.login) {
-      //   navigate(`/${firstName}`)
-      // }
+        navigate(`/${firstName}`)
+      }
+      return null
+      // create account & verify email
     }
   })
 
@@ -117,13 +125,13 @@ const Login = ({ path }: any) => {
 
   console.log('client :', client)
 
-  function handleChange({ target: { name, value } }: any) {
+  function handleChange({ target: { value } }: any) {
     dispatch({ type: actions.emailChanged, payload: value })
   }
 
   function handleSubmit(e: any) {
     e.preventDefault()
-    loginMutation({ variables: { email: 'philvancaloen@gmail.com' } })
+    loginMutation({ variables: { email: state.email } })
     dispatch({ type: actions.formSubmitted })
   }
 

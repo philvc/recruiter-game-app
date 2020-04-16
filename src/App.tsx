@@ -9,31 +9,44 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import SelectGame from './components/selectGame';
 
 // constants
-import { EMAIL } from './constants';
 
 // Style
 import './App.css';
 import { IContextProps, reducer, initialPlayerContext } from './App.ctx';
 import Login from './components/login';
 
+// localStorage
+let player: any
+if (localStorage.hasOwnProperty('player')) {
+
+  player = localStorage.getItem('player')
+  console.log('player inlocalstorage :', player)
+  if (player !== null) {
+    player = JSON.parse(player)
+  }
+}
+
 // Context
 const PlayerContext = React.createContext({} as IContextProps)
 
-// Local storage
-if (localStorage.hasOwnProperty(EMAIL)) {
-  const email = localStorage.getItem(EMAIL)
-  console.log('email local storage :', email)
-}
-
-// State
-let defaults = {
-  player: {
-    id: '5e9582ecb1f1623b439af5ab',
-    firstName: 'Philippe',
-    lastName: 'van Caloen',
-    _typename: 'player'
+// Graphql default cache state
+let defaults = player !== null ?
+  {
+    player: {
+      ...player,
+      _typename: 'player'
+    }
   }
-}
+  :
+  {
+    player: {
+      id: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      _typename: 'player'
+    }
+  }
 
 // GraphqlClient
 const client = new ApolloClient({
@@ -45,18 +58,19 @@ const client = new ApolloClient({
 
 function App() {
   const [playerContext, playerContextDispatch] = React.useReducer(reducer, initialPlayerContext)
-
   const value = { playerContext, playerContextDispatch }
   return (
     <ApolloProvider client={client}>
       <PlayerContext.Provider value={value}>
         <div className="App">
           <Router>
-            {localStorage.hasOwnProperty(EMAIL) ? (
-              <Redirect from='/' to={`/email`} />
-            ) : (
+            {player && player.firstName ?
+              (
+                <Redirect from='/' to={`/${player.firstName}`} noThrow />
+              ) : (
                 <Login path='/' />
-              )}
+              )
+            }
             <SelectGame path='/:firstName' />
           </Router>
         </div>
