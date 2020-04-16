@@ -22,9 +22,9 @@ let player: any
 if (localStorage.hasOwnProperty('player')) {
 
   player = localStorage.getItem('player')
-  console.log('player inlocalstorage :', player)
   if (player !== null) {
     player = JSON.parse(player)
+    player._typename = 'player'
   }
 } else {
   player = {

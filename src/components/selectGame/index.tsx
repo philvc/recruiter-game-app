@@ -2,7 +2,6 @@ import * as React from 'react';
 
 // packages
 import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 
 // components
 import AddGame from './components/addGame';
@@ -10,25 +9,18 @@ import AddGame from './components/addGame';
 // style
 import './style.css';
 
+// queries
+import { GET_GAMES } from '../../graphql/queries';
+
 // context
 import { PlayerContext } from '../../App.ctx';
 
 
-
-const GAMES = gql`
-  query GamesByPlayerId($id: String!){
-    gamesByPlayerId(id: $id) {
-      id
-      title
-    }
-  }
-`
-
-const SelectGame = ({ path, playerId }: any) => {
+const SelectGame = ({ path, playerId, navigate }: any) => {
 
   // Hooks
   const { playerContext } = React.useContext(PlayerContext)
-  const { loading, error, data } = useQuery(GAMES, {
+  const { loading, error, data } = useQuery(GET_GAMES, {
     variables: {
       id: playerContext.id
     }
@@ -41,13 +33,13 @@ const SelectGame = ({ path, playerId }: any) => {
     <div>
       {playerId} Games
       <ul className='game-list'>
-        {data && data.gamesByPlayerId ? (
-          data.gamesByPlayerId.map((game: any) => <li key={game.id}>{game.title}</li>)
+        {data && data.games ? (
+          data.games.map((game: any) => <li key={game.id}>{game.title}</li>)
         ) :
           null
         }
       </ul>
-      <AddGame />
+      <AddGame navigate={navigate} />
     </div>
 
   )

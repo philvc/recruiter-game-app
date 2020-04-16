@@ -1,11 +1,10 @@
 import { gql } from 'apollo-boost';
 
-export const PLAYER_QUERY_CLIENT = gql`
-  query player {
-    player @client{
+export const GET_GAMES = gql`
+  query getGames($id: String!){
+    games(input: {id: $id}) {
       id
-      firstName
-      _typename
+      title
     }
   }
 `

@@ -95,7 +95,6 @@ const Login = ({ path }: any) => {
   const [state, dispatch] = React.useReducer(formReducer, initialState)
   const [loginMutation] = useMutation(LOGIN_MUTATION, {
     update(cache, { data: loginMutation }) {
-      console.log('login data :', loginMutation)
       if (loginMutation.login) {
         const { id, firstName, lastName, email } = loginMutation.login;
         // update PlayerContext
