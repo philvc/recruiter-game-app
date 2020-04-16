@@ -1,13 +1,14 @@
 import * as React from 'react';
 
 // packages
-import { useApolloClient, useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { navigate } from '@reach/router';
 
 // graphql
 import { LOGIN_MUTATION } from '../../graphql/mutations';
 
-// constants
+// context actions
+import { PlayerContext } from '../../App.ctx';
 
 
 const actions = {
@@ -90,13 +91,17 @@ function validate(name: any, value: any) {
 }
 
 const Login = ({ path }: any) => {
-
+  const { playerContextDispatch } = React.useContext(PlayerContext)
   const [state, dispatch] = React.useReducer(formReducer, initialState)
   const [loginMutation] = useMutation(LOGIN_MUTATION, {
     update(cache, { data: loginMutation }) {
       console.log('login data :', loginMutation)
       if (loginMutation.login) {
         const { id, firstName, lastName, email } = loginMutation.login;
+        // update PlayerContext
+        playerContextDispatch({ type: 'playerChanged', payload: loginMutation.login })
+
+        // update cache
         cache.writeData({
           data: {
             player: {
@@ -108,7 +113,8 @@ const Login = ({ path }: any) => {
             }
           }
         })
-        // save in localStorage
+
+        // update localStorage
         if (!localStorage.hasOwnProperty('player')) {
           const player = { id, firstName, lastName, email }
           const playerString = JSON.stringify(player)
@@ -120,10 +126,6 @@ const Login = ({ path }: any) => {
       // create account & verify email
     }
   })
-
-  const client = useApolloClient()
-
-  console.log('client :', client)
 
   function handleChange({ target: { value } }: any) {
     dispatch({ type: actions.emailChanged, payload: value })

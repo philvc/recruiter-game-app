@@ -7,15 +7,17 @@ import { ApolloProvider } from '@apollo/react-hooks';
 
 // Components
 import SelectGame from './components/selectGame';
+import Login from './components/login';
 
 // constants
 
 // Style
 import './App.css';
-import { IContextProps, reducer, initialPlayerContext } from './App.ctx';
-import Login from './components/login';
 
-// localStorage
+// Context
+import { reducer, PlayerContext } from './App.ctx';
+
+// Player definition
 let player: any
 if (localStorage.hasOwnProperty('player')) {
 
@@ -24,29 +26,22 @@ if (localStorage.hasOwnProperty('player')) {
   if (player !== null) {
     player = JSON.parse(player)
   }
+} else {
+  player = {
+    id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    gameId: '',
+    playerType: '',
+    _typename: 'player'
+  }
 }
 
-// Context
-const PlayerContext = React.createContext({} as IContextProps)
-
 // Graphql default cache state
-let defaults = player !== null ?
-  {
-    player: {
-      ...player,
-      _typename: 'player'
-    }
-  }
-  :
-  {
-    player: {
-      id: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      _typename: 'player'
-    }
-  }
+let defaults = {
+  player,
+}
 
 // GraphqlClient
 const client = new ApolloClient({
@@ -57,7 +52,7 @@ const client = new ApolloClient({
 })
 
 function App() {
-  const [playerContext, playerContextDispatch] = React.useReducer(reducer, initialPlayerContext)
+  const [playerContext, playerContextDispatch] = React.useReducer(reducer, player)
   const value = { playerContext, playerContextDispatch }
   return (
     <ApolloProvider client={client}>

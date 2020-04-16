@@ -1,18 +1,25 @@
+import * as React from "react";
+
+
 export const initialPlayerContext = {
-  playerId: '',
+  id: '',
   firstName: '',
+  lastName: '',
+  email: '',
   gameId: '',
   playerType: '',
 };
 
+export const PlayerContext = React.createContext({} as IContextProps)
+
 export interface IContextProps {
   playerContext: {
-    playerId: string,
+    id: string,
     firstName: string,
     gameId: string,
     playerType: string,
   };
-  playerContextDispatch: ({ type }: { type: string }) => void;
+  playerContextDispatch: ({ type, payload }: { type: string, payload: any }) => void;
 }
 
 export const actions = {
