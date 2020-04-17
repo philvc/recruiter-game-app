@@ -8,8 +8,10 @@ import { ApolloProvider } from '@apollo/react-hooks';
 // Components
 import SelectGame from './components/selectGame';
 import Login from './components/login';
+import LoginV2 from './components/loginv2';
 
 // constants
+
 
 // Style
 import './App.css';
@@ -24,7 +26,7 @@ if (localStorage.hasOwnProperty('player')) {
   player = localStorage.getItem('player')
   if (player !== null) {
     player = JSON.parse(player)
-    player._typename = 'player'
+    player._typename = 'Player'
   }
 } else {
   player = {
@@ -32,9 +34,7 @@ if (localStorage.hasOwnProperty('player')) {
     firstName: '',
     lastName: '',
     email: '',
-    gameId: '',
-    playerType: '',
-    _typename: 'player'
+    typename: 'Player'
   }
 }
 
@@ -48,25 +48,32 @@ const client = new ApolloClient({
   uri: 'http://localhost:5001',
   clientState: {
     defaults
-  }
+  },
+
 })
 
 function App() {
   const [playerContext, playerContextDispatch] = React.useReducer(reducer, player)
   const value = { playerContext, playerContextDispatch }
+
   return (
     <ApolloProvider client={client}>
       <PlayerContext.Provider value={value}>
         <div className="App">
           <Router>
-            {player && player.firstName ?
+            {/* {player && player.firstName ?
               (
-                <Redirect from='/' to={`/${player.firstName}`} noThrow />
+                // <Redirect from='/' to={`/${player.firstName}`} noThrow />
+                <SelectGame path={`/${player.firstName}`} />
               ) : (
-                <Login path='/' />
+                <LoginV2 path='/' />
               )
+            } */}
+            {localStorage.hasOwnProperty('player') ?
+              <SelectGame path='/' />
+              :
+              <LoginV2 path='/' />
             }
-            <SelectGame path='/:firstName' />
           </Router>
         </div>
       </PlayerContext.Provider>

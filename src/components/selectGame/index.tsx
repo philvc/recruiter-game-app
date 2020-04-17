@@ -10,36 +10,33 @@ import AddGame from './components/addGame';
 import './style.css';
 
 // queries
-import { GET_GAMES } from '../../graphql/queries';
+import { GET_GAMES_CACHE } from '../../graphql/queries';
 
 // context
 import { PlayerContext } from '../../App.ctx';
 
 
 const SelectGame = ({ path, playerId, navigate }: any) => {
-
+  console.log('select game comp')
   // Hooks
   const { playerContext } = React.useContext(PlayerContext)
-  const { loading, error, data } = useQuery(GET_GAMES, {
-    variables: {
-      id: playerContext.id
-    }
-  })
+  const { loading, error, data } = useQuery(GET_GAMES_CACHE)
 
   if (loading) return <div>Loading games</div>
   if (error) return <div>Error </div>
 
+  console.log('games data :', data)
   return (
     <div>
       {playerId} Games
-      <ul className='game-list'>
+      {/* <ul className='game-list'>
         {data && data.games ? (
           data.games.map((game: any) => <li key={game.id}>{game.title}</li>)
         ) :
           null
         }
       </ul>
-      <AddGame navigate={navigate} />
+      <AddGame navigate={navigate} /> */}
     </div>
 
   )
