@@ -1,82 +1,81 @@
 import * as React from 'react';
 
 // Packages
-import { Router, Redirect } from '@reach/router';
-import ApolloClient from 'apollo-boost';
+import { Router } from '@reach/router';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { HttpLink } from 'apollo-link-http';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-boost';
+
 
 // Components
 import SelectGame from './components/selectGame';
-import Login from './components/login';
 import LoginV2 from './components/loginv2';
 
-// constants
+// graphql
+import { typeDefs, resolvers } from './graphql/resolvers';
 
 
 // Style
 import './App.css';
 
 // Context
-import { reducer, PlayerContext } from './App.ctx';
 
-// Player definition
-let player: any
-if (localStorage.hasOwnProperty('player')) {
+// App Default player state
+// let player: any
+// if (localStorage.hasOwnProperty('player')) {
 
-  player = localStorage.getItem('player')
-  if (player !== null) {
-    player = JSON.parse(player)
-    player._typename = 'Player'
-  }
-} else {
-  player = {
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    typename: 'Player'
-  }
-}
+//   player = localStorage.getItem('player')
+//   if (player !== null) {
+//     player = JSON.parse(player)
+//   }
+// } else {
+//   player = {
+//     id: '',
+//     firstName: 'kiki',
+//     lastName: '',
+//     email: '',
+//   }
+// }
 
-// Graphql default cache state
-let defaults = {
-  player,
-}
+// Graphql default state
+const cache = new InMemoryCache();
 
 // GraphqlClient
 const client = new ApolloClient({
-  uri: 'http://localhost:5001',
-  clientState: {
-    defaults
-  },
+  link: new HttpLink({
+    uri: 'http://localhost:5001',
+  }),
+  cache,
+  typeDefs,
+  resolvers
+})
 
+cache.writeData({
+  data: {
+    player: {
+      id: 'kiki',
+      firstName: '',
+      lastName: '',
+      email: '',
+      __typename: 'Player'
+    }
+  }
 })
 
 function App() {
-  const [playerContext, playerContextDispatch] = React.useReducer(reducer, player)
-  const value = { playerContext, playerContextDispatch }
 
   return (
     <ApolloProvider client={client}>
-      <PlayerContext.Provider value={value}>
-        <div className="App">
-          <Router>
-            {/* {player && player.firstName ?
-              (
-                // <Redirect from='/' to={`/${player.firstName}`} noThrow />
-                <SelectGame path={`/${player.firstName}`} />
-              ) : (
-                <LoginV2 path='/' />
-              )
-            } */}
-            {localStorage.hasOwnProperty('player') ?
-              <SelectGame path='/' />
-              :
-              <LoginV2 path='/' />
-            }
-          </Router>
-        </div>
-      </PlayerContext.Provider>
+      <div className="App">
+        <Router>
+          {localStorage.hasOwnProperty('player') ?
+            <SelectGame path='/' />
+            :
+            <LoginV2 path='/' />
+          }
+        </Router>
+      </div>
     </ApolloProvider>
   );
 }

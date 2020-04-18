@@ -1,16 +1,15 @@
 import * as React from 'react';
 
 // packages
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { navigate } from '@reach/router';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 // graphql
-import { LOGIN_MUTATION } from '../../graphql/mutations';
 import { GET_ACCOUNT } from '../../graphql/queries';
+// import GET_PLAYER from '../../graphql/queries/currentPlayer';
 
 
 // context actions
-import { PlayerContext } from '../../App.ctx';
 
 
 const actions = {
@@ -92,10 +91,24 @@ function validate(name: any, value: any) {
   }
 }
 
+const GET_PLAYER = gql`
+  query Player {
+    player @client{
+      id
+      firstName
+      lastName
+      email
+    }
+  }
+`
+
+
 const LoginV2 = ({ path }: any) => {
-  const { playerContextDispatch } = React.useContext(PlayerContext)
   const [state, dispatch] = React.useReducer(formReducer, initialState)
-  const [getAccount, { data }] = useLazyQuery(GET_ACCOUNT)
+  const [getAccount] = useLazyQuery(GET_ACCOUNT)
+  const { data } = useQuery(GET_PLAYER)
+
+  console.log('player data :', data)
 
   function handleChange({ target: { value } }: any) {
     dispatch({ type: actions.emailChanged, payload: value })
