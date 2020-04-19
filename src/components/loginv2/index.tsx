@@ -1,21 +1,14 @@
 import * as React from 'react';
 
 // packages
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useLazyQuery, useApolloClient } from '@apollo/react-hooks';
+import { ApolloClient } from 'apollo-boost';
+
+// helpers
+import { formReducer, actions } from './reducer';
 
 // graphql
-import { GET_ACCOUNT } from '../../graphql/queries';
-// import GET_PLAYER from '../../graphql/queries/currentPlayer';
-
-
-// context actions
-
-
-const actions = {
-  emailChanged: 'EMAIL_CHANGED',
-  formSubmitted: 'FORM_SUBMITTED',
-}
+import { GET_PLAYERANDGAMES_SERVER } from '../../graphql/queries/getPlayerAndGames';
 
 const initialState = {
   email: '',
@@ -25,90 +18,37 @@ const initialState = {
   status: 'clean',
 }
 
-function formReducer(state: any, action: any) {
-  let error
-  switch (state.status) {
-    case 'dirty':
-      switch (action.type) {
-        case actions.formSubmitted:
-          let formValid = true
-          let emailError = validate('email', state.email)
-          if (emailError || !state.email) {
-            formValid = false
-          }
-          return {
-            ...state,
-            emailError,
-            submitAttempted: true,
-            status: formValid ? 'completed' : 'dirty',
-            submitMessage: formValid
-              ? 'Form Submitted Successfully'
-              : 'Form Has Errors',
-          }
-      };
-    // no 'break' or 'return', case 'dirty' continues!
-    // eslint-disable-next-line no-fallthrough
-    case 'clean':
-      switch (action.type) {
-        case actions.emailChanged:
-          error = validate('email', action.payload)
-          return {
-            ...state,
-            email: action.payload,
-            emailError: error,
-            submitMessage: '',
-            status: 'dirty',
-          }
-        case actions.formSubmitted:
-          return {
-            ...state,
-            submitMessage: 'Please fill out the form',
-          }
-        default:
-          return state
-      }
-    case 'completed':
-    // no 'break' or 'return', case 'completed' continues!
-    // eslint-disable-next-line no-fallthrough
-    default:
-      return state
-  }
-}
-
-function validate(name: any, value: any) {
-  if (typeof value === 'string') value = value.trim()
-
-  if (value.length === 0) {
-    return 'Must enter email'
-  } else if (
-    !value.includes('@') ||
-    !value.includes('.') ||
-    value.split('.')[1].length < 2
-  ) {
-    return 'Must enter valid email'
-  } else {
-    return null
-  }
-}
-
-const GET_PLAYER = gql`
-  query Player {
-    player @client{
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`
-
 
 const LoginV2 = ({ path }: any) => {
   const [state, dispatch] = React.useReducer(formReducer, initialState)
-  const [getAccount] = useLazyQuery(GET_ACCOUNT)
-  const { data } = useQuery(GET_PLAYER)
+  const client: ApolloClient<any> = useApolloClient()
+  const [getAccount] = useLazyQuery(
+    GET_PLAYERANDGAMES_SERVER,
+    {
+      onCompleted({ player, games }) {
 
-  console.log('player data :', data)
+        client.writeData({
+          data: {
+            player: { ...player },
+            games: games ? [...games] : null
+          }
+        })
+        // update localStorage 
+        const stringPlayer = JSON.stringify(player)
+        localStorage.setItem('player', stringPlayer)
+        // const stringGames = JSON.stringify(games)
+        // localStorage.setItem('games', stringGames)
+
+        window.location.reload(false)
+      }
+    })
+
+  // const { data } = useQuery(GET_PLAYER)
+  React.useEffect(() => {
+    if (state.status === 'completed') {
+      getAccount({ variables: { email: state.email } })
+    }
+  }, [state, getAccount])
 
   function handleChange({ target: { value } }: any) {
     dispatch({ type: actions.emailChanged, payload: value })
@@ -116,8 +56,6 @@ const LoginV2 = ({ path }: any) => {
 
   function handleSubmit(e: any) {
     e.preventDefault()
-    // mutate the Apollo client player in the cache
-    getAccount({ variables: { email: state.email } })
     dispatch({ type: actions.formSubmitted })
   }
 
@@ -127,23 +65,6 @@ const LoginV2 = ({ path }: any) => {
     }
   }
 
-  if (data) {
-    console.log('data getAccount :', data);
-    const { player, games } = data.player;
-
-    //  Locastorage
-    if (!localStorage.hasOwnProperty('player')) {
-      const stringPlayer = JSON.stringify(player)
-      localStorage.setItem('player', stringPlayer)
-    }
-    if (!localStorage.hasOwnProperty('games')) {
-      const stringGames = JSON.stringify(games)
-      localStorage.setItem('games', stringGames)
-    }
-    // mutate the Apollo client player initial state
-    //navigate to 
-    window.location.reload(false)
-  }
 
   return (
     <div>

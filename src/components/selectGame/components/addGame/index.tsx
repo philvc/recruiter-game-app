@@ -5,19 +5,19 @@ import { useMutation } from '@apollo/react-hooks';
 
 // mutations
 import { ADDGAME_MUTATION } from '../../../../graphql/mutations';
-import { GET_GAMES } from '../../../../graphql/queries';
 
 // context
 import { PlayerContext } from '../../../../App.ctx';
+import { GET_GAMES_ClIENT } from '../../../../graphql/queries/getGamesClient';
 
 const AddGame = ({ navigate }: any) => {
   const { playerContext } = React.useContext(PlayerContext)
 
   const [addGameMutation, { data, loading, error }] = useMutation(ADDGAME_MUTATION, {
     update(cache, { data: { addGame } }) {
-      const { games }: any = cache.readQuery({ query: GET_GAMES, variables: { id: playerContext.id } });
+      const { games }: any = cache.readQuery({ query: GET_GAMES_ClIENT, variables: { id: playerContext.id } });
       cache.writeQuery({
-        query: GET_GAMES,
+        query: GET_GAMES_ClIENT,
         variables: { id: playerContext.id },
         data: { games: games.concat([addGame]) }
       })

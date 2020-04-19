@@ -5,6 +5,7 @@ import { Resolvers } from 'apollo-client';
 export const typeDefs = gql`
   extend type Query {
     player: Player
+    games: [Game]
   }
 
   extend type Player {
@@ -12,6 +13,13 @@ export const typeDefs = gql`
     firstName: String
     lastName: String
     email: String
+  }
+
+  extend type Game {
+    id: String!
+    title: String
+    recruiterId: String
+    applicantId: String
   }
 `
 
