@@ -19,25 +19,6 @@ import { typeDefs, resolvers } from './graphql/resolvers';
 // Style
 import './App.css';
 
-// Context
-
-// App Default player state
-// let player: any
-// if (localStorage.hasOwnProperty('player')) {
-
-//   player = localStorage.getItem('player')
-//   if (player !== null) {
-//     player = JSON.parse(player)
-//   }
-// } else {
-//   player = {
-//     id: '',
-//     firstName: 'kiki',
-//     lastName: '',
-//     email: '',
-//   }
-// }
-
 // Graphql default state
 const cache = new InMemoryCache();
 
@@ -48,20 +29,18 @@ const client = new ApolloClient({
   }),
   cache,
   typeDefs,
-  resolvers
+  resolvers,
+  connectToDevTools: true
 })
 
-cache.writeData({
-  data: {
-    player: {
-      id: 'kiki',
-      firstName: '',
-      lastName: '',
-      email: '',
-      __typename: 'Player'
-    }
-  }
-})
+// cache.writeData({
+//   data: {
+//     player: {
+//       __typename: 'Player'
+//     },
+//     games: [],
+//   }
+// })
 
 function App() {
 
