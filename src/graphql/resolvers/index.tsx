@@ -1,27 +1,7 @@
-import gql from 'graphql-tag';
 import { ApolloCache } from 'apollo-cache';
 import { Resolvers } from 'apollo-client';
+import { GET_PLAYERANDGAMES_CLIENT } from '../queries/client/getPlayerAndGamesClient';
 
-export const typeDefs = gql`
-  extend type Query {
-    player: Player
-    games: [Game]
-  }
-
-  extend type Player {
-    id: String!
-    firstName: String
-    lastName: String
-    email: String
-  }
-
-  extend type Game {
-    id: String!
-    title: String
-    recruiterId: String
-    applicantId: String
-  }
-`
 
 type ResolverFn = (
   parent: any,
@@ -35,7 +15,30 @@ interface ResolverMap {
 
 interface AppResolvers extends Resolvers {
   // We will update this with our app's resolvers later
+  Mutation: ResolverMap
 }
 
-export const resolvers = {};
-
+export const resolvers: AppResolvers = {
+  Mutation: {
+    addPlayer: async (__: any, { input }: any, { cache }: any) => {
+      console.log('input mutation :', input)
+      const { player, games } = await cache.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+      // console.log('query dans mutation :', player, games)
+      // const data = await cache.writeQuery({
+      //   query: GET_PLAYERANDGAMES_CLIENT,
+      //   data: {
+      //     player: {
+      //       id: 'pépé',
+      //       firstName: 'lola',
+      //       lastName: 'pouré',
+      //       email: 'dkeke',
+      //       __typename: 'Player'
+      //     },
+      //     // games: games.push(input.games)
+      //   }
+      // })
+      cache.data.data.player = { ...input.player }
+      return null
+    }
+  }
+}

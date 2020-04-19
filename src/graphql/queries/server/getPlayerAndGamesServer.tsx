@@ -16,3 +16,4 @@ export const GET_PLAYERANDGAMES_SERVER = gql`
     }
   }
 `
+

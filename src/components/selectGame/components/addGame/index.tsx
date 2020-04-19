@@ -4,11 +4,11 @@ import * as React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 
 // mutations
-import { ADDGAME_MUTATION } from '../../../../graphql/mutations';
+import { ADDGAME_MUTATION } from '../../../../graphql/mutations/client/addGame';
 
 // context
 import { PlayerContext } from '../../../../App.ctx';
-import { GET_GAMES_ClIENT } from '../../../../graphql/queries/getGamesClient';
+import { GET_GAMES_ClIENT } from '../../../../graphql/queries/client/getGamesClient';
 
 const AddGame = ({ navigate }: any) => {
   const { playerContext } = React.useContext(PlayerContext)

@@ -1,37 +1,25 @@
 import * as React from 'react';
 
 // packages
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 
 // components
 import AddGame from './components/addGame';
 
 // query
-import { GET_GAMES_ClIENT } from '../../graphql/queries/getGamesClient';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
 
 // style
 import './style.css';
 
-const GET_PLAYER_CLIENT = gql`
-  query Player {
-    player @client{
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`
 
 
 const SelectGame = ({ path, playerId, navigate }: any) => {
-  const { loading, error, data } = useQuery(GET_PLAYER_CLIENT)
+  const { loading, error, data } = useQuery(GET_PLAYERANDGAMES_CLIENT)
+  console.log('query store :', data)
+  // if (loading) return <div>Loading games</div>
+  // if (error) return <div>Error </div>
 
-  if (loading) return <div>Loading games</div>
-  if (error) return <div>Error </div>
-
-  console.log('player data :', data)
   return (
     <div>
       Games
