@@ -18,6 +18,7 @@ import { typeDefs } from './graphql/schemas';
 
 // Style
 import './App.css';
+import Game from './components/game';
 
 // Graphql default state
 const cache = new InMemoryCache();
@@ -58,8 +59,6 @@ if (localStorage.hasOwnProperty('player')) {
   })
 }
 
-console.log('hello app.tsx')
-
 function App() {
 
   return (
@@ -72,6 +71,7 @@ function App() {
             (<LoginV2 path='/' />)
           }
           <SelectGame path='/selectGame' />
+          <Game path='/:firstName/:gameTitle/*' />
         </Router>
       </div>
     </ApolloProvider>

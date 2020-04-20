@@ -6,7 +6,6 @@ import { navigate } from '@reach/router';
 // grapqhql
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ADDGAME_SERVER } from '../../../../../../graphql/mutations/server/addGameServer';
-import { GET_GAMES_ClIENT } from '../../../../../../graphql/queries/client/getGamesClient';
 import { GET_PLAYER } from '../../../../../../graphql/queries/client/getPlayerClient';
 
 // reducer
@@ -29,8 +28,8 @@ const AddGameForm = ({ openModal }: any) => {
         data: { games: games.concat([addGame]) }
       })
     },
-    onCompleted({ title }) {
-      navigate(`/${data.firstName}/${title}`)
+    onCompleted({ addGame }) {
+      navigate(`/${data.firstName}/${addGame.title}`)
     }
   })
 
@@ -83,7 +82,6 @@ const AddGameForm = ({ openModal }: any) => {
         <p>{state.submitMessage}</p>
         <button type="submit">Save</button>
         <button type="button" onClick={openModal}>Cancel</button>
-        <pre>{JSON.stringify(state, null, 2)}</pre>
       </form>
 
     </div>
