@@ -1,3 +1,5 @@
+## Project
+
 The Recruiter Game is a game where you become a recruiter for your friend. It includes 3 missions where you help your friend to find job offers, build a resume and finally apply for jobs. 
 
 From the recruiter point of view, if you ever wanted to help your friend to apply for jobs in any way, this game will try to help you do that in a entertaining way. 
