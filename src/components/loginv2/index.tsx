@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 // packages
-import { useLazyQuery, useMutation, useApolloClient, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useLazyQuery, useApolloClient } from '@apollo/react-hooks';
 import { navigate } from '@reach/router';
 
 // helpers
@@ -10,7 +9,6 @@ import { formReducer, actions } from './reducer';
 
 // graphql
 import { GET_PLAYERANDGAMES_SERVER } from '../../graphql/queries/server/getPlayerAndGamesServer';
-import { ADD_PLAYERANDGAMES_CLIENT } from '../../graphql/mutations/client/addPlayerAndGames';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
 
 const initialState = {
@@ -21,66 +19,31 @@ const initialState = {
   status: 'clean',
 }
 
-const ISLOGGEDIN = gql`
-  query IsPlayerLoggedIng {
-    isLoggedIn @client
-  }
-`
 const LoginV2 = ({ path }: any) => {
   const [state, dispatch] = React.useReducer(formReducer, initialState)
-  const [addPlayerAndGames] = useMutation(ADD_PLAYERANDGAMES_CLIENT)
   const client = useApolloClient();
-  const { data } = useQuery(ISLOGGEDIN)
-  console.log('is loggedin :', data)
   const [getAccount, { loading }] = useLazyQuery(
     GET_PLAYERANDGAMES_SERVER,
     {
-      onCompleted({ games }) {
-        const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
-        console.log('player readQuery :', player)
+      onCompleted({ games, player }) {
+        console.log('client before query client :', client)
         client.writeQuery({
           query: GET_PLAYERANDGAMES_CLIENT,
           data: {
             isLoggedIn: true,
-            player: {
-              id: '',
-              email: '',
-              firstName: 'koko',
-              lastName: '',
-              __typename: 'Player'
-            }
+            id: player.id,
+            email: player.email,
+            firstName: player.firstName,
+            lastName: player.lastName,
+            games,
           }
         })
-        // console.log('getPlayerandgames:', player, games)
-        // faire une mutation pas un writeData sinon je les ai en double
-        // addPlayerAndGames({
-        //   variables: {
-        //     player,
-        //     games,
-        //   }
-        // })
-        // update localStorage 
-        // client.writeData({
-        //   data: {
-        //     player: {
-        //       id: '',
-        //       email: '',
-        //       firstName: 'Update toi putiiinn',
-        //       lastName: '',
-        //       __typename: 'Player'
-        //     },
-        //     games: [...games]
-        //   }
-        // })
-        // const stringPlayer = JSON.stringify(player)
-        // localStorage.setItem('player', stringPlayer)
-        // const stringGames = JSON.stringify(games)
-        // localStorage.setItem('games', stringGames)
-        navigate('/email')
+        localStorage.setItem('player', JSON.stringify(player))
+        localStorage.setItem('games', JSON.stringify(games))
+        navigate('/selectGame')
       }
     })
 
-  // const { data } = useQuery(GET_PLAYER)
   React.useEffect(() => {
     if (state.status === 'completed') {
       getAccount({ variables: { email: state.email } })

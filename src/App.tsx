@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // Packages
-import { Router } from '@reach/router';
+import { Router, Redirect } from '@reach/router';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloClient } from 'apollo-client';
@@ -32,20 +32,31 @@ const client = new ApolloClient<NormalizedCacheObject>({
   resolvers,
   connectToDevTools: true
 })
-
-cache.writeData({
-  data: {
-    player: {
+let player: any;
+if (localStorage.hasOwnProperty('player')) {
+  player = JSON.parse(localStorage.getItem('player') || '')
+  cache.writeData({
+    data: {
+      id: player.id,
+      email: player.email,
+      firstName: player.firstName,
+      lastName: player.lastName,
+      games: [],
+      isLoggedIn: !!localStorage.getItem('player'),
+    }
+  })
+} else {
+  cache.writeData({
+    data: {
       id: '',
       email: '',
       firstName: 'kiki',
       lastName: '',
-      __typename: 'Player'
-    },
-    games: [],
-    isLoggedIn: !!localStorage.getItem('player'),
-  }
-})
+      games: [],
+      isLoggedIn: !!localStorage.getItem('player'),
+    }
+  })
+}
 
 console.log('hello app.tsx')
 
@@ -55,11 +66,12 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <Router>
-          {/* {localStorage.hasOwnProperty('player') ?
+          {localStorage.hasOwnProperty('player') ?
+            (<Redirect from='/' to='/selectGame' noThrow />)
             :
-          } */}
-          <LoginV2 path='/' />
-          <SelectGame path='/email' />
+            (<LoginV2 path='/' />)
+          }
+          <SelectGame path='/selectGame' />
         </Router>
       </div>
     </ApolloProvider>

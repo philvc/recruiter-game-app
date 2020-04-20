@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // packages
-import { useQuery, useApolloClient } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 
 // components
 import AddGame from './components/addGame';
