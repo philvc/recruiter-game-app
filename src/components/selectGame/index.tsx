@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 
 // components
-import AddGame from './components/addGame';
+import AddGame from './components/addGameModal';
 
 // query
 import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
@@ -14,23 +14,24 @@ import './style.css';
 
 
 
-const SelectGame = ({ path, playerId, navigate }: any) => {
+const SelectGame = ({ path }: any) => {
   const { loading, error, data } = useQuery(GET_PLAYERANDGAMES_CLIENT)
   console.log('query store :', data)
-  // if (loading) return <div>Loading games</div>
-  // if (error) return <div>Error </div>
+
+  if (loading) return null
+  if (error) return null
 
   return (
     <div>
       Games
-      {/* <ul className='game-list'>
+      <ul className='game-list'>
         {data && data.games ? (
           data.games.map((game: any) => <li key={game.id}>{game.title}</li>)
         ) :
           null
         }
       </ul>
-      <AddGame navigate={navigate} /> */}
+      <AddGame />
     </div>
 
   )

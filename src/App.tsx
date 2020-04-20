@@ -41,7 +41,7 @@ if (localStorage.hasOwnProperty('player')) {
       email: player.email,
       firstName: player.firstName,
       lastName: player.lastName,
-      games: [],
+      games: JSON.parse(localStorage.getItem('games') || ''),
       isLoggedIn: !!localStorage.getItem('player'),
     }
   })

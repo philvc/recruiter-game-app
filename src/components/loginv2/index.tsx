@@ -26,7 +26,7 @@ const LoginV2 = ({ path }: any) => {
     GET_PLAYERANDGAMES_SERVER,
     {
       onCompleted({ games, player }) {
-        console.log('client before query client :', client)
+        console.log('on completed', player, games)
         client.writeQuery({
           query: GET_PLAYERANDGAMES_CLIENT,
           data: {

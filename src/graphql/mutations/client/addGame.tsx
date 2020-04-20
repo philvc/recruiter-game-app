@@ -1,11 +1,12 @@
 import gql from 'graphql-tag';
 
 
-export const ADDGAME_MUTATION = gql`
-  mutation addGame($title: String){
-    addGame(input: {title: $title}) @client{
+export const ADDGAME_CLIENT = gql`
+  mutation addGame($title: String, $recruiterId: String){
+    addGame(input: {title: $title, recruiterId: $recruiterId}) @client{
       id
       title
+      recruiterId
     }
   }
 `

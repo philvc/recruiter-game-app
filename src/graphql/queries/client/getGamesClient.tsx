@@ -1,9 +1,8 @@
-import { gql } from 'apollo-boost';
-
+import gql from 'graphql-tag';
 
 export const GET_GAMES_ClIENT = gql`
   query Games {
-    Game @client {
+    games @client {
       id
       title
     }
