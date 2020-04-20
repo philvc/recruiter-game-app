@@ -4,7 +4,9 @@ import * as React from 'react';
 import { Router } from '@reach/router';
 
 // components
-import JobOffers from './components/jobOffers';
+import SelectGame from '../selectGame';
+import Dashboard from './components/dashboard';
+import Mission from './components/mission';
 
 const Game = ({ path }: any) => {
   return (
@@ -16,7 +18,9 @@ const Game = ({ path }: any) => {
       pages settings
       ... */}
       <Router>
-        <JobOffers path='10jobs/:id' />
+        <Dashboard path='/:gameTitle' />
+        <SelectGame path='/select' />
+        <Mission path='/:gameTitle/mission/*' />
       </Router>
     </div>
   )

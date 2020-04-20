@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-// packages
+// modules
 import { useQuery } from '@apollo/react-hooks';
+import { Link } from '@reach/router';
 
 // components
 import AddGame from './components/addGameModal';
@@ -16,8 +17,6 @@ import './style.css';
 
 const SelectGame = ({ path }: any) => {
   const { loading, error, data } = useQuery(GET_PLAYERANDGAMES_CLIENT)
-  console.log('query store :', data)
-
   if (loading) return null
   if (error) return null
 
@@ -26,7 +25,7 @@ const SelectGame = ({ path }: any) => {
       Games
       <ul className='game-list'>
         {data && data.games ? (
-          data.games.map((game: any) => <li key={game.id}>{game.title}</li>)
+          data.games.map((game: any) => <Link key={game.id} to={`/${data.firstName}/${game.title}/mission`}>{game.title}</Link>)
         ) :
           null
         }

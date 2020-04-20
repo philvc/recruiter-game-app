@@ -9,7 +9,6 @@ import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 
 // Components
-import SelectGame from './components/selectGame';
 import LoginV2 from './components/loginv2';
 
 // graphql
@@ -33,45 +32,59 @@ const client = new ApolloClient<NormalizedCacheObject>({
   resolvers,
   connectToDevTools: true
 })
+
+
 let player: any;
+
 if (localStorage.hasOwnProperty('player')) {
   player = JSON.parse(localStorage.getItem('player') || '')
-  cache.writeData({
-    data: {
+}
+
+let gameId: any;
+
+if (localStorage.hasOwnProperty('gameId')) {
+  gameId = JSON.parse(localStorage.getItem('gameId') || '')
+}
+
+cache.writeData({
+  data: player ?
+    {
       id: player.id,
       email: player.email,
       firstName: player.firstName,
       lastName: player.lastName,
       games: JSON.parse(localStorage.getItem('games') || ''),
       isLoggedIn: !!localStorage.getItem('player'),
+      gameId: gameId ? gameId : undefined,
     }
-  })
-} else {
-  cache.writeData({
-    data: {
+    :
+    {
       id: '',
       email: '',
-      firstName: 'kiki',
+      firstName: '',
       lastName: '',
       games: [],
       isLoggedIn: !!localStorage.getItem('player'),
+      gameId: undefined,
     }
-  })
-}
+})
 
 function App() {
+  console.log('player :', player)
 
   return (
     <ApolloProvider client={client}>
       <div className="App">
         <Router>
-          {localStorage.hasOwnProperty('player') ?
-            (<Redirect from='/' to='/selectGame' noThrow />)
-            :
+          {player === undefined ?
             (<LoginV2 path='/' />)
+            :
+            gameId !== undefined ?
+              (<Redirect from='/' to={`/${player.firstName}/${gameId}`} noThrow />)
+              :
+              (<Redirect from='/' to={`/${player.firstName}/select`} />)
           }
-          <SelectGame path='/selectGame' />
-          <Game path='/:firstName/:gameTitle/*' />
+          <Game path='/:firstName/*' />
         </Router>
       </div>
     </ApolloProvider>
