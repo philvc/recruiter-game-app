@@ -7,11 +7,11 @@ import { Router } from '@reach/router';
 import JobOffers from './components/jobOffers';
 import MissionList from './components/list';
 
-const Mission = ({ path }: any) => {
+const Mission = ({ path, gameId }: any) => {
   return (
     <Router>
-      <MissionList path='/' />
-      <JobOffers path='/10jobs/:id' />
+      <MissionList path='/' gameId={gameId} />
+      <JobOffers path='/10jobs/:id' gameId={gameId} />
     </Router>
   )
 }

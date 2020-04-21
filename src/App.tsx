@@ -40,12 +40,6 @@ if (localStorage.hasOwnProperty('player')) {
   player = JSON.parse(localStorage.getItem('player') || '')
 }
 
-let gameId: any;
-
-if (localStorage.hasOwnProperty('gameId')) {
-  gameId = JSON.parse(localStorage.getItem('gameId') || '')
-}
-
 cache.writeData({
   data: player ?
     {
@@ -54,8 +48,6 @@ cache.writeData({
       firstName: player.firstName,
       lastName: player.lastName,
       games: JSON.parse(localStorage.getItem('games') || ''),
-      isLoggedIn: !!localStorage.getItem('player'),
-      gameId: gameId ? gameId : undefined,
     }
     :
     {
@@ -64,8 +56,6 @@ cache.writeData({
       firstName: '',
       lastName: '',
       games: [],
-      isLoggedIn: !!localStorage.getItem('player'),
-      gameId: undefined,
     }
 })
 
@@ -79,10 +69,7 @@ function App() {
           {player === undefined ?
             (<LoginV2 path='/' />)
             :
-            gameId !== undefined ?
-              (<Redirect from='/' to={`/${player.firstName}/${gameId}`} noThrow />)
-              :
-              (<Redirect from='/' to={`/${player.firstName}/select`} />)
+            (<Redirect from='/' to={`/${player.firstName}/select`} noThrow />)
           }
           <Game path='/:firstName/*' />
         </Router>

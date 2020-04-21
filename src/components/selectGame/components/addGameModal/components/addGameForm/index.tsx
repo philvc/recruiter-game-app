@@ -29,7 +29,6 @@ const AddGameForm = ({ openModal }: any) => {
       })
     },
     onCompleted({ addGame }) {
-      localStorage.setItem('gameId', addGame.id)
       navigate(`/${data.firstName}/${addGame.title}/mission`)
     }
   })
