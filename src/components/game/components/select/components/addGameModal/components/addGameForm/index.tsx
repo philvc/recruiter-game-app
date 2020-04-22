@@ -5,12 +5,12 @@ import { navigate } from '@reach/router';
 
 // grapqhql
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { ADDGAME_SERVER } from '../../../../../../graphql/mutations/server/addGameServer';
-import { GET_PLAYER } from '../../../../../../graphql/queries/client/getPlayerClient';
+import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server/addGameServer';
+import { GET_PLAYER } from '../../../../../../../../graphql/queries/client/getPlayerClient';
 
 // reducer
 import { formReducer, initialState, actions } from './reducer';
-import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 const AddGameForm = ({ openModal }: any) => {
   // Attributes

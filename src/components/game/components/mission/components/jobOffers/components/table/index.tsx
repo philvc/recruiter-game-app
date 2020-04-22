@@ -11,7 +11,7 @@ import { initialState, reducer } from './reducer';
 
 const JobOffersTable = ({ missionId }: any) => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
-  const { loading, error, data } = useQuery(GET_JOBS_SERVER, {
+  const { loading, error } = useQuery(GET_JOBS_SERVER, {
     variables: { missionId },
     onCompleted({ jobs }) {
       dispatch({ type: 'stateChanged', payload: jobs })

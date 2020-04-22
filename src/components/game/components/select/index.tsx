@@ -8,7 +8,7 @@ import { Link } from '@reach/router';
 import AddGame from './components/addGameModal';
 
 // query
-import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 // style
 import './style.css';

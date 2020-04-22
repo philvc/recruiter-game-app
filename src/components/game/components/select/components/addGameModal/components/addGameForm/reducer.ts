@@ -70,6 +70,7 @@ export function formReducer(state: any, action: any) {
             }
         case 'completed':
         // no 'break' or 'return', case 'completed' continues!
+        // eslint-disable-next-line no-fallthrough
         default:
             return state
     }
@@ -84,7 +85,6 @@ function validate(name: any, value: any) {
             } else {
                 return null
             }
-            break
         case 'email':
             if (value.length === 0) {
                 return 'Must enter email'
@@ -97,6 +97,5 @@ function validate(name: any, value: any) {
             } else {
                 return null
             }
-            break
     }
 }

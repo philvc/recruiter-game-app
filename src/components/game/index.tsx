@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Router } from '@reach/router';
 
 // components
-import SelectGame from '../selectGame';
+import Select from './components/select';
 import Dashboard from './components/dashboard';
 import Mission from './components/mission';
 
@@ -19,7 +19,7 @@ const Game = ({ path }: any) => {
       ... */}
       <Router>
         <Dashboard path='/:gameId' />
-        <SelectGame path='/select' />
+        <Select path='/select' />
         <Mission path='/:gameId/mission/*' />
       </Router>
     </div>
