@@ -42,7 +42,14 @@ const MissionList = ({ path, gameId, navigate }: any) => {
   return (
     <div>
       <div>Mission ></div>
-      {data && data.missions.map((mission: any) => <Link key={mission.id} to={`10jobs/${mission.id}`}><p>{mission.type}</p></Link>)}
+      {data && data.missions.map((mission: any) => (
+        <div key={mission.id}>
+          <Link to={`10jobs/${mission.id}`}>
+            <p>{mission.type}</p>
+          </Link>
+        </div>
+      )
+      )}
       <button onClick={handleClick}>Start 10 jobs mission</button>
     </div>
   )

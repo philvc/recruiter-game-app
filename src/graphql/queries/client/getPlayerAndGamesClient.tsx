@@ -10,6 +10,5 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       id
       title
     }
-    isLoggedIn @client
   }
 `
