@@ -28,7 +28,6 @@ const JobRow = ({ job, index, handleChange }: any) => {
 
   function handleBlur(e: any) {
     e.stopPropagation()
-    console.log('id :', id)
     updateJob({
       variables: {
         id: id,

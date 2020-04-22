@@ -17,11 +17,8 @@ const AddGameForm = ({ openModal }: any) => {
   const [state, dispatch] = React.useReducer(formReducer, initialState);
   const { data } = useQuery(GET_PLAYER)
 
-  console.log('state :', state)
-
   const [addGameMutation] = useMutation(ADDGAME_SERVER, {
     update(cache, { data: { addGame } }) {
-      console.log('addgma object :', addGame)
       const { games }: any = cache.readQuery({ query: GET_PLAYERANDGAMES_CLIENT });
       cache.writeQuery({
         query: GET_PLAYERANDGAMES_CLIENT,

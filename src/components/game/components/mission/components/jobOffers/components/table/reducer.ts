@@ -7,14 +7,12 @@ export const actions = {
 export const initialState = []
 
 export const reducer = function (state: any, action: any) {
-    console.log('action reducer :', action)
     switch (action.type) {
         case actions.stateChanged:
             return [...state, ...action.payload]
 
         case actions.urlChanged:
             return state.map((job: any, index: number) => {
-                console.log(index === action.payload.index)
                 if (index === action.payload.index) {
                     return { ...job, url: action.payload.data }
                 } else {

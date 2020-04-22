@@ -8,7 +8,6 @@ import Backend from 'react-dnd-html5-backend'
 import JobOffersTable from './components/table';
 
 const JobOffers = ({ path, missionId }: any) => {
-  console.log('job offers components')
   return (
     <div>
       <h1>10 Job Offers Mission</h1>

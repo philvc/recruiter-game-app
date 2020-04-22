@@ -15,7 +15,6 @@ export const initialState = {
 }
 
 export function formReducer(state: any, action: any) {
-    console.log('hello', action)
     let error
     switch (state.status) {
         case 'dirty':
@@ -44,7 +43,6 @@ export function formReducer(state: any, action: any) {
             switch (action.type) {
 
                 case actions.titleChanged:
-                    console.log('title changed')
                     error = validate('title', action.payload)
                     return {
                         ...state,

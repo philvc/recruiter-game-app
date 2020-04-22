@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import JobRow from './components/jobRow';
 
 // graphql

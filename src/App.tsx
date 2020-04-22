@@ -60,7 +60,6 @@ cache.writeData({
 })
 
 function App() {
-  console.log('player :', player)
 
   return (
     <ApolloProvider client={client}>
