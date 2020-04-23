@@ -1,7 +1,10 @@
+import update from 'immutability-helper'
+
 export const actions = {
     stateChanged: 'stateChanged',
     urlChanged: 'url',
     nameChanged: 'name',
+    jobDragged: 'jobDragged',
 }
 
 export const initialState = []
@@ -28,6 +31,16 @@ export const reducer = function (state: any, action: any) {
                     return job
                 }
             })
+
+        case actions.jobDragged:
+            const { dragIndex, hoverIndex, dragJob } = action.payload;
+            const newState = update(state, {
+                $splice: [
+                    [dragIndex, 1],
+                    [hoverIndex, 0, dragJob],
+                ],
+            })
+            return newState
 
         default:
             return state

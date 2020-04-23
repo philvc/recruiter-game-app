@@ -6,6 +6,7 @@ export const CREATE_10JOBS_SERVER = gql`
       id
       missionId
       name
+      rank
       url
       isAccepted
     }

@@ -7,6 +7,7 @@ export const UPDATE_ALL_JOBS_SERVER = gql`
       id
       name 
       url
+      rank
     }
   }
 `

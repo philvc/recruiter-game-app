@@ -9,16 +9,18 @@ import JobRow from './components/jobRow';
 // graphql
 import { GET_JOBS_SERVER } from '../../../../../../../../graphql/queries/server/getJobsServer';
 import { GET_JOBS_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsClient';
+import { UPDATE_ALL_JOBS_SERVER } from '../../../../../../../../graphql/mutations/server/updateAllJobsServer';
 
 // reducer
 import { initialState, reducer } from './reducer';
-import { UPDATE_ALL_JOBS_SERVER } from '../../../../../../../../graphql/mutations/server/updateAllJobsServer';
 
 // helpers
 import { updateJobs } from './helpers';
 
 const JobOffersTable = ({ missionId }: any) => {
+
   const [state, dispatch] = React.useReducer(reducer, initialState)
+  const jobsRef = React.useRef(state)
   const { loading, error } = useQuery(GET_JOBS_SERVER, {
     variables: { missionId },
     onCompleted({ jobs }) {
@@ -30,6 +32,7 @@ const JobOffersTable = ({ missionId }: any) => {
   const [updateAllJobsServer] = useMutation(UPDATE_ALL_JOBS_SERVER,
     {
       update(cache, { data: { updateAllJobs } }) {
+        console.log('updated jobs', updateAllJobs)
         cache.writeQuery({
           query: GET_JOBS_CLIENT,
           variables: { missionId },
@@ -41,29 +44,60 @@ const JobOffersTable = ({ missionId }: any) => {
     }
   )
 
-  React.useEffect(() => {
-    return () => {
-      console.log('return function use effect')
+  jobsRef.current = state
 
-      updateJobs(state, updateAllJobsServer)
+  React.useEffect(() => {
+    // updateJobs(state, updateAllJobsServer)
+    return () => {
+      const jobsWithUpdatedRank = jobsRef.current.map((job: any, index: any) => {
+        job.rank = index + 1
+        return job
+      })
+      console.log('jobs updateRank front ', jobsWithUpdatedRank)
+      updateJobs(jobsWithUpdatedRank, updateAllJobsServer)
     }
-  }, [state])
+  }, [state, updateAllJobsServer])
 
   function handleChange(e: any, index: number, job: any) {
     dispatch({ type: e.target.name, payload: { index, data: e.target.value } })
   }
 
+  const moveJob = React.useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragJob = state[dragIndex]
+      dispatch({
+        type: 'jobDragged', payload: {
+          dragJob,
+          dragIndex,
+          hoverIndex
+        }
+      })
+    },
+    [state],
+  )
+
+
   if (loading) return null
   if (error) return null
+
   return (
     <>
       <div>
-        {state.length > 0 && state.map((job: any, index: number) => (
-          <div key={job.id}>
-            <JobRow job={job} index={index} handleChange={handleChange} />
-          </div>
-        )
-        )}
+        {state.length > 0 &&
+          state
+            // .sort(function (a: any, b: any) { return a.rank - b.rank })
+            .map((job: any, index: number) => (
+              // renderJobRow(job, index)
+              <JobRow
+                key={job.id}
+                index={index}
+                id={job.id}
+                job={job}
+                handleChange={handleChange}
+                moveJob={moveJob}
+              />
+            )
+            )}
       </div>
     </>
   )

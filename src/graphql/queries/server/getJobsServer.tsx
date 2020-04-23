@@ -7,6 +7,7 @@ export const GET_JOBS_SERVER = gql`
       name
       url
       missionId
+      rank
     } 
   }
 `
