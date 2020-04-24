@@ -2,6 +2,7 @@ import * as React from 'react';
 
 // modules
 import { useDrag, useDrop } from 'react-dnd';
+import Screenshot from './components/screenshot';
 
 
 const JobRow = ({ job, index, handleChange, id, moveJob }: any) => {
@@ -64,6 +65,7 @@ const JobRow = ({ job, index, handleChange, id, moveJob }: any) => {
       <span>{job.id}</span>
       <input name='url' value={job.url} onChange={(e) => handleChange(e, index, job)} />
       {/* <input name='name' value={job.name} onChange={(e) => handleChange(e, index, job)} /> */}
+      <Screenshot />
     </div>
   )
 }
