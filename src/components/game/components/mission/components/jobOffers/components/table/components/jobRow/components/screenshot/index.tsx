@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 // modules
-import { useDropzone } from 'react-dropzone'
+import axios from 'axios';
+import { useDropzone } from 'react-dropzone';
 import { useMutation } from '@apollo/react-hooks';
 
 // graphql
@@ -18,15 +19,22 @@ const Screenshot = () => {
     console.log('input', name, type)
     setFile(name)
     // create signed url
-    const result = await createSignedUrl({
+
+    const { data } = await createSignedUrl({
       variables: {
         fileName: name,
         mimeType: type
       }
     })
-
-    console.log('result create signedUrl', result)
     // axios.put(signedUrl, file)
+    const headers = {
+      'Content-Type': acceptedFiles[0].type,
+      'X-AMZ-SERVER-SIDE-ENCRYPTION': 'AES256',
+      'Access-Control-Allow-Origin': '*',
+
+    };
+
+    await axios.put(data.createSignedUrl, acceptedFiles[0], { headers });
 
     // getmethod
   }, [])
