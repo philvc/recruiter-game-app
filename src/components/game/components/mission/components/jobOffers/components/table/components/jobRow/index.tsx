@@ -65,7 +65,8 @@ const JobRow = ({ job, index, handleChange, id, moveJob }: any) => {
       <span>{job.id}</span>
       <input name='url' value={job.url} onChange={(e) => handleChange(e, index, job)} />
       {/* <input name='name' value={job.name} onChange={(e) => handleChange(e, index, job)} /> */}
-      <Screenshot />
+      <img src={job.applicationProofUrl} alt='no proof given ' />
+      <Screenshot jobId={job.id} />
     </div>
   )
 }

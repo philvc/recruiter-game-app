@@ -7,6 +7,7 @@ export const GET_JOBS_CLIENT = gql`
       name
       url
       rank
+      applicationProofUrl
     }
   }
 `

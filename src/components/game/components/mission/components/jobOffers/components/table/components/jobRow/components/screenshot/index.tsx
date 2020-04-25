@@ -9,9 +9,11 @@ import { useMutation } from '@apollo/react-hooks';
 import { CREATE_SIGNED_URL } from '../../../../../../../../../../../../graphql/mutations/server/createSignedUrl';
 
 
-const Screenshot = () => {
+const Screenshot = ({ jobId }: any) => {
+
   const [file, setFile] = React.useState('')
   const [createSignedUrl] = useMutation(CREATE_SIGNED_URL)
+
   const onDrop = React.useCallback(async acceptedFiles => {
     console.log('ondrop fct', acceptedFiles[0])
     // Do something with the files
@@ -23,7 +25,8 @@ const Screenshot = () => {
     const { data } = await createSignedUrl({
       variables: {
         fileName: name,
-        mimeType: type
+        mimeType: type,
+        jobId
       }
     })
     // axios.put(signedUrl, file)
