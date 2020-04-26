@@ -7,15 +7,26 @@ import { useMutation } from '@apollo/react-hooks';
 
 // graphql
 import { CREATE_SIGNED_URL } from '../../../../../../../../../../../../graphql/mutations/server/createSignedUrl';
+import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getJobsServer';
 
 
-const Screenshot = ({ jobId }: any) => {
+const Screenshot = ({ jobId, missionId }: any) => {
 
   const [file, setFile] = React.useState('')
-  const [createSignedUrl] = useMutation(CREATE_SIGNED_URL)
+  const [createSignedUrl] = useMutation(CREATE_SIGNED_URL, {
+    update(cache) {
+      const { jobs }: any = cache.readQuery({ query: GET_JOBS_SERVER, variables: { missionId } })
+      cache.writeQuery({
+        query: GET_JOBS_SERVER,
+        variables: { missionId },
+        data: {
+          jobs: [...jobs]
+        }
+      })
+    }
+  })
 
   const onDrop = React.useCallback(async acceptedFiles => {
-    console.log('ondrop fct', acceptedFiles[0])
     // Do something with the files
     const { name, type } = acceptedFiles[0]
     console.log('input', name, type)

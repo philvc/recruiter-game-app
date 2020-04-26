@@ -5,7 +5,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import Screenshot from './components/screenshot';
 
 
-const JobRow = ({ job, index, handleChange, id, moveJob }: any) => {
+const JobRow = ({ job, index, handleChange, id, moveJob, missionId }: any) => {
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
 
   const [, drop] = useDrop({
@@ -58,7 +58,6 @@ const JobRow = ({ job, index, handleChange, id, moveJob }: any) => {
 
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
-
   return (
     <div ref={ref} style={{ opacity, margin: "30px" }}>
       <span>{index + 1}</span>
@@ -66,7 +65,7 @@ const JobRow = ({ job, index, handleChange, id, moveJob }: any) => {
       <input name='url' value={job.url} onChange={(e) => handleChange(e, index, job)} />
       {/* <input name='name' value={job.name} onChange={(e) => handleChange(e, index, job)} /> */}
       <img src={job.applicationProofUrl} alt='no proof given ' />
-      <Screenshot jobId={job.id} />
+      <Screenshot jobId={job.id} missionId={missionId} />
     </div>
   )
 }

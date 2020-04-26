@@ -24,7 +24,6 @@ const JobOffersTable = ({ missionId }: any) => {
   const { loading, error } = useQuery(GET_JOBS_SERVER, {
     variables: { missionId },
     onCompleted({ jobs }) {
-
       dispatch({ type: 'stateChanged', payload: jobs })
 
     }
@@ -48,6 +47,9 @@ const JobOffersTable = ({ missionId }: any) => {
 
   React.useEffect(() => {
     // updateJobs(state, updateAllJobsServer)
+    // if (data) {
+    //   dispatch({ type: 'stateChanged', payload: data.jobs })
+    // }
     return () => {
       const jobsWithUpdatedRank = jobsRef.current.map((job: any, index: any) => {
         job.rank = index + 1
@@ -95,6 +97,7 @@ const JobOffersTable = ({ missionId }: any) => {
                 job={job}
                 handleChange={handleChange}
                 moveJob={moveJob}
+                missionId={missionId}
               />
             )
             )}
