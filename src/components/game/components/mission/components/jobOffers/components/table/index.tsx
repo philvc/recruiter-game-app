@@ -46,10 +46,7 @@ const JobOffersTable = ({ missionId }: any) => {
   jobsRef.current = state
 
   React.useEffect(() => {
-    // updateJobs(state, updateAllJobsServer)
-    // if (data) {
-    //   dispatch({ type: 'stateChanged', payload: data.jobs })
-    // }
+
     return () => {
       const jobsWithUpdatedRank = jobsRef.current.map((job: any, index: any) => {
         job.rank = index + 1
@@ -58,7 +55,7 @@ const JobOffersTable = ({ missionId }: any) => {
       console.log('jobs updateRank front ', jobsWithUpdatedRank)
       updateJobs(jobsWithUpdatedRank, updateAllJobsServer)
     }
-  }, [state, updateAllJobsServer])
+  }, [updateAllJobsServer])
 
   function handleChange(e: any, index: number, job: any) {
     dispatch({ type: e.target.name, payload: { index, data: e.target.value } })

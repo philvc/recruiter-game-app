@@ -67,7 +67,7 @@ const JobRow = ({ job, index, handleChange, id, moveJob, missionId }: any) => {
       <span>{job.id}</span>
       <input name='url' value={job.url} onChange={(e) => handleChange(e, index, job)} />
       {/* <input name='name' value={job.name} onChange={(e) => handleChange(e, index, job)} /> */}
-      <Screenshot jobId={job.id} missionId={missionId} applicationProofUrl={job.applicationProofUrl} />
+      <Screenshot jobId={job.id} missionId={missionId} />
     </div>
   )
 }

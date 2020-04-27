@@ -3,47 +3,32 @@ import * as React from 'react';
 // modules
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 // graphql
 import { CREATE_SIGNED_URL } from '../../../../../../../../../../../../graphql/mutations/server/createSignedUrl';
-import { UPDATE_APPLICATIONPROOFURL_CLIENT } from '../../../../../../../../../../../../graphql/mutations/client/updateApplicationProofUrl';
+import { GET_DOCUMENT_URL_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getDocumentUrl';
 
 
-const Screenshot = ({ jobId, missionId, applicationProofUrl }: any) => {
-  const [applicationProofImgSrc, setapplicationProofImgSrc] = React.useState(applicationProofUrl)
+const Screenshot = ({ jobId, missionId }: any) => {
+  const { loading, error, data } = useQuery(GET_DOCUMENT_URL_SERVER, { variables: { jobId } })
   const [file, setFile] = React.useState('')
-  const [updateApplicationProofUrl, { loading, error, data }] = useMutation(UPDATE_APPLICATIONPROOFURL_CLIENT, { variables: { jobId } })
   const [createSignedUrl] = useMutation(CREATE_SIGNED_URL, {
-    // update(cache) {
-    //   const { jobs }: any = cache.readQuery({ query: GET_JOBS_SERVER, variables: { missionId } })
-    //   cache.writeQuery({
-    //     query: GET_JOBS_SERVER,
-    //     variables: { missionId },
-    //     data: {
-    //       jobs: [...jobs]
-    //     }
-    //   })
-    // },
-    onCompleted() {
-      updateApplicationProofUrl()
-    }
+    update(cache, { data: { createSignedUrl } }) {
+      const { signedGetUrl } = createSignedUrl;
+      console.log(signedGetUrl)
+      cache.writeQuery({
+        query: GET_DOCUMENT_URL_SERVER,
+        variables: { jobId },
+        data: { document: signedGetUrl }
+      })
+    },
   })
 
-  React.useEffect(() => {
-    if (error) {
-      return console.log('Error applicationUrl :', error)
-    }
-    if (data) {
-      console.log('data', data)
-      // return setapplicationProofImgSrc(data.applicationProofUrl)
-    }
-  }, [data, error])
 
   const onDrop = React.useCallback(async acceptedFiles => {
     // Do something with the files
     const { name, type } = acceptedFiles[0]
-    console.log('input', name, type)
     setFile(name)
     // create signed url
 
@@ -62,15 +47,22 @@ const Screenshot = ({ jobId, missionId, applicationProofUrl }: any) => {
 
     };
 
-    await axios.put(data.createSignedUrl, acceptedFiles[0], { headers });
+    await axios.put(data.createSignedUrl.signedPutUrl, acceptedFiles[0], { headers });
 
     // getmethod
-  }, [])
+  }, [createSignedUrl, jobId])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+  if (loading) return null
+
+  if (error) return null
+
+  const { document } = data
+  console.log('doucment url :', document)
 
   return (
     <div>
-      <img src={applicationProofImgSrc} alt='no proof given ' />
+      <img src={document} alt='no proof given ' />
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         {
