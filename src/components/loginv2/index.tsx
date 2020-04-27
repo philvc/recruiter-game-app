@@ -26,17 +26,17 @@ const LoginV2 = ({ path }: any) => {
     GET_PLAYERANDGAMES_SERVER,
     {
       onCompleted({ games, player }) {
-        client.writeQuery({
-          query: GET_PLAYERANDGAMES_CLIENT,
-          data: {
-            isLoggedIn: true,
-            id: player.id,
-            email: player.email,
-            firstName: player.firstName,
-            lastName: player.lastName,
-            games,
-          }
-        })
+        // client.writeQuery({
+        //   query: GET_PLAYERANDGAMES_CLIENT,
+        //   data: {
+        //     isLoggedIn: true,
+        //     id: player.id,
+        //     email: player.email,
+        //     firstName: player.firstName,
+        //     lastName: player.lastName,
+        //     games,
+        //   }
+        // })
         localStorage.setItem('player', JSON.stringify(player))
         localStorage.setItem('games', JSON.stringify(games))
         navigate(`/${player.firstName}/select`)

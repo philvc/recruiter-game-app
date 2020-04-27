@@ -10,6 +10,9 @@ export const resolvers: any = {
       })
       console.log('id', id)
       return ''
+    },
+    updatePlayer: () => {
+      console.log('updatePlayer mutation resolver')
     }
   },
 }

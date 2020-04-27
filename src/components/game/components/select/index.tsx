@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useQuery } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 import { Link } from '@reach/router';
 
 // components
@@ -16,7 +16,12 @@ import './style.css';
 
 
 const SelectGame = ({ path }: any) => {
-  const { loading, error, data } = useQuery(GET_PLAYERANDGAMES_CLIENT)
+
+  const { loading, error, data } = useQuery(GET_PLAYERANDGAMES_CLIENT, {
+    variables: {
+      email: 'philvancaloen@gmail.com'
+    }
+  })
   if (loading) return null
   if (error) return null
 
