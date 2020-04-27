@@ -8,8 +8,8 @@ import { navigate } from '@reach/router';
 import { formReducer, actions } from './reducer';
 
 // graphql
-import { GET_PLAYERANDGAMES_SERVER } from '../../graphql/queries/server/getPlayerAndGamesServer';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
+import { GET_ACCOUNT } from '../../graphql/queries/server/getAccount';
 
 const initialState = {
   email: '',
@@ -23,20 +23,22 @@ const LoginV2 = ({ path }: any) => {
   const [state, dispatch] = React.useReducer(formReducer, initialState)
   const client = useApolloClient();
   const [getAccount, { loading }] = useLazyQuery(
-    GET_PLAYERANDGAMES_SERVER,
+    GET_ACCOUNT,
     {
-      onCompleted({ games, player }) {
-        // client.writeQuery({
-        //   query: GET_PLAYERANDGAMES_CLIENT,
-        //   data: {
-        //     isLoggedIn: true,
-        //     id: player.id,
-        //     email: player.email,
-        //     firstName: player.firstName,
-        //     lastName: player.lastName,
-        //     games,
-        //   }
-        // })
+      onCompleted({ account }) {
+        const { player, games } = account;
+        client.writeQuery({
+          query: GET_PLAYERANDGAMES_CLIENT,
+          data: {
+            player: {
+              id: player.id,
+              email: player.email,
+              firstName: player.firstName,
+              lastName: player.lastName,
+            },
+            games: [...games]
+          }
+        })
         localStorage.setItem('player', JSON.stringify(player))
         localStorage.setItem('games', JSON.stringify(games))
         navigate(`/${player.firstName}/select`)
