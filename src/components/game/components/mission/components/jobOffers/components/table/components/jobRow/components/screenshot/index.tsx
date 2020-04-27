@@ -7,24 +7,38 @@ import { useMutation } from '@apollo/react-hooks';
 
 // graphql
 import { CREATE_SIGNED_URL } from '../../../../../../../../../../../../graphql/mutations/server/createSignedUrl';
-import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getJobsServer';
+import { UPDATE_APPLICATIONPROOFURL_CLIENT } from '../../../../../../../../../../../../graphql/mutations/client/updateApplicationProofUrl';
 
 
-const Screenshot = ({ jobId, missionId }: any) => {
-
+const Screenshot = ({ jobId, missionId, applicationProofUrl }: any) => {
+  const [applicationProofImgSrc, setapplicationProofImgSrc] = React.useState(applicationProofUrl)
   const [file, setFile] = React.useState('')
+  const [updateApplicationProofUrl, { loading, error, data }] = useMutation(UPDATE_APPLICATIONPROOFURL_CLIENT, { variables: { jobId } })
   const [createSignedUrl] = useMutation(CREATE_SIGNED_URL, {
-    update(cache) {
-      const { jobs }: any = cache.readQuery({ query: GET_JOBS_SERVER, variables: { missionId } })
-      cache.writeQuery({
-        query: GET_JOBS_SERVER,
-        variables: { missionId },
-        data: {
-          jobs: [...jobs]
-        }
-      })
+    // update(cache) {
+    //   const { jobs }: any = cache.readQuery({ query: GET_JOBS_SERVER, variables: { missionId } })
+    //   cache.writeQuery({
+    //     query: GET_JOBS_SERVER,
+    //     variables: { missionId },
+    //     data: {
+    //       jobs: [...jobs]
+    //     }
+    //   })
+    // },
+    onCompleted() {
+      updateApplicationProofUrl()
     }
   })
+
+  React.useEffect(() => {
+    if (error) {
+      return console.log('Error applicationUrl :', error)
+    }
+    if (data) {
+      console.log('data', data)
+      // return setapplicationProofImgSrc(data.applicationProofUrl)
+    }
+  }, [data, error])
 
   const onDrop = React.useCallback(async acceptedFiles => {
     // Do something with the files
@@ -56,6 +70,7 @@ const Screenshot = ({ jobId, missionId }: any) => {
 
   return (
     <div>
+      <img src={applicationProofImgSrc} alt='no proof given ' />
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         {

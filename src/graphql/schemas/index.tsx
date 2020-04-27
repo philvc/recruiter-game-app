@@ -10,4 +10,7 @@ export const typeDefs = gql`
     isLoggedIn: Boolean!
   }
 
+  extend type Mutation {
+    updateApplicationProofUrl(jobId: String): String
+  }
 `
