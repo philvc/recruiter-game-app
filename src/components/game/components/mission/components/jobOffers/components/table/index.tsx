@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 
 // components
 import JobRow from './components/jobRow';

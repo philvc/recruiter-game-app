@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Link } from '@reach/router';
 
 // components

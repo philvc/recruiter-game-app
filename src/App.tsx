@@ -2,10 +2,7 @@ import * as React from 'react';
 
 // Packages
 import { Router, Redirect } from '@reach/router';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { HttpLink } from 'apollo-link-http';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
+import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 
 
 // Components

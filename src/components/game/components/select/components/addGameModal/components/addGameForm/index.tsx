@@ -4,7 +4,7 @@ import * as React from 'react';
 import { navigate } from '@reach/router';
 
 // grapqhql
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server/addGameServer';
 import { GET_PLAYER } from '../../../../../../../../graphql/queries/client/getPlayerClient';
 

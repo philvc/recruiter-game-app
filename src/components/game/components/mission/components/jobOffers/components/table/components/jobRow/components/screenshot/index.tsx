@@ -3,7 +3,7 @@ import * as React from 'react';
 // modules
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 
 // graphql
 import { CREATE_SIGNED_URL } from '../../../../../../../../../../../../graphql/mutations/server/createSignedUrl';

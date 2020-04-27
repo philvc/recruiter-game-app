@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // packages
-import { useLazyQuery, useApolloClient } from '@apollo/react-hooks';
+import { useLazyQuery, useApolloClient } from '@apollo/client';
 import { navigate } from '@reach/router';
 
 // helpers
