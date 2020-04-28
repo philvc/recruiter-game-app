@@ -48,12 +48,17 @@ const JobOffersTable = ({ missionId }: any) => {
   React.useEffect(() => {
 
     return () => {
-      const jobsWithUpdatedRank = jobsRef.current.map((job: any, index: any) => {
-        job.rank = index + 1
+      // const jobsWithUpdatedRank = jobsRef.current.map((job: any, index: any) => {
+      //   job.rank = index + 1
+      //   return job
+      // })
+      jobsRef.current.map((job: any) => {
+        delete job.__typename
         return job
       })
-      console.log('jobs updateRank front ', jobsWithUpdatedRank)
-      updateJobs(jobsWithUpdatedRank, updateAllJobsServer)
+
+      console.log('jobsRef current', jobsRef.current)
+      updateJobs(jobsRef.current, updateAllJobsServer)
     }
   }, [updateAllJobsServer])
 

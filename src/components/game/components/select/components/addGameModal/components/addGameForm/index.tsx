@@ -6,7 +6,7 @@ import { navigate } from '@reach/router';
 // grapqhql
 import { useMutation, useQuery } from '@apollo/client';
 import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server/addGameServer';
-import { GET_PLAYER } from '../../../../../../../../graphql/queries/client/getPlayerClient';
+import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
 
 // reducer
 import { formReducer, initialState, actions } from './reducer';
@@ -15,7 +15,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queri
 const AddGameForm = ({ openModal }: any) => {
   // Attributes
   const [state, dispatch] = React.useReducer(formReducer, initialState);
-  const { data } = useQuery(GET_PLAYER)
+  const { loading, error, data } = useQuery(GET_PLAYER_CLIENT)
 
   const [addGameMutation] = useMutation(ADDGAME_SERVER, {
     update(cache, { data: { addGame } }) {
@@ -60,12 +60,12 @@ const AddGameForm = ({ openModal }: any) => {
             id='title'
             onChange={handleChange}
             name="title"
-            value={state.name}
+            value={state.title}
             type="text"
           />
           <span>{state.submitAttempted && state.nameError}</span>
         </label>
-        {/* <label>
+        <label>
           <span>email:</span>
           <input
             style={inputStyle(state.emailError)}
@@ -75,7 +75,7 @@ const AddGameForm = ({ openModal }: any) => {
             type="text"
           />
           <span>{state.submitAttempted && state.emailError}</span>
-        </label> */}
+        </label>
         <p>{state.submitMessage}</p>
         <button type="submit">Save</button>
         <button type="button" onClick={openModal}>Cancel</button>

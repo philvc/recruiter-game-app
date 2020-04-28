@@ -1,8 +1,10 @@
 import gql from 'graphql-tag';
 
-export const GET_PLAYER = gql`
-  query getId {
-    id @client
-    firstName @client
+export const GET_PLAYER_CLIENT = gql`
+  query getPlayer {
+    player @client{
+      id
+      firstName
+    }
   }
 `

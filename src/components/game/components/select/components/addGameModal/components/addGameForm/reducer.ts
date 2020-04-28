@@ -6,7 +6,7 @@ export const actions = {
 
 export const initialState = {
     title: '',
-    email: 'philvancaloen@gmail.com',
+    email: '',
     titleError: null,
     emailError: null,
     submitAttempted: false,
