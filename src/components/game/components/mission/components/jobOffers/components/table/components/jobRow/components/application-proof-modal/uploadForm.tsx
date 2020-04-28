@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // packages
 import axios from 'axios';
-import { useMutation} from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 
 
@@ -11,25 +11,29 @@ import DropZone from '../dropzone';
 
 // graphql
 import { CREATE_SIGNED_PUT_URL } from '../../../../../../../../../../../../graphql/mutations/server/createSignedPutUrl';
-import UPDATE_APPLICATIONPROOFURL_CLIENT from '../../../../../../../../../../../../graphql/mutations/client/updateApplicationProofUrl';
+// import UPDATE_APPLICATIONPROOFURL_CLIENT from '../../../../../../../../../../../../graphql/mutations/client/updateApplicationProofUrl';
+import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
 
 
-const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId }: any) => {
+const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId, dispatch }: any) => {
 
   const [imageSource, setImageSource] = React.useState(applicationProofUrl)
-  const [file, setFile] = React.useState({type:'', name:''})
+  const [file, setFile] = React.useState({ type: '', name: '' })
 
-  const [createSignedPutUrl, {loading, error, data}] = useMutation(CREATE_SIGNED_PUT_URL)
-  const [updateApplicationProofUrl] = useMutation(UPDATE_APPLICATIONPROOFURL_CLIENT)
+  const [createSignedPutUrl, { loading, error, data }] = useMutation(CREATE_SIGNED_PUT_URL)
+  const [updateJob] = useMutation(UPDATE_JOB_SERVER)
+  // const [updateApplicationProofUrl] = useMutation(UPDATE_APPLICATIONPROOFURL_CLIENT)
 
 
-  function handleCreateSignedPutUrl(file:any){
+  function handleCreateSignedPutUrl(file: any) {
     setFile(file)
-    createSignedPutUrl({variables:{
-      fileName: file.name,
-      mimeType: file.type,
-      jobId
-    }})
+    createSignedPutUrl({
+      variables: {
+        fileName: file.name,
+        mimeType: file.type,
+        jobId
+      }
+    })
 
   }
 
@@ -42,22 +46,25 @@ const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId }: any) =
     };
 
     await axios.put(data.createSignedPutUrl.signedPutUrl, file, { headers });
-    // await updateApplicationProofUrl({
-    //   variables: {
-    //     signedGetUrl: data.createSignedPutUrl.signedGetUrl, 
-    //     jobId
-    //   }})
+    dispatch({ type: 'applicationProofUrl', payload: data.createSignedPutUrl.signedGetUrl })
+    updateJob({
+      variables: {
+        id: jobId,
+        field: 'applicationProofUrl',
+        data: data.createSignedPutUrl.signedGetUrl
+      }
+    })
     return openModal()
   }
 
 
-  
+
   return (
     <div>
       <img src={imageSource} alt='no uploaded document' />
-      <DropZone 
+      <DropZone
         handleCreateSignedPutUrl={handleCreateSignedPutUrl}
-        />
+      />
       {file.name && (
         <p>{file.name}</p>
       )}

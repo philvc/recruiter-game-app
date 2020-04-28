@@ -80,6 +80,7 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
         applicationProofUrl={state.applicationProofUrl}
         jobId={state.id}
         missionId={state.missionId}
+        dispatch={dispatch}
       />
       {/* <input name='name' value={job.name} onChange={(e) => handleChange(e, index, job)} /> */}
     </div>
