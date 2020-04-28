@@ -2,7 +2,6 @@ import * as React from 'react';
 
 // modules
 import { useDrag, useDrop } from 'react-dnd';
-import Screenshot from './components/screenshot';
 import ApplicationProofModal from './components/application-proof-modal';
 
 // graphql
@@ -67,9 +66,12 @@ const JobRow = ({ job, index, handleChange, id, moveJob, missionId }: any) => {
       <span>{index + 1}</span>
       <span>{job.id}</span>
       <input name='url' value={job.url} onChange={(e) => handleChange(e, index, job)} />
-      <ApplicationProofModal applicationProofUrl={job.applicationProofUrl} />
+      <ApplicationProofModal 
+        applicationProofUrl={job.applicationProofUrl} 
+        jobId={job.id}
+        missionId={job.missionId}
+      />
       {/* <input name='name' value={job.name} onChange={(e) => handleChange(e, index, job)} /> */}
-      {/* <Screenshot jobId={job.id} missionId={missionId} /> */}
     </div>
   )
 }
