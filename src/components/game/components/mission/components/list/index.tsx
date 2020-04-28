@@ -7,33 +7,30 @@ import { Link } from '@reach/router';
 // components
 
 // grapqhql
-import { ADD_MISSION_SERVER } from '../../../../../../graphql/mutations/server/addMutationServer';
+import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../graphql/mutations/server/addMutationServer';
 import { GET_MISSIONS_CLIENT } from '../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_MISSIONS_SERVER } from '../../../../../../graphql/queries/server/getMissionsServer';
-import { CREATE_10JOBS_SERVER } from '../../../../../../graphql/mutations/server/createTenJobs';
 
 const MissionList = ({ path, gameId, navigate }: any) => {
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, { variables: { gameId } })
-  const [create10Jobs] = useMutation(CREATE_10JOBS_SERVER)
-  const [addMission] = useMutation(ADD_MISSION_SERVER, {
-    update(cache, { data: { addMission } }) {
+  const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
+    update(cache, { data: { addList10JobOffersMission } }) {
       const { missions }: any = cache.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId } })
       cache.writeQuery({
         query: GET_MISSIONS_CLIENT,
         variables: { gameId },
         data: {
-          missions: missions.concat([addMission])
+          missions: missions.concat([addList10JobOffersMission.mission])
         }
       })
     },
-    onCompleted({ addMission }) {
-      create10Jobs({ variables: { missionId: addMission.id } })
-      navigate(`10jobs/${addMission.id}`)
-    }
+    // onCompleted({ addMission }) {
+    //   // navigate(`10jobs/${addMission.id}`)
+    // }
   })
 
   function handleClick() {
-    addMission({ variables: { type: '10jobs', gameId, } })
+    addList10JobOffersMission({ variables: { type: '10jobs', gameId, } })
   }
 
   if (loading) return null
