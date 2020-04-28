@@ -2,6 +2,8 @@ import * as React from 'react';
 
 // modules
 import { useQuery, useMutation } from '@apollo/client';
+import update from 'immutability-helper'
+
 
 // components
 import JobRow from './components/jobRow';
@@ -19,76 +21,88 @@ import { updateJobs } from './helpers';
 
 const JobOffersTable = ({ missionId }: any) => {
 
-  const [state, dispatch] = React.useReducer(reducer, initialState)
-  const jobsRef = React.useRef(state)
-  const { loading, error } = useQuery(GET_JOBS_SERVER, {
+  // const [state, dispatch] = React.useReducer(reducer, initialState)
+  // const jobsRef = React.useRef(state)
+  const [jobs, setJobs] = React.useState([])
+  const { loading, error, data } = useQuery(GET_JOBS_SERVER, {
     variables: { missionId },
     onCompleted({ jobs }) {
-      dispatch({ type: 'stateChanged', payload: jobs })
+      setJobs(jobs)
+      // dispatch({ type: 'stateChanged', payload: jobs })
 
     }
   });
-  const [updateAllJobsServer] = useMutation(UPDATE_ALL_JOBS_SERVER,
-    {
-      update(cache, { data: { updateAllJobs } }) {
-        console.log('updated jobs', updateAllJobs)
-        cache.writeQuery({
-          query: GET_JOBS_CLIENT,
-          variables: { missionId },
-          data: {
-            jobs: [...updateAllJobs]
-          }
-        })
-      }
-    }
-  )
+  // const [updateAllJobsServer] = useMutation(UPDATE_ALL_JOBS_SERVER,
+  //   {
+  //     update(cache, { data: { updateAllJobs } }) {
+  //       console.log('updated jobs', updateAllJobs)
+  //       cache.writeQuery({
+  //         query: GET_JOBS_CLIENT,
+  //         variables: { missionId },
+  //         data: {
+  //           jobs: [...updateAllJobs]
+  //         }
+  //       })
+  //     }
+  //   }
+  // )
 
-  jobsRef.current = state
+  // jobsRef.current = state
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
 
-    return () => {
-      // const jobsWithUpdatedRank = jobsRef.current.map((job: any, index: any) => {
-      //   job.rank = index + 1
-      //   return job
-      // })
-      jobsRef.current.map((job: any) => {
-        delete job.__typename
-        return job
-      })
+  //   return () => {
+  //     // const jobsWithUpdatedRank = jobsRef.current.map((job: any, index: any) => {
+  //     //   job.rank = index + 1
+  //     //   return job
+  //     // })
+  //     jobsRef.current.map((job: any) => {
+  //       delete job.__typename
+  //       return job
+  //     })
 
-      console.log('jobsRef current', jobsRef.current)
-      updateJobs(jobsRef.current, updateAllJobsServer)
-    }
-  }, [updateAllJobsServer])
+  //     console.log('jobsRef current', jobsRef.current)
+  //     updateJobs(jobsRef.current, updateAllJobsServer)
+  //   }
+  // }, [updateAllJobsServer])
 
-  function handleChange(e: any, index: number, job: any) {
-    dispatch({ type: e.target.name, payload: { index, data: e.target.value } })
-  }
-
+  // function handleChange(e: any, index: number, job: any) {
+  //   dispatch({ type: e.target.name, payload: { index, data: e.target.value } })
+  // }
   const moveJob = React.useCallback(
     (dragIndex, hoverIndex) => {
-      const dragJob = state[dragIndex]
-      dispatch({
-        type: 'jobDragged', payload: {
-          dragJob,
-          dragIndex,
-          hoverIndex
-        }
+      const dragJob = jobs[dragIndex]
+      setJobs((prevJobs: any) => {
+        const newState = update(prevJobs, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragJob],
+          ],
+        })
+        return newState
       })
+      // dispatch({
+      //   type: 'jobDragged', payload: {
+      //     dragJob,
+      //     dragIndex,
+      //     hoverIndex
+      //   }
+      // })
     },
-    [state],
+    [jobs],
   )
-
 
   if (loading) return null
   if (error) return null
 
+
+
+
   return (
     <>
       <div>
-        {state.length > 0 &&
-          state
+        {jobs.length > 0 &&
+          jobs
             // .sort(function (a: any, b: any) { return a.rank - b.rank })
             .map((job: any, index: number) => (
               // renderJobRow(job, index)
@@ -97,7 +111,7 @@ const JobOffersTable = ({ missionId }: any) => {
                 index={index}
                 id={job.id}
                 job={job}
-                handleChange={handleChange}
+                // handleChange={handleChange}
                 moveJob={moveJob}
                 missionId={missionId}
               />
