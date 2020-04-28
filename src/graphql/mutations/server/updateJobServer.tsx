@@ -16,6 +16,8 @@ export const UPDATE_JOB_SERVER = gql`
       id
       name
       url
+      applicationProofUrl
+      rank
     }
   }
 `

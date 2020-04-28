@@ -4,12 +4,17 @@ import * as React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import ApplicationProofModal from './components/application-proof-modal';
 
-// graphql
+// reducer
+import { reducer, actions } from './reducer';
+import { UPDATE_JOB_SERVER } from '../../../../../../../../../../graphql/mutations/server/updateJobServer';
+import { useMutation } from '@apollo/client';
 
 
-const JobRow = ({ job, index, handleChange, id, moveJob, missionId }: any) => {
+const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
+
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
-
+  const [state, dispatch] = React.useReducer(reducer, job)
+  const [updateJobServer] = useMutation(UPDATE_JOB_SERVER)
 
   const [, drop] = useDrop({
     accept: 'JOB',
@@ -32,10 +37,7 @@ const JobRow = ({ job, index, handleChange, id, moveJob, missionId }: any) => {
       const clientOffset = monitor.getClientOffset();
       // Get pixels to the top
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-      // Dragging downwards
+
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -43,12 +45,8 @@ const JobRow = ({ job, index, handleChange, id, moveJob, missionId }: any) => {
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      // Time to actually perform the action
       moveJob(dragIndex, hoverIndex);
-      // Note: we're mutating the monitor item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index searches.
+
       item.index = hoverIndex;
     }
   });
@@ -59,17 +57,29 @@ const JobRow = ({ job, index, handleChange, id, moveJob, missionId }: any) => {
     })
   });
 
+  function handleChange(e: any) {
+    console.log('handleChange fct')
+    dispatch({ type: e.target.name, payload: e.target.value })
+    updateJobServer({
+      variables: {
+        id: state.id,
+        field: e.target.name,
+        data: e.target.value
+      }
+    })
+  }
+
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
   return (
     <div ref={ref} style={{ opacity, margin: "30px" }}>
       <span>{index + 1}</span>
-      <span>{job.id}</span>
-      <input name='url' value={job.url} onChange={(e) => handleChange(e, index, job)} />
-      <ApplicationProofModal 
-        applicationProofUrl={job.applicationProofUrl} 
-        jobId={job.id}
-        missionId={job.missionId}
+      <span>{state.id}</span>
+      <input name='url' value={state.url} onChange={handleChange} />
+      <ApplicationProofModal
+        applicationProofUrl={state.applicationProofUrl}
+        jobId={state.id}
+        missionId={state.missionId}
       />
       {/* <input name='name' value={job.name} onChange={(e) => handleChange(e, index, job)} /> */}
     </div>
