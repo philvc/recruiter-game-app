@@ -11,19 +11,17 @@ import DropZone from '../dropzone';
 
 // graphql
 import { CREATE_SIGNED_PUT_URL } from '../../../../../../../../../../../../graphql/mutations/server/createSignedPutUrl';
+import UPDATE_APPLICATIONPROOFURL_CLIENT from '../../../../../../../../../../../../graphql/mutations/client/updateApplicationProofUrl';
 
 
 const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId }: any) => {
 
   const [imageSource, setImageSource] = React.useState(applicationProofUrl)
-  const [file, setFile] = React.useState({
-    type:'',
-    name:''
-  })
+  const [file, setFile] = React.useState({type:'', name:''})
 
-
-  // create signed url function
   const [createSignedPutUrl, {loading, error, data}] = useMutation(CREATE_SIGNED_PUT_URL)
+  const [updateApplicationProofUrl] = useMutation(UPDATE_APPLICATIONPROOFURL_CLIENT)
+
 
   function handleCreateSignedPutUrl(file:any){
     setFile(file)
@@ -43,7 +41,12 @@ const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId }: any) =
 
     };
 
-    await axios.put(data.createSignedPutUrl, file, { headers });
+    await axios.put(data.createSignedPutUrl.signedPutUrl, file, { headers });
+    // await updateApplicationProofUrl({
+    //   variables: {
+    //     signedGetUrl: data.createSignedPutUrl.signedGetUrl, 
+    //     jobId
+    //   }})
     return openModal()
   }
 

@@ -11,6 +11,11 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    updateApplicationProofUrl(jobId: String): String
+    updateApplicationProofUrl(input: UpdateApplicationProofUrlInput): String
+  }
+
+  input UpdateApplicationProofUrlInput {
+    signedGetUrl: String
+    jobId: String
   }
 `
