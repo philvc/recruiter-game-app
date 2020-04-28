@@ -11,8 +11,10 @@ import { GET_DOCUMENT_URL_SERVER } from '../../../../../../../../../../../../gra
 
 
 const Screenshot = ({ jobId, missionId }: any) => {
-  const { loading, error, data } = useQuery(GET_DOCUMENT_URL_SERVER, { variables: { jobId } })
+  console.log('screenshot components')
+  // const { loading, error, data } = useQuery(GET_DOCUMENT_URL_SERVER, { variables: { jobId } })
   const [file, setFile] = React.useState('')
+  // const [hasDroppedFile, setHasDroppedFile] = React.useState(false)
   const [createSignedUrl] = useMutation(CREATE_SIGNED_URL, {
     update(cache, { data: { createSignedUrl } }) {
       const { signedGetUrl } = createSignedUrl;
@@ -53,16 +55,16 @@ const Screenshot = ({ jobId, missionId }: any) => {
   }, [createSignedUrl, jobId])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
-  if (loading) return null
+  // if (loading) return null
 
-  if (error) return null
+  // if (error) return null
 
-  const { document } = data
-  console.log('doucment url :', document)
+  // const { document } = data
+  // console.log('doucment url :', document)
 
   return (
     <div>
-      <img src={document} alt='no proof given ' />
+      {/* <img src={document} alt='no proof given ' /> */}
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         {

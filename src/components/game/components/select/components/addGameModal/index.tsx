@@ -6,7 +6,7 @@ import AriaModal from 'react-aria-modal';
 // components
 import AddGameForm from './components/addGameForm';
 
-const AddGame = () => {
+const AddGameModal = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
 
@@ -33,4 +33,4 @@ const AddGame = () => {
   )
 }
 
-export default AddGame;
+export default AddGameModal;

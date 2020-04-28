@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client';
 import { Link } from '@reach/router';
 
 // components
-import AddGame from './components/addGameModal';
+import AddGameModal from './components/addGameModal';
 
 // query
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/getPlayerAndGamesClient';
@@ -31,7 +31,7 @@ const SelectGame = ({ path }: any) => {
           null
         }
       </ul>
-      <AddGame />
+      <AddGameModal />
     </div>
 
   )

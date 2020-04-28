@@ -47,7 +47,7 @@ const MissionList = ({ path, gameId, navigate }: any) => {
         </div>
       )
       )}
-      <button onClick={handleClick}>Start 10 jobs mission</button>
+      <button onClick={handleClick}>Start "List 10 job offers" mission</button>
     </div>
   )
 }
