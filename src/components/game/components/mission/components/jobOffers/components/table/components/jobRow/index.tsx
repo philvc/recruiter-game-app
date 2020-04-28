@@ -16,6 +16,21 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
   const [state, dispatch] = React.useReducer(reducer, job)
   const [updateJobServer] = useMutation(UPDATE_JOB_SERVER)
 
+  React.useEffect(() => {
+    async function updateJobRank() {
+      console.log('hello')
+      updateJobServer({
+        variables: {
+          id,
+          field: 'rank',
+          data: index + 1
+        }
+      })
+    }
+    updateJobRank()
+
+  }, [index, id, updateJobServer])
+
   const [, drop] = useDrop({
     accept: 'JOB',
     hover(item: any, monitor: any) {
