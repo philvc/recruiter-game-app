@@ -1,10 +1,10 @@
 ## Project
 
-The Recruiter Game is a game where you become a recruiter for your friend. It includes 3 missions where you help your friend to find job offers, build a resume and finally apply for jobs. 
+For my own pleasure, I try to make a game where the player's goal is to help a friend whose is looking for a new job.
 
-From the recruiter point of view, if you ever wanted to help your friend to apply for jobs in any way, this game will try to help you do that in a entertaining way. 
+In short, the player becomes his/her friend personal 'recruiter' ;)
 
-From the job seeker point of view, because applying for jobs can be really depressing, this game makes it funnier by allowing your friends to become your personal recruiter and help you find new job opportunities.
+The app will include challenges, missions and leaderboards for both the job seeker and his recruiter friend.
 
 Hope you will enjoy it and don't hesitate to share any feedbacks ;) 
 
