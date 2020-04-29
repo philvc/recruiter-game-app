@@ -18,7 +18,6 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
 
   React.useEffect(() => {
     async function updateJobRank() {
-      console.log('hello')
       updateJobServer({
         variables: {
           id,

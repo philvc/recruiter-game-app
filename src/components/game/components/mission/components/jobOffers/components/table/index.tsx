@@ -17,7 +17,10 @@ const JobOffersTable = ({ missionId }: any) => {
   const { loading, error, data } = useQuery(GET_JOBS_SERVER, {
     variables: { missionId },
     onCompleted({ jobs }) {
-      setJobs(jobs)
+      const jobsSortedByRank = jobs.slice().sort((a: any, b: any) => {
+        return a.rank - b.rank
+      })
+      setJobs(jobsSortedByRank)
 
     }
   });
