@@ -11,6 +11,10 @@ import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../graphql/mut
 import { GET_MISSIONS_CLIENT } from '../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_MISSIONS_SERVER } from '../../../../../../graphql/queries/server/getMissionsServer';
 
+// style
+import './style.css'
+import NavBar from '../../../../../navbar';
+
 const MissionList = ({ path, gameId, navigate }: any) => {
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, { variables: { gameId } })
   const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
@@ -38,16 +42,21 @@ const MissionList = ({ path, gameId, navigate }: any) => {
 
   return (
     <div>
-      <div>Mission ></div>
-      {data && data.missions.map((mission: any) => (
-        <div key={mission.id}>
-          <Link to={`10jobs/${mission.id}`}>
-            <p>{mission.type}</p>
-          </Link>
+      <NavBar />
+      <div className='mission-list-container'>
+        <div>
+          <h3>Mission</h3>
         </div>
-      )
-      )}
-      <button onClick={handleClick}>Start "List 10 job offers" mission</button>
+        {data && data.missions.map((mission: any) => (
+          <div key={mission.id}>
+            <Link to={`10jobs/${mission.id}`}>
+              <p>{mission.type}</p>
+            </Link>
+          </div>
+        )
+        )}
+        <button onClick={handleClick}>Start "List 10 job offers" mission</button>
+      </div>
     </div>
   )
 }

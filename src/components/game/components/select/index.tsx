@@ -12,6 +12,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/ge
 
 // style
 import './style.css';
+import NavBar from '../../../navbar';
 
 
 
@@ -22,24 +23,26 @@ const SelectGame = ({ path }: any) => {
   if (error) return null
 
   return (
-    <div className='game-list-container'>
-      <div className='game-list-title'>
-        Games
-      </div>
-      <ul className='game-list-ul'>
-        {data && data.games ? (
-          data.games.map((game: any) => (
-            <GameItem key={game.id} id={game.id} title={game.title} />
-          ))
-        ) :
-          null
-        }
-      </ul>
-      <div className='start-game-button'>
-        <AddGameModal />
+    <div>
+      <NavBar />
+      <div className='game-list-container'>
+        <div className='game-list-title'>
+          <h3>Games</h3>
+        </div>
+        <ul className='game-list-ul'>
+          {data && data.games ? (
+            data.games.map((game: any) => (
+              <GameItem key={game.id} id={game.id} title={game.title} />
+            ))
+          ) :
+            null
+          }
+        </ul>
+        <div className='start-game-button'>
+          <AddGameModal />
+        </div>
       </div>
     </div>
-
   )
 }
 
