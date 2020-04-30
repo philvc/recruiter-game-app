@@ -16,7 +16,7 @@ import NavBar from '../../../navbar';
 
 
 
-const SelectGame = ({ path }: any) => {
+const ListGames = ({ path }: any) => {
 
   const { loading, error, data } = useQuery(GET_PLAYERANDGAMES_CLIENT)
   if (loading) return null
@@ -46,4 +46,4 @@ const SelectGame = ({ path }: any) => {
   )
 }
 
-export default SelectGame;
+export default ListGames;

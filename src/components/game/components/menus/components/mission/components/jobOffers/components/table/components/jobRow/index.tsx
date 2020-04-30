@@ -6,8 +6,8 @@ import ApplicationProofModal from './components/application-proof-modal';
 
 // reducer
 import { reducer, actions } from './reducer';
-import { UPDATE_JOB_SERVER } from '../../../../../../../../../../graphql/mutations/server/updateJobServer';
 import { useMutation } from '@apollo/client';
+import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
 
 
 const JobRow = ({ job, index, id, moveJob, missionId }: any) => {

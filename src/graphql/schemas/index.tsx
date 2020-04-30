@@ -9,6 +9,7 @@ export const typeDefs = gql`
     games: [Game]
     isLoggedIn: Boolean!
     gameId: String
+    missionId: String
   }
 
   extend type Mutation {

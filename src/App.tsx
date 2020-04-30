@@ -16,7 +16,6 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 
 // Style
 import './App.css';
-import Mission from './components/game/components/mission';
 import NotFound from './components/notFound';
 
 // Graphql default state
@@ -80,7 +79,6 @@ function App() {
             (<Redirect from='/' to={`games`} noThrow />)
           }
           <Game path='/games/*' />
-          <Mission path='/games/:gameId/mission/*' />
           <NotFound default />
         </Router>
       </div>

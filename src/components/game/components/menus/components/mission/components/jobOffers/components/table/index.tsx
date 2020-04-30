@@ -7,9 +7,9 @@ import update from 'immutability-helper'
 
 // components
 import JobRow from './components/jobRow';
+import { GET_JOBS_SERVER } from '../../../../../../../../../../graphql/queries/server/getJobsServer';
 
 // graphql
-import { GET_JOBS_SERVER } from '../../../../../../../../graphql/queries/server/getJobsServer';
 
 const JobOffersTable = ({ missionId }: any) => {
 

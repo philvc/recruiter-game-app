@@ -8,11 +8,10 @@ import { useMutation } from '@apollo/client';
 
 // components
 import DropZone from '../dropzone';
+import { CREATE_SIGNED_PUT_URL } from '../../../../../../../../../../../../../../graphql/mutations/server/createSignedPutUrl';
+import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
 
 // graphql
-import { CREATE_SIGNED_PUT_URL } from '../../../../../../../../../../../../graphql/mutations/server/createSignedPutUrl';
-// import UPDATE_APPLICATIONPROOFURL_CLIENT from '../../../../../../../../../../../../graphql/mutations/client/updateApplicationProofUrl';
-import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
 
 
 const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId, dispatch }: any) => {

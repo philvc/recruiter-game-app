@@ -4,10 +4,9 @@ import * as React from 'react';
 import { Router } from '@reach/router';
 
 // components
-import Select from './components/select';
-import Dashboard from './components/dashboard';
-import Mission from './components/mission';
+import ListGames from './components/list-games';
 import NotFound from '../notFound';
+import Menus from './components/menus';
 
 const Game = ({ path }: any) => {
   return (
@@ -19,8 +18,8 @@ const Game = ({ path }: any) => {
       pages settings
       ... */}
       <Router>
-        <Dashboard path=':gameId/dashboard' />
-        <Select path='/' />
+        <ListGames path='/' />
+        <Menus path=':gameId/*' />
         <NotFound default />
       </Router>
     </div>

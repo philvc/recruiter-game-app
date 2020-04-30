@@ -1,21 +1,22 @@
 import * as React from 'react';
 
 // modules
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useApolloClient, gql } from '@apollo/client';
 import { Link } from '@reach/router';
 
 // components
+import NavBar from '../../../../../../../navbar';
 
 // grapqhql
-import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../graphql/mutations/server/addMutationServer';
-import { GET_MISSIONS_CLIENT } from '../../../../../../graphql/queries/client/getMissionsClient';
-import { GET_MISSIONS_SERVER } from '../../../../../../graphql/queries/server/getMissionsServer';
+import { GET_MISSIONS_SERVER } from '../../../../../../../../graphql/queries/server/getMissionsServer';
+import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graphql/mutations/server/addMutationServer';
+import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 
 // style
 import './style.css'
-import NavBar from '../../../../../navbar';
 
-const MissionList = ({ path, gameId, navigate }: any) => {
+const ListMissions = ({ path, gameId, navigate }: any) => {
+  const client = useApolloClient()
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, { variables: { gameId } })
   const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
     update(cache, { data: { addList10JobOffersMission } }) {
@@ -49,7 +50,16 @@ const MissionList = ({ path, gameId, navigate }: any) => {
         </div>
         {data && data.missions.map((mission: any) => (
           <div key={mission.id}>
-            <Link to={`/games/${gameId}/mission/10jobs/${mission.id}`}>
+            <Link to={`10jobs/${mission.id}`} onClick={() => {
+              client.writeQuery({
+                query: gql`{
+                  missionId
+                }`,
+                data: {
+                  missionId: mission.id
+                }
+              })
+            }}>
               <p>{mission.type}</p>
             </Link>
           </div>
@@ -61,4 +71,4 @@ const MissionList = ({ path, gameId, navigate }: any) => {
   )
 }
 
-export default MissionList;
+export default ListMissions;
