@@ -19,9 +19,9 @@ const Game = ({ path }: any) => {
       pages settings
       ... */}
       <Router>
-        <Dashboard path='/:gameId' />
+        <Dashboard path='/game/:gameId' />
         <Select path='/select' />
-        <Mission path='/:gameId/mission/*' />
+        <Mission path='/game/:gameId/mission/*' />
         <NotFound default />
       </Router>
     </div>

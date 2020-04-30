@@ -29,9 +29,9 @@ const SelectGame = ({ path }: any) => {
       <ul className='game-list-ul'>
         {data && data.games ? (
           data.games.map((game: any) => (
-            <div className='game-link' key={game.id}>
+            <div className='game-link' key={game.id} >
               <Link
-                to={`/${data.firstName}/${game.id}/mission`}>
+                to={`/game/${game.id}/mission`}>
                 {game.title}
               </Link>
             </div>

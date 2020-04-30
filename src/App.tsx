@@ -75,9 +75,9 @@ function App() {
           {player === undefined ?
             (<LoginV2 path='/' />)
             :
-            (<Redirect from='/' to={`/${player.firstName}/select`} noThrow />)
+            (<Redirect from='/' to={`/select`} noThrow />)
           }
-          <Game path='/:firstName/*' />
+          <Game path='/*' />
         </Router>
       </div>
     </ApolloProvider>
