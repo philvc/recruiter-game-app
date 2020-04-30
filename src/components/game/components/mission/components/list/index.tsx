@@ -49,7 +49,7 @@ const MissionList = ({ path, gameId, navigate }: any) => {
         </div>
         {data && data.missions.map((mission: any) => (
           <div key={mission.id}>
-            <Link to={`/${gameId}/mission/10jobs/${mission.id}`}>
+            <Link to={`/games/${gameId}/mission/10jobs/${mission.id}`}>
               <p>{mission.type}</p>
             </Link>
           </div>

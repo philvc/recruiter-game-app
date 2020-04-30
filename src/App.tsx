@@ -17,6 +17,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 // Style
 import './App.css';
 import Mission from './components/game/components/mission';
+import NotFound from './components/notFound';
 
 // Graphql default state
 const cache = new InMemoryCache();
@@ -76,10 +77,11 @@ function App() {
           {player === undefined ?
             (<LoginV2 path='/' />)
             :
-            (<Redirect from='/' to={`games/select`} noThrow />)
+            (<Redirect from='/' to={`games`} noThrow />)
           }
           <Game path='/games/*' />
-          <Mission path=':gameId/mission/*' />
+          <Mission path='/games/:gameId/mission/*' />
+          <NotFound default />
         </Router>
       </div>
     </ApolloProvider>

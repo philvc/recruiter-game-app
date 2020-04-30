@@ -12,7 +12,7 @@ const Mission = ({ path, gameId }: any) => {
   return (
     <Router>
       <MissionList path='list' gameId={gameId} />
-      <JobOffers path='10jobs/:missionId' gameId={gameId} />
+      <JobOffers path=':type/:missionId' gameId={gameId} />
       <NotFound default />
     </Router>
   )

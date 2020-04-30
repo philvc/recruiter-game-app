@@ -20,7 +20,7 @@ const Game = ({ path }: any) => {
       ... */}
       <Router>
         <Dashboard path=':gameId/dashboard' />
-        <Select path='select' />
+        <Select path='/' />
         <NotFound default />
       </Router>
     </div>
