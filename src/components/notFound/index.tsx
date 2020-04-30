@@ -1,17 +1,22 @@
 import * as React from 'react';
 
 // components
+import { Link } from '@reach/router';
 
 // assets
 import partyPopper from './assets/party-popper_emoji.png';
 
 // style
 import './style.css';
-import { Link } from '@reach/router';
+import { useQuery } from '@apollo/client';
+import { GET_GAME_ID_CLIENT } from '../../graphql/queries/client/getGameId';
 
 const NotFound = ({ default: any }: any) => {
+
   const [isLoaded, setIsLoaded] = React.useState(false)
-  console.log('not found page')
+  const { data }: any = useQuery(GET_GAME_ID_CLIENT)
+
+  console.log('gameId', data)
   return (
     <div className='notfound-container'>
       <p>This url doesn't match with any page but who know's ...</p>

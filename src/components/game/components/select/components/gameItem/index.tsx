@@ -1,8 +1,20 @@
 import * as React from 'react';
+import { Link } from '@reach/router';
+import { useApolloClient, gql } from '@apollo/client';
 
-const GameItem = ({ id }: any) => {
+const GameItem = ({ id, title }: any) => {
+  const client = useApolloClient();
+
   return (
-    <div></div>
+    <Link to={`/game/${id}/mission`}>
+      <div className='game-link' onClick={() => client.writeQuery(
+        {
+          query: gql`{gameId}`,
+          data: { gameId: id }
+        })}>
+        {title}
+      </div>
+    </Link>
   )
 }
 

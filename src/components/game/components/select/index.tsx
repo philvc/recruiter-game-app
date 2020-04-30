@@ -2,10 +2,10 @@ import * as React from 'react';
 
 // modules
 import { useQuery } from '@apollo/client';
-import { Link } from '@reach/router';
 
 // components
 import AddGameModal from './components/addGameModal';
+import GameItem from './components/gameItem';
 
 // query
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/getPlayerAndGamesClient';
@@ -29,12 +29,7 @@ const SelectGame = ({ path }: any) => {
       <ul className='game-list-ul'>
         {data && data.games ? (
           data.games.map((game: any) => (
-            <div className='game-link' key={game.id} >
-              <Link
-                to={`/game/${game.id}/mission`}>
-                {game.title}
-              </Link>
-            </div>
+            <GameItem key={game.id} id={game.id} title={game.title} />
           ))
         ) :
           null

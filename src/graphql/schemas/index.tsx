@@ -8,10 +8,12 @@ export const typeDefs = gql`
     email: String
     games: [Game]
     isLoggedIn: Boolean!
+    gameId: String
   }
 
   extend type Mutation {
     updateApplicationProofUrl(input: UpdateApplicationProofUrlInput): String
+    updateGameId(id: String): String
   }
 
   input UpdateApplicationProofUrlInput {
