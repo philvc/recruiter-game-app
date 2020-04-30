@@ -8,6 +8,7 @@ import Backend from 'react-dnd-html5-backend'
 import JobOffersTable from './components/table';
 import { useQuery } from '@apollo/client';
 import { GET_MISSION_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionId';
+import NavBar from '../../../../../../../navbar';
 
 const JobOffers = ({ path }: any) => {
   const { loading, error, data }: any = useQuery(GET_MISSION_ID_CLIENT)
@@ -18,10 +19,13 @@ const JobOffers = ({ path }: any) => {
   console.log('missionId', data.missionId)
   return (
     <div>
-      <h1>10 Job Offers Mission</h1>
-      <DndProvider backend={Backend}>
-        <JobOffersTable missionId={data.missionId} />
-      </DndProvider>
+      <NavBar />
+      <div>
+        <h1>10 Job Offers Mission</h1>
+        <DndProvider backend={Backend}>
+          <JobOffersTable missionId={data.missionId} />
+        </DndProvider>
+      </div>
     </div>
   )
 }
