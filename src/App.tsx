@@ -7,6 +7,7 @@ import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheO
 
 // Components
 import LoginV2 from './components/loginv2';
+import Game from './components/game';
 
 // graphql
 import { resolvers } from './graphql/resolvers';
@@ -15,7 +16,6 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 
 // Style
 import './App.css';
-import Game from './components/game';
 
 // Graphql default state
 const cache = new InMemoryCache();

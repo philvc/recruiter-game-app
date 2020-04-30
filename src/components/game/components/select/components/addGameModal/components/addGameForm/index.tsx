@@ -66,7 +66,7 @@ const AddGameForm = ({ openModal }: any) => {
           <span>{state.submitAttempted && state.nameError}</span>
         </label>
         <label>
-          <span>email:</span>
+          <span>Your job-looking friend's email:</span>
           <input
             style={inputStyle(state.emailError)}
             onChange={handleChange}

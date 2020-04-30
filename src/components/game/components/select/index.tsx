@@ -22,16 +22,27 @@ const SelectGame = ({ path }: any) => {
   if (error) return null
 
   return (
-    <div>
-      Games
-      <ul className='game-list'>
+    <div className='game-list-container'>
+      <div className='game-list-title'>
+        Games
+      </div>
+      <ul className='game-list-ul'>
         {data && data.games ? (
-          data.games.map((game: any) => <Link key={game.id} to={`/${data.firstName}/${game.id}/mission`}>{game.title}</Link>)
+          data.games.map((game: any) => (
+            <div className='game-link' key={game.id}>
+              <Link
+                to={`/${data.firstName}/${game.id}/mission`}>
+                {game.title}
+              </Link>
+            </div>
+          ))
         ) :
           null
         }
       </ul>
-      <AddGameModal />
+      <div className='start-game-button'>
+        <AddGameModal />
+      </div>
     </div>
 
   )
