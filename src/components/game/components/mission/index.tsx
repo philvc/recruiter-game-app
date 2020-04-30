@@ -11,8 +11,8 @@ import NotFound from '../../../notFound';
 const Mission = ({ path, gameId }: any) => {
   return (
     <Router>
-      <MissionList path='/' gameId={gameId} />
-      <JobOffers path='/10jobs/:missionId' gameId={gameId} />
+      <MissionList path='list' gameId={gameId} />
+      <JobOffers path='10jobs/:missionId' gameId={gameId} />
       <NotFound default />
     </Router>
   )

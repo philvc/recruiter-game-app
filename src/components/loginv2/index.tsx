@@ -11,6 +11,9 @@ import { formReducer, actions } from './reducer';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_ACCOUNT } from '../../graphql/queries/server/getAccount';
 
+// style
+import './style.css'
+
 const initialState = {
   email: '',
   emailError: null,
@@ -41,7 +44,7 @@ const LoginV2 = ({ path }: any) => {
         })
         localStorage.setItem('player', JSON.stringify(player))
         localStorage.setItem('games', JSON.stringify(games))
-        navigate(`/select`)
+        navigate(`games/select`)
       }
     })
 
@@ -68,7 +71,7 @@ const LoginV2 = ({ path }: any) => {
 
 
   return (
-    <div>
+    <div className='login-container'>
       <h1>10 Jobs Challenge</h1>
       <form onSubmit={handleSubmit}>
         <label>
