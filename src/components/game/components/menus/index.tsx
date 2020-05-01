@@ -1,15 +1,16 @@
 import * as React from 'react';
 
 // modules
-import { Router } from '@reach/router';
+import { Router, Redirect } from '@reach/router';
 
 // components
-import Mission from './components/mission';
+import MenuMissions from './components/menu-missions';
 
 const Menus = ({ path }: any) => {
   return (
     <Router>
-      <Mission path='mission/*' />
+      <MenuMissions path='mission/*' />
+      <Redirect from='/' to='mission' noThrow />
     </Router>
   )
 }

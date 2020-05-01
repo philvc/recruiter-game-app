@@ -13,15 +13,10 @@ const NavBar = (props: any) => {
   const location = useLocation()
   const splitLocation = location.pathname.split('/').slice(1)
 
-
-  console.log('location', location)
-  console.log('location', splitLocation)
-
   let navigation = ''
 
   const navbar = splitLocation.map((navItem: any, index: number) => {
     navigation = navigation + '/' + navItem
-    console.log('navitation', navigation)
     if (index === splitLocation.length - 1) {
 
       return <span key={navItem}>{navItem}</span>

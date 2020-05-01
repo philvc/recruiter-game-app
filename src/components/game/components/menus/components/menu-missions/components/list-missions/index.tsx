@@ -29,9 +29,6 @@ const ListMissions = ({ path, gameId, navigate }: any) => {
         }
       })
     },
-    // onCompleted({ addMission }) {
-    //   // navigate(`10jobs/${addMission.id}`)
-    // }
   })
 
   function handleClick() {
@@ -46,11 +43,11 @@ const ListMissions = ({ path, gameId, navigate }: any) => {
       <NavBar />
       <div className='mission-list-container'>
         <div>
-          <h3>Mission</h3>
+          <h3>Menu Missions</h3>
         </div>
         {data && data.missions.map((mission: any) => (
           <div key={mission.id}>
-            <Link to={`10jobs/${mission.id}`} onClick={() => {
+            <Link to={`${mission.id}`} onClick={() => {
               client.writeQuery({
                 query: gql`{
                   missionId

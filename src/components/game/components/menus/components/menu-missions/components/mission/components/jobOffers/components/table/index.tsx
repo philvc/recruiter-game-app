@@ -7,7 +7,7 @@ import update from 'immutability-helper'
 
 // components
 import JobRow from './components/jobRow';
-import { GET_JOBS_SERVER } from '../../../../../../../../../../graphql/queries/server/getJobsServer';
+import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getJobsServer';
 
 // graphql
 

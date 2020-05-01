@@ -10,9 +10,9 @@ import NotFound from '../../../../../notFound';
 // graphql
 import { useQuery } from '@apollo/client';
 import { GET_GAME_ID_CLIENT } from '../../../../../../graphql/queries/client/getGameId';
-import JobOffers from './components/jobOffers';
+import Mission from './components/mission';
 
-const Mission = ({ path }: any) => {
+const MenuMissions = ({ path }: any) => {
   const { loading, error, data }: any = useQuery(GET_GAME_ID_CLIENT)
 
   if (loading) return null
@@ -22,10 +22,10 @@ const Mission = ({ path }: any) => {
   return (
     <Router>
       <ListMissions path='/' gameId={data.gameId} />
-      <JobOffers path='10jobs/:missionId' />
+      <Mission path='/:missionId' />
       <NotFound default />
     </Router>
   )
 }
 
-export default Mission;
+export default MenuMissions;
