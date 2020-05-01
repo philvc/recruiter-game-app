@@ -72,23 +72,31 @@ const LoginV2 = ({ path }: any) => {
 
   return (
     <div className='login-container'>
-      <h1>10 Jobs Challenge</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <span>email:</span>
-          <input
-            style={inputStyle(state.emailError)}
-            onChange={handleChange}
-            name="email"
-            value={state.email}
-            type="text"
-          />
-          <span>{state.submitAttempted && state.emailError}</span>
-        </label>
-        <p>{state.submitMessage}</p>
-        {loading && <p>Moving to your account</p>}
-        <button type="submit">START</button>
-      </form>
+      {loading ? (
+        <p>Moving to your account</p>
+      )
+        :
+        (
+          <div>
+            <h1>10 Jobs Challenge</h1>
+            <form onSubmit={handleSubmit}>
+              <label>
+                <span>email:</span>
+                <input
+                  style={inputStyle(state.emailError)}
+                  onChange={handleChange}
+                  name="email"
+                  value={state.email}
+                  type="text"
+                />
+                <span>{state.submitAttempted && state.emailError}</span>
+              </label>
+              <p>{state.submitMessage}</p>
+              <button type="submit">START</button>
+            </form>
+          </div>
+        )
+      }
     </div>
   )
 }

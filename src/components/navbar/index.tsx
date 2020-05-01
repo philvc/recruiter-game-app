@@ -8,8 +8,6 @@ import './style.css'
 
 const NavBar = (props: any) => {
 
-  console.log('props', props)
-
   const location = useLocation()
   const splitLocation = location.pathname.split('/').slice(1)
 
