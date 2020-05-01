@@ -25,7 +25,7 @@ const initialState = {
 const LoginV2 = ({ path }: any) => {
   const [state, dispatch] = React.useReducer(formReducer, initialState)
   const client = useApolloClient();
-  const [getAccount, { loading }] = useLazyQuery(
+  const [getAccount, { loading, data }] = useLazyQuery(
     GET_ACCOUNT,
     {
       onCompleted({ account }) {
@@ -72,7 +72,7 @@ const LoginV2 = ({ path }: any) => {
 
   return (
     <div className='login-container'>
-      {loading ? (
+      {loading || data ? (
         <p>Moving to your account</p>
       )
         :

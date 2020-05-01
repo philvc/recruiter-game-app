@@ -16,5 +16,6 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
     }
     gameId
     missionId
+    missions
   }
 `

@@ -72,7 +72,6 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
   });
 
   function handleChange(e: any) {
-    console.log('handleChange fct')
     console.log('checkbox event', e.target.value, e.target.name)
     // dispatch({ type: e.target.name, payload: e.target.value })
     // updateJobServer({

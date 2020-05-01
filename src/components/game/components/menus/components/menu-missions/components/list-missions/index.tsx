@@ -14,10 +14,23 @@ import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/cli
 
 // style
 import './style.css'
+import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 
-const ListMissions = ({ path, gameId, navigate }: any) => {
+const ListMissions = ({ path, gameId, }: any) => {
   const client = useApolloClient()
-  const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, { variables: { gameId } })
+  const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
+    variables: { gameId },
+    onCompleted({ missions }) {
+      client.writeQuery({
+        query: GET_PLAYERANDGAMES_CLIENT,
+        data: {
+          missions
+        }
+      })
+      localStorage.setItem('missions', JSON.stringify(missions))
+
+    }
+  })
   const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
     update(cache, { data: { addList10JobOffersMission } }) {
       const { missions }: any = cache.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId } })

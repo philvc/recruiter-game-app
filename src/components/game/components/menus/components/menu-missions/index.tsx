@@ -17,7 +17,6 @@ const MenuMissions = ({ path }: any) => {
 
   if (loading) return null
   if (error) return null
-  console.log('gameId', data.gameId)
 
   return (
     <Router>
