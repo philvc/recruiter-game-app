@@ -53,15 +53,12 @@ const JobOffersTable = ({ missionId }: any) => {
       <div>
         {jobs.length > 0 &&
           jobs
-            // .sort(function (a: any, b: any) { return a.rank - b.rank })
             .map((job: any, index: number) => (
-              // renderJobRow(job, index)
               <JobRow
                 key={job.id}
                 index={index}
                 id={job.id}
                 job={job}
-                // handleChange={handleChange}
                 moveJob={moveJob}
                 missionId={missionId}
               />

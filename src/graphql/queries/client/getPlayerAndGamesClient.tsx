@@ -14,5 +14,7 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       applicantId
       recruiterId
     }
+    gameId
+    missionId
   }
 `

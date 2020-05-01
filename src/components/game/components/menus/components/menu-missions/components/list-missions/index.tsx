@@ -56,6 +56,7 @@ const ListMissions = ({ path, gameId, navigate }: any) => {
                   missionId: mission.id
                 }
               })
+              localStorage.setItem('missionId', mission.id)
             }}>
               <p>{mission.type}</p>
             </Link>

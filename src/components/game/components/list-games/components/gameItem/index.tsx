@@ -7,11 +7,16 @@ const GameItem = ({ id, title }: any) => {
 
   return (
     <Link to={`${id}/mission`}>
-      <div className='game-link' onClick={() => client.writeQuery(
-        {
-          query: gql`{gameId}`,
-          data: { gameId: id }
-        })}>
+      <div className='game-link' onClick={() => {
+
+        client.writeQuery(
+          {
+            query: gql`{gameId}`,
+            data: { gameId: id }
+          })
+        localStorage.setItem('gameId', id)
+      }
+      }>
         {title}
       </div>
     </Link>
