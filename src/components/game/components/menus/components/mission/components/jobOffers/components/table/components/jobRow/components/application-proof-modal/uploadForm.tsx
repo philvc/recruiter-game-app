@@ -21,7 +21,6 @@ const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId, dispatch
 
   const [createSignedPutUrl, { loading, error, data }] = useMutation(CREATE_SIGNED_PUT_URL)
   const [updateJob] = useMutation(UPDATE_JOB_SERVER)
-  // const [updateApplicationProofUrl] = useMutation(UPDATE_APPLICATIONPROOFURL_CLIENT)
 
 
   function handleCreateSignedPutUrl(file: any) {
