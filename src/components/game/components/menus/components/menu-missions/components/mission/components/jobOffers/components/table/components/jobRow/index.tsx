@@ -6,14 +6,21 @@ import ApplicationProofModal from './components/application-proof-modal';
 
 // reducer
 import { reducer, actions } from './reducer';
-import { useMutation } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
+import { GET_JOBS_SERVER } from '../../../../../../../../../../../../../../graphql/queries/server/getJobsServer';
 
 
 const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
+  const client = useApolloClient()
   const [state, dispatch] = React.useReducer(reducer, job)
-  const [updateJobServer] = useMutation(UPDATE_JOB_SERVER)
+  const [updateJobServer] = useMutation(UPDATE_JOB_SERVER, {
+    onCompleted() {
+      const { jobs }: any = client.readQuery({ query: GET_JOBS_SERVER, variables: { missionId } })
+      const newProgress = jobs.filter((job: any) => job.isComplete === true).length
+    }
+  })
 
   React.useEffect(() => {
     async function updateJobRank() {
@@ -30,7 +37,6 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
   }, [index, id, updateJobServer])
 
   React.useEffect(() => {
-    console.log('isComplete changed')
     async function updateJobIsComplete() {
       updateJobServer({
         variables: {

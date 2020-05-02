@@ -16,12 +16,15 @@ import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/cli
 import './style.css'
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_MISSIONS_ROOT_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsRootClient';
+import { GET_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getGameId';
 
-const ListMissions = ({ path, gameId, }: any) => {
+const ListMissions = ({ path }: any) => {
   const client = useApolloClient()
+  const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
     variables: { gameId },
     onCompleted({ missions }) {
+      console.log('missions serverquery')
       client.writeQuery({
         query: GET_PLAYERANDGAMES_CLIENT,
         data: {
@@ -84,6 +87,7 @@ const ListMissions = ({ path, gameId, }: any) => {
             }}>
               <p>{mission.type}</p>
             </Link>
+            <p>progress: {mission.progress}/10</p>
           </div>
         )
         )}

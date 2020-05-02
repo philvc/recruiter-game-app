@@ -7,6 +7,7 @@ export const ADD_LIST10JOBOFFERSMISSION_SERVER = gql`
       id
       type
       gameId
+      progress
       }
     }
   }

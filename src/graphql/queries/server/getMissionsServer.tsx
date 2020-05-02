@@ -5,6 +5,7 @@ export const GET_MISSIONS_SERVER = gql`
     missions(input: {gameId: $gameId}){
       id
       type
+      progress
     }
   }
 `

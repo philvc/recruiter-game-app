@@ -18,6 +18,7 @@ export const UPDATE_JOB_SERVER = gql`
       url
       applicationProofUrl
       rank
+      isComplete
     }
   }
 `
