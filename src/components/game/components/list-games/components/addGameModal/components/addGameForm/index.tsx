@@ -4,7 +4,7 @@ import * as React from 'react';
 import { navigate } from '@reach/router';
 
 // grapqhql
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useApolloClient, } from '@apollo/client';
 import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server/addGameServer';
 import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
 
@@ -14,16 +14,23 @@ import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queri
 
 const AddGameForm = ({ openModal }: any) => {
   // Attributes
+  const client = useApolloClient()
   const [state, dispatch] = React.useReducer(formReducer, initialState);
-  const { loading, error, data } = useQuery(GET_PLAYER_CLIENT)
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
+
 
   const [addGameMutation] = useMutation(ADDGAME_SERVER, {
     update(cache, { data: { addGame } }) {
       const { games }: any = cache.readQuery({ query: GET_PLAYERANDGAMES_CLIENT });
+      const newGames = games.concat([addGame])
       cache.writeQuery({
         query: GET_PLAYERANDGAMES_CLIENT,
-        data: { games: games.concat([addGame]) }
+        data: {
+          gameId: addGame.id,
+          games: newGames,
+        }
       })
+      localStorage.setItem('games', JSON.stringify(newGames))
     },
     onCompleted({ addGame }) {
       navigate(`/games/${addGame.title}/mission`)
@@ -32,9 +39,9 @@ const AddGameForm = ({ openModal }: any) => {
 
   React.useEffect(() => {
     if (state.status === 'completed') {
-      addGameMutation({ variables: { title: state.title, recruiterId: data.id, email: state.email } })
+      addGameMutation({ variables: { title: state.title, recruiterId: player.id, email: state.email } })
     }
-  }, [state, addGameMutation, data.id])
+  }, [state, addGameMutation, player.id])
 
   function handleChange(e: any) {
     dispatch({ type: `${e.target.name}Changed`, payload: e.target.value })

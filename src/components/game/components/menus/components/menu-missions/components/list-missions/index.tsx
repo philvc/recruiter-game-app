@@ -37,13 +37,16 @@ const ListMissions = ({ path }: any) => {
   const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
     update(cache, { data: { addList10JobOffersMission } }) {
       const { missions }: any = cache.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId } })
+      const newMissions = missions.concat([addList10JobOffersMission.mission])
       cache.writeQuery({
         query: GET_MISSIONS_CLIENT,
         variables: { gameId },
         data: {
-          missions: missions.concat([addList10JobOffersMission.mission])
+          missions: newMissions
         }
       })
+      localStorage.setItem('missions', JSON.stringify(newMissions))
+
     },
     onCompleted({ addList10JobOffersMission }) {
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_ROOT_CLIENT })

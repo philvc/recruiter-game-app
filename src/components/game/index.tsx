@@ -19,7 +19,7 @@ const Game = ({ path }: any) => {
       ... */}
       <Router>
         <ListGames path='/' />
-        <Menus path=':gameId/*' />
+        <Menus path=':gameTitle/*' />
         <NotFound default />
       </Router>
     </div>
