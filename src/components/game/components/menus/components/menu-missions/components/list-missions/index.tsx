@@ -24,7 +24,6 @@ const ListMissions = ({ path }: any) => {
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
     variables: { gameId },
     onCompleted({ missions }) {
-      console.log('missions serverquery')
       client.writeQuery({
         query: GET_PLAYERANDGAMES_CLIENT,
         data: {
@@ -48,7 +47,6 @@ const ListMissions = ({ path }: any) => {
     },
     onCompleted({ addList10JobOffersMission }) {
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_ROOT_CLIENT })
-      console.log('missions', missions)
       client.writeQuery({
         query: GET_MISSIONS_ROOT_CLIENT,
         data: {
