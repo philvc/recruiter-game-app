@@ -9,6 +9,7 @@ export const GET_JOBS_SERVER = gql`
       missionId
       rank
       applicationProofUrl
+      isComplete
     } 
   }
 `

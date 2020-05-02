@@ -26,7 +26,7 @@ const AddGameForm = ({ openModal }: any) => {
       })
     },
     onCompleted({ addGame }) {
-      navigate(`/${data.firstName}/${addGame.title}/mission`)
+      navigate(`/games/${addGame.title}/mission`)
     }
   })
 

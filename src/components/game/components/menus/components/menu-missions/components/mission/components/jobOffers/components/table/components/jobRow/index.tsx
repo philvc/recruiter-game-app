@@ -11,7 +11,6 @@ import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../gra
 
 
 const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
-
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
   const [state, dispatch] = React.useReducer(reducer, job)
   const [updateJobServer] = useMutation(UPDATE_JOB_SERVER)
@@ -29,6 +28,21 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
     updateJobRank()
 
   }, [index, id, updateJobServer])
+
+  React.useEffect(() => {
+    console.log('isComplete changed')
+    async function updateJobIsComplete() {
+      updateJobServer({
+        variables: {
+          id,
+          field: 'isComplete',
+          data: state.isComplete
+        }
+      })
+    }
+    updateJobIsComplete()
+
+  }, [state.isComplete, updateJobServer, id])
 
   const [, drop] = useDrop({
     accept: 'JOB',
@@ -72,15 +86,15 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
   });
 
   function handleChange(e: any) {
-    console.log('checkbox event', e.target.value, e.target.name)
-    // dispatch({ type: e.target.name, payload: e.target.value })
-    // updateJobServer({
-    //   variables: {
-    //     id: state.id,
-    //     field: e.target.name,
-    //     data: e.target.value
-    //   }
-    // })
+    // console.log('checkbox event', e.target.checked)
+    dispatch({ type: e.target.name, payload: e.target.value })
+    updateJobServer({
+      variables: {
+        id: state.id,
+        field: e.target.name,
+        data: e.target.value
+      }
+    })
   }
 
   const opacity = isDragging ? 0 : 1;
@@ -90,9 +104,9 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
       <span>{index + 1}</span>
       <span>{state.id}</span>
       <input name='url' value={state.url} onChange={handleChange} />Validate
-      <label>
-        <input type='checkbox' name="isCompleted" checked onChange={handleChange} />
-      </label>
+      {/* <label>
+        <input type='checkbox' name="isValidated" onChange={handleChange} />
+      </label> */}
       <ApplicationProofModal
         applicationProofUrl={state.applicationProofUrl}
         jobId={state.id}

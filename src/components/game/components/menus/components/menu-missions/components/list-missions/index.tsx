@@ -15,6 +15,7 @@ import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/cli
 // style
 import './style.css'
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
+import { GET_MISSIONS_ROOT_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsRootClient';
 
 const ListMissions = ({ path, gameId, }: any) => {
   const client = useApolloClient()
@@ -42,6 +43,16 @@ const ListMissions = ({ path, gameId, }: any) => {
         }
       })
     },
+    onCompleted({ addList10JobOffersMission }) {
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_ROOT_CLIENT })
+      console.log('missions', missions)
+      client.writeQuery({
+        query: GET_MISSIONS_ROOT_CLIENT,
+        data: {
+          missions: missions.concat([addList10JobOffersMission.mission])
+        }
+      })
+    }
   })
 
   function handleClick() {

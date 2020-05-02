@@ -5,7 +5,6 @@ import JobOffers from './components/jobOffers';
 import { GET_MISSIONS_ROOT_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsRootClient';
 
 const Mission = ({ path, missionId }: any) => {
-  console.log('missionId', missionId)
   const client = useApolloClient()
 
   const { missions }: any = client.readQuery({

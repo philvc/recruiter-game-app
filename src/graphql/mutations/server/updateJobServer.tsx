@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 export const UPDATE_JOB_SERVER = gql`
   mutation updateJob(
     $id: String,
-    $data: StringOrInt,
+    $data: StringOrIntOrBoolean,
     $field: String,
     ){
     updateJob(input: 
