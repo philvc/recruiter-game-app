@@ -85,6 +85,7 @@ const ListMissions = ({ path }: any) => {
                 }
               })
               localStorage.setItem('missionId', mission.id)
+              localStorage.setItem('mission', JSON.stringify(mission))
             }}>
               <p>{mission.type}</p>
             </Link>

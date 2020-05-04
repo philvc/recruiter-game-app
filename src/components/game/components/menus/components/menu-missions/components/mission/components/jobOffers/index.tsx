@@ -6,20 +6,28 @@ import Backend from 'react-dnd-html5-backend'
 
 // components
 import JobOffersTable from './components/table';
-import { useQuery } from '@apollo/client';
+import { useApolloClient, gql } from '@apollo/client';
 import { GET_MISSION_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionId';
 
 const JobOffers = () => {
-  const { loading, error, data } = useQuery(GET_MISSION_ID_CLIENT)
-
-  if (loading) return null
-  if (error) return null
+  const client = useApolloClient()
+  const { missionId }: any = client.readQuery({ query: GET_MISSION_ID_CLIENT })
+  const { progress }: any = client.readFragment({
+    id: `Mission:${missionId}`,
+    fragment: gql`
+      fragment myMission on Mission {
+        progress
+      }
+    `
+  })
+  const [stateProgress, setStateProgress] = React.useState(progress)
 
   return (
     <div>
       <h1>10 Job Offers Mission</h1>
+      <p>{`${stateProgress}/10`}</p>
       <DndProvider backend={Backend}>
-        <JobOffersTable missionId={data.missionId} />
+        <JobOffersTable missionId={missionId} setStateProgress={setStateProgress} />
       </DndProvider>
     </div>
   )

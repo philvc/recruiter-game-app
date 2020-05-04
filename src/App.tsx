@@ -19,7 +19,9 @@ import './App.css';
 import NotFound from './components/notFound';
 
 // Graphql default state
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  dataIdFromObject: (object): any => object.__typename + ":" + object.id,
+});
 const link = new HttpLink({
   uri: "http://localhost:5001"
 })
@@ -53,7 +55,8 @@ client.writeQuery({
       games: JSON.parse(localStorage.getItem('games') || '[]'),
       missions: JSON.parse(localStorage.getItem("missions") || '[]'),
       gameId: localStorage.getItem('gameId'),
-      missionId: localStorage.getItem('missionId')
+      missionId: localStorage.getItem('missionId'),
+      mission: JSON.parse(localStorage.getItem('mission') || '{}')
     }
     :
     {
@@ -66,6 +69,7 @@ client.writeQuery({
       missions: [],
       gameId: localStorage.getItem('gameId') || '',
       missionId: localStorage.getItem('missionId') || '',
+      mission: {},
     }
 })
 
