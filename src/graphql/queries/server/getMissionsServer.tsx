@@ -6,6 +6,7 @@ export const GET_MISSIONS_SERVER = gql`
       id
       type
       progress
+      isReviewed
     }
   }
 `
