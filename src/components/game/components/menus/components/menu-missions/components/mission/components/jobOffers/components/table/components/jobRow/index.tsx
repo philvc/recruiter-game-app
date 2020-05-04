@@ -51,7 +51,6 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
     updateJobIsComplete()
 
   }, [state.isComplete, updateJobServer, id])
-
   const [, drop] = useDrop({
     accept: 'JOB',
     hover(item: any, monitor: any) {

@@ -8,6 +8,7 @@ export const ADD_LIST10JOBOFFERSMISSION_SERVER = gql`
       type
       gameId
       progress
+      isReviewed
       }
     }
   }
