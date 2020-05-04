@@ -7,6 +7,7 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       firstName
       lastName
       email
+      playerName
     }
     games @client{
       id

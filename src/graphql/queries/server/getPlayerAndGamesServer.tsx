@@ -7,6 +7,7 @@ export const GET_PLAYERANDGAMES_SERVER = gql`
       firstName
       lastName
       email
+      playerName
     }
     games(input: {email: $email}) {
       id

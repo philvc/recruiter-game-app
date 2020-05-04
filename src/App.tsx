@@ -51,6 +51,7 @@ client.writeQuery({
         email: player.email,
         firstName: player.firstName,
         lastName: player.lastName,
+        playerName: player.playerName,
       },
       games: JSON.parse(localStorage.getItem('games') || '[]'),
       missions: JSON.parse(localStorage.getItem("missions") || '[]'),
@@ -64,11 +65,12 @@ client.writeQuery({
         email: '',
         firstName: '',
         lastName: '',
+        playerName: '',
       },
       games: [],
       missions: [],
-      gameId: localStorage.getItem('gameId'),
-      missionId: localStorage.getItem('missionId'),
+      gameId: localStorage.getItem('gameId' || ''),
+      missionId: localStorage.getItem('missionId' || ''),
     }
 })
 
