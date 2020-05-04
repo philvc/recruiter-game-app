@@ -33,7 +33,7 @@ const AddGameForm = ({ openModal }: any) => {
       localStorage.setItem('games', JSON.stringify(newGames))
     },
     onCompleted({ addGame }) {
-      navigate(`/games/${addGame.title}/missions`)
+      navigate(`/games/${addGame.title.split(" ").join('')}/missions`)
     }
   })
 
