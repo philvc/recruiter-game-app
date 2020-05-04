@@ -8,7 +8,7 @@ export const reducer = (state: any, action: any) => {
   let formComplete = true
   switch (action.type) {
     case actions.urlChanged:
-      if (!state.url && !action.payload) {
+      if (!action.payload) {
         formComplete = false
       }
       return { ...state, url: action.payload, isComplete: formComplete }

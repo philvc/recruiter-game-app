@@ -14,12 +14,12 @@ const JobOffers = () => {
   const client = useApolloClient()
   const { missionId }: any = client.readQuery({ query: GET_MISSION_ID_CLIENT })
   const { loading, error, data } = useQuery(GET_MISSION_SERVER, { variables: { id: missionId } })
-  const [stateProgress, setStateProgress] = React.useState(null)
+  const [progress, setProgress] = React.useState(null)
 
   React.useEffect(() => {
     if (data) {
 
-      setStateProgress(data.mission.progress)
+      setProgress(data.mission.progress)
     }
   }, [data, client, missionId])
 
@@ -31,10 +31,11 @@ const JobOffers = () => {
   return (
     <div>
       <h1>10 Job Offers Mission</h1>
-      {data && stateProgress && <p>{`${stateProgress}/10`}</p>}
+      {data && progress && <p>{`${progress}/10`}</p>}
       <DndProvider backend={Backend}>
         <JobOffersTable missionId={missionId} />
       </DndProvider>
+      {progress === 10 && <button>Push for review</button>}
     </div>
   )
 }
