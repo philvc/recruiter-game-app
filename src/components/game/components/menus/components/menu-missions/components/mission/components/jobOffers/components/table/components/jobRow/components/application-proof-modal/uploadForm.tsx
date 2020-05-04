@@ -18,6 +18,7 @@ const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId, dispatch
 
   const [imageSource, setImageSource] = React.useState(applicationProofUrl)
   const [file, setFile] = React.useState({ type: '', name: '' })
+  const [isLoaded, setIsLoaded] = React.useState(false)
 
   const [createSignedPutUrl, { loading, error, data }] = useMutation(CREATE_SIGNED_PUT_URL)
   const [updateJob] = useMutation(UPDATE_JOB_SERVER)
@@ -59,7 +60,8 @@ const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId, dispatch
 
   return (
     <div>
-      <img src={imageSource} alt='no uploaded document' />
+      <img style={isLoaded ? {} : { display: 'none' }} src={imageSource} alt='no uploaded document' onLoad={() => setIsLoaded(true)} />
+      {!isLoaded && applicationProofUrl && <p>Loading Image ...</p>}
       <DropZone
         handleCreateSignedPutUrl={handleCreateSignedPutUrl}
       />
