@@ -5,8 +5,6 @@ export const GET_ACCOUNT = gql`
     account(input: {email: $email}){
       player{
         id
-        firstName
-        lastName
         email
         playerName
       } 

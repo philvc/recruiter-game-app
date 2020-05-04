@@ -38,7 +38,6 @@ let player: any;
 if (localStorage.hasOwnProperty('player')) {
   player = JSON.parse(localStorage.getItem('player') || '')
 }
-
 client.writeQuery({
   query: GET_PLAYERANDGAMES_CLIENT,
   variables: {
@@ -49,8 +48,6 @@ client.writeQuery({
       player: {
         id: player.id,
         email: player.email,
-        firstName: player.firstName,
-        lastName: player.lastName,
         playerName: player.playerName,
       },
       games: JSON.parse(localStorage.getItem('games') || '[]'),
@@ -63,14 +60,12 @@ client.writeQuery({
       player: {
         id: '',
         email: '',
-        firstName: '',
-        lastName: '',
         playerName: '',
       },
       games: [],
       missions: [],
-      gameId: localStorage.getItem('gameId' || ''),
-      missionId: localStorage.getItem('missionId' || ''),
+      gameId: localStorage.getItem('gameId') || '',
+      missionId: localStorage.getItem('missionId') || '',
     }
 })
 

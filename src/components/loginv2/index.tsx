@@ -36,8 +36,7 @@ const LoginV2 = ({ path }: any) => {
             player: {
               id: player.id,
               email: player.email,
-              firstName: player.firstName,
-              lastName: player.lastName,
+              playerName: player.playerName,
             },
             games: [...games]
           }
