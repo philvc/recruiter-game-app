@@ -6,7 +6,7 @@ const GameItem = ({ id, title }: any) => {
   const client = useApolloClient();
 
   return (
-    <Link to={`${title}/mission`}>
+    <Link to={`${title}/missions`}>
       <div className='game-link' onClick={() => {
 
         client.writeQuery(

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useLocation, Link } from '@reach/router';
 
 // style
-import './style.css'
+import './styles.css'
 
 const NavBar = (props: any) => {
 

@@ -5,13 +5,22 @@ import { Router, Redirect } from '@reach/router';
 
 // components
 import MenuMissions from './components/menu-missions';
+import Settings from './components/menu-settings';
+import Sidebar from '../../../sidebar';
+
+// style
+import './styles.css';
 
 const Menus = ({ path }: any) => {
   return (
-    <Router>
-      <MenuMissions path='mission/*' />
-      <Redirect from='/' to='mission' noThrow />
-    </Router>
+    <div className='menus-container'>
+      <Sidebar />
+      <Router>
+        <MenuMissions path='missions/*' />
+        <Settings path='settings/*' />
+        <Redirect from='/' to='missions' noThrow />
+      </Router>
+    </div>
   )
 }
 
