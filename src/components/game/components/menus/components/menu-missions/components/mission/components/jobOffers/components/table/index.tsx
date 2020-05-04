@@ -61,7 +61,7 @@ const JobOffersTable = ({ missionId, setStateProgress }: any) => {
                 job={job}
                 moveJob={moveJob}
                 missionId={missionId}
-                setStateProgress={setStateProgress}
+
               />
             )
             )}

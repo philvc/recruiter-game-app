@@ -12,7 +12,7 @@ import { GET_JOBS_SERVER } from '../../../../../../../../../../../../../../graph
 import { UPDATE_MISSION_SERVER } from '../../../../../../../../../../../../../../graphql/mutations/server/updateMissionServer';
 
 
-const JobRow = ({ job, index, id, moveJob, missionId, setStateProgress }: any) => {
+const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
   const client = useApolloClient()
   const [state, dispatch] = React.useReducer(reducer, job)
@@ -21,7 +21,7 @@ const JobRow = ({ job, index, id, moveJob, missionId, setStateProgress }: any) =
     onCompleted() {
       const { jobs }: any = client.readQuery({ query: GET_JOBS_SERVER, variables: { missionId } })
       const newProgress = jobs.filter((job: any) => job.isComplete === true).length
-      setStateProgress(newProgress)
+
       updateMission()
 
 
