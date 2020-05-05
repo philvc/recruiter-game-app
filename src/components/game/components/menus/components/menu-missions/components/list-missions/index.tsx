@@ -17,12 +17,13 @@ import { GET_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/clie
 
 const ListMissions = ({ path }: any) => {
   const client = useApolloClient()
-  const [stateMissions, setMissions] = React.useState([])
+  const [stateMissions, setStateMissions] = React.useState([])
   const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
     variables: { gameId },
     onCompleted(data) {
       const { missions } = data;
+      setStateMissions(missions)
       localStorage.setItem('missions', JSON.stringify(missions))
     }
 
@@ -38,15 +39,16 @@ const ListMissions = ({ path }: any) => {
           missions: newMissions
         }
       })
-      setMissions(newMissions)
+      setStateMissions(newMissions)
       localStorage.setItem('missions', JSON.stringify(newMissions))
 
     }
   })
 
   React.useEffect(() => {
+    // il faut un effect pour quand la job table modify la progression de la mission
     if (data?.missions)
-      setMissions(data.missions)
+      setStateMissions(data.missions)
   }, [data])
 
   function handleClick() {

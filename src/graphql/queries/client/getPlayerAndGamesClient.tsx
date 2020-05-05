@@ -17,5 +17,6 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
     missionId @client
     missions @client
     mission @client
+    game @client
   }
 `

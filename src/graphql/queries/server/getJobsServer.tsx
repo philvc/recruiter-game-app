@@ -10,6 +10,7 @@ export const GET_JOBS_SERVER = gql`
       rank
       applicationProofUrl
       isComplete
+      isAccepted
     } 
   }
 `

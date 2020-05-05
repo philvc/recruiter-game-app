@@ -93,7 +93,7 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
   });
 
   function handleChange(e: any) {
-    // console.log('checkbox event', e.target.checked)
+    console.log('checkbox event', e.target.checked, e.target.name)
     dispatch({ type: e.target.name, payload: e.target.value })
     updateJobServer({
       variables: {
@@ -110,10 +110,10 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
     <div ref={ref} style={{ opacity, margin: "30px" }}>
       <span>{index + 1}</span>
       <span>{state.id}</span>
-      <input name='url' value={state.url} onChange={handleChange} />Validate
-      {/* <label>
-        <input type='checkbox' name="isValidated" onChange={handleChange} />
-      </label> */}
+      <input name='url' value={state.url} onChange={handleChange} />
+      <label>
+        <input type='checkbox' name="isAccepted" onChange={handleChange} />
+      </label>
       <ApplicationProofModal
         applicationProofUrl={state.applicationProofUrl}
         jobId={state.id}
