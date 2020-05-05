@@ -13,45 +13,41 @@ import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graph
 
 // style
 import './style.css'
-import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getGameId';
 
 const ListMissions = ({ path }: any) => {
   const client = useApolloClient()
+  const [stateMissions, setMissions] = React.useState([])
   const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
-  const { missions }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
     variables: { gameId },
-    onCompleted({ missions }) {
-      client.writeQuery({
-        query: GET_PLAYERANDGAMES_CLIENT,
-        data: {
-          missions
-        }
-      })
+    onCompleted(data) {
+      const { missions } = data;
       localStorage.setItem('missions', JSON.stringify(missions))
-
     }
-  })
+
+  }
+  )
   const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
     update(cache, { data: { addList10JobOffersMission } }) {
-      const { missions }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+      const { missions }: any = cache.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId } })
       const newMissions = missions.concat([addList10JobOffersMission.mission])
-      client.writeQuery({
-        query: GET_PLAYERANDGAMES_CLIENT,
+      cache.writeQuery({
+        query: GET_MISSIONS_SERVER,
         data: {
           missions: newMissions
         }
       })
+      setMissions(newMissions)
       localStorage.setItem('missions', JSON.stringify(newMissions))
 
     }
   })
-  const [stateMissions, setMissions] = React.useState(missions)
 
   React.useEffect(() => {
-    setMissions(missions)
-  }, [missions])
+    if (data?.missions)
+      setMissions(data.missions)
+  }, [data])
 
   function handleClick() {
     addList10JobOffersMission({ variables: { type: '10jobs', gameId, } })
@@ -67,7 +63,7 @@ const ListMissions = ({ path }: any) => {
         <div>
           <h3>Menu Missions</h3>
         </div>
-        {missions && stateMissions.map((mission: any) => (
+        {data && stateMissions.map((mission: any) => (
           <div key={mission.id}>
             <Link to={`${mission.id}`} onClick={() => {
               client.writeQuery({

@@ -1,18 +1,20 @@
 import * as React from 'react';
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, gql } from '@apollo/client';
 import NavBar from '../../../../../../../navbar';
 import JobOffers from './components/jobOffers';
-import { GET_MISSIONS_ROOT_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsRootClient';
+import { GET_MISSION_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionId';
 
-const Mission = ({ path, missionId }: any) => {
+const Mission = ({ path }: any) => {
   const client = useApolloClient()
-
-  const { missions }: any = client.readQuery({
-    query: GET_MISSIONS_ROOT_CLIENT,
-  })
-
-  const index = missions.findIndex((mission: any) => mission.id === missionId)
-  const missionType = missions[index].type
+  const { missionId }: any = client.readQuery({ query: GET_MISSION_ID_CLIENT })
+  const mission = client.readFragment({
+    id: `Mission:${missionId}`,
+    fragment: gql`
+      fragment myMission on Mission{
+        type
+      }
+    `
+  }, true)
 
   const renderMission = (type: any) => {
     switch (type) {
@@ -22,11 +24,13 @@ const Mission = ({ path, missionId }: any) => {
         return null
     }
   }
+
+
   return (
     <div>
       <NavBar />
       <div>
-        {renderMission(missionType)}
+        {renderMission(mission?.type)}
       </div>
     </div>
   )
