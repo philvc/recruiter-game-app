@@ -24,6 +24,7 @@ const ListMissions = ({ path }: any) => {
     variables: { gameId },
     onCompleted(data) {
       const { missions } = data;
+      console.log('missions on complete', missions)
       setStateMissions(missions)
       localStorage.setItem('missions', JSON.stringify(missions))
     }
@@ -33,9 +34,11 @@ const ListMissions = ({ path }: any) => {
   const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
     update(cache, { data: { addList10JobOffersMission } }) {
       const { missions }: any = cache.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId } })
+
       const newMissions = missions.concat([addList10JobOffersMission.mission])
       cache.writeQuery({
         query: GET_MISSIONS_SERVER,
+        variables: { gameId },
         data: {
           missions: newMissions
         }
@@ -45,7 +48,6 @@ const ListMissions = ({ path }: any) => {
 
     }
   })
-
   React.useEffect(() => {
     // il faut un effect pour quand la job table modify la progression de la mission
     if (data?.missions)
