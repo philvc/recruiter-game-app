@@ -7,6 +7,9 @@ export const GET_MISSIONS_SERVER = gql`
       type
       progress
       isReviewed
+      isLocked
+      gameId
+      status
       isEvaluated
     }
   }
