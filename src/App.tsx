@@ -37,10 +37,19 @@ const client = new ApolloClient<NormalizedCacheObject>({
 
 
 let player: any;
+let mission: any;
+let game: any;
 
 if (localStorage.hasOwnProperty('player')) {
   player = JSON.parse(localStorage.getItem('player') || '')
 }
+if (localStorage.hasOwnProperty('game')) {
+  game = JSON.parse(localStorage.getItem('game') || '')
+}
+if (localStorage.hasOwnProperty('mission')) {
+  mission = JSON.parse(localStorage.getItem('mission') || '')
+}
+console.log('mission and game', mission, game)
 
 client.writeQuery({
   query: GET_PLAYERANDGAMES_CLIENT,
@@ -59,8 +68,46 @@ client.writeQuery({
       missions: JSON.parse(localStorage.getItem("missions") || '[]'),
       gameId: localStorage.getItem('gameId'),
       missionId: localStorage.getItem('missionId'),
-      mission: JSON.parse(localStorage.getItem('mission') || '{}'),
-      game: JSON.parse(localStorage.getItem('game') || '{}')
+      mission: localStorage.hasOwnProperty('mission') ?
+        {
+          id: mission.id,
+          isReviewed: false,
+          isEvaluated: false,
+          type: mission.type,
+          progress: mission.progress,
+          status: mission.status,
+          isLocked: mission.isLocked,
+          gameId: mission.gameId,
+          __typename: 'Mission',
+        }
+        :
+        {
+          id: '',
+          isReviewed: false,
+          isEvaluated: false,
+          type: '',
+          progress: 0,
+          status: '',
+          isLocked: '',
+          gameId: '',
+          __typename: 'Mission',
+        },
+      game: localStorage.hasOwnProperty('game') ?
+        {
+          id: game.id,
+          title: game.title,
+          recruiterId: game.recruiterId,
+          applicantId: game.applicantId,
+          __typename: 'Game',
+        }
+        :
+        {
+          id: '',
+          title: '',
+          recruiterId: '',
+          applicantId: '',
+          __typename: 'Game',
+        }
     }
     :
     {
@@ -74,8 +121,24 @@ client.writeQuery({
       missions: [],
       gameId: localStorage.getItem('gameId') || '',
       missionId: localStorage.getItem('missionId') || '',
-      mission: {},
-      game: {}
+      mission: {
+        id: '',
+        isReviewed: false,
+        isEvaluated: false,
+        type: '',
+        progress: 0,
+        status: '',
+        isLocked: '',
+        gameId: '',
+        __typename: 'Mission',
+      },
+      game: {
+        id: '',
+        title: '',
+        recruiterId: '',
+        applicantId: '',
+        __typename: 'Game',
+      }
     }
 })
 

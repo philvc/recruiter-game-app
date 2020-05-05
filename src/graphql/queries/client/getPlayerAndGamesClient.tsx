@@ -16,7 +16,21 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
     gameId @client
     missionId @client
     missions @client
-    mission @client
-    game @client
+    mission @client {
+      id
+      type
+      progress
+      isReviewed
+      isLocked
+      gameId
+      status
+      isEvaluated
+    }
+    game @client {
+      id
+      title
+      applicantId
+      recruiterId
+    }
   }
 `

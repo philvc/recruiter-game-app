@@ -19,7 +19,8 @@ const Settings = ({ path }: any) => {
           player: {
             id: player.id,
             email: player.email,
-            playerName: player.playerName
+            playerName: player.playerName,
+            __typename: 'Player'
           }
         }
       })

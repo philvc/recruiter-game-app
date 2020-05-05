@@ -35,7 +35,7 @@ const ListGames = ({ path }: any) => {
         <ul className='game-list-ul'>
           {
             gamesList.map((game: any) => (
-              <GameItem key={game.id} id={game.id} title={game.title} />
+              <GameItem key={game.id} game={game} />
             ))
           }
         </ul>

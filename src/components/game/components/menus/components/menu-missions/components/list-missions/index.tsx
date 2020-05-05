@@ -14,6 +14,7 @@ import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graph
 // style
 import './style.css'
 import { GET_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getGameId';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 const ListMissions = ({ path }: any) => {
   const client = useApolloClient()
@@ -69,10 +70,7 @@ const ListMissions = ({ path }: any) => {
           <div key={mission.id}>
             <Link to={`${mission.id}`} onClick={() => {
               client.writeQuery({
-                query: gql`{
-                  missionId
-                  mission
-                }`,
+                query: GET_PLAYERANDGAMES_CLIENT,
                 data: {
                   mission,
                   missionId: mission.id
