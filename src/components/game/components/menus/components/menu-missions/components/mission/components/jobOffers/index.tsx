@@ -17,7 +17,7 @@ const JobOffers = () => {
   const { missionId }: any = client.readQuery({ query: GET_MISSION_ID_CLIENT })
   const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
   const [sendReviewRequest] = useMutation(SEND_REVIEW_REQUEST, { variables: { gameId, missionId } })
-  const { loading, error, data } = useQuery(GET_MISSION_SERVER, { variables: { id: missionId } })
+  const { loading, error, data } = useQuery(GET_MISSION_SERVER, { variables: { missionId } })
   const [progress, setProgress] = React.useState(null)
 
   React.useEffect(() => {

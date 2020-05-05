@@ -8,19 +8,18 @@ import ListMissions from './components/list-missions';
 import NotFound from '../../../../../notFound';
 
 // graphql
-import { useQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { GET_GAME_ID_CLIENT } from '../../../../../../graphql/queries/client/getGameId';
 import Mission from './components/mission';
 
 const MenuMissions = ({ path }: any) => {
-  const { loading, error, data }: any = useQuery(GET_GAME_ID_CLIENT)
+  const client = useApolloClient()
+  const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
 
-  if (loading) return null
-  if (error) return null
 
   return (
     <Router>
-      <ListMissions path='/' gameId={data.gameId} />
+      <ListMissions path='/' gameId={gameId} />
       <Mission path='/:missionId' />
       <NotFound default />
     </Router>

@@ -11,8 +11,7 @@ import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/que
 
 // graphql
 
-const JobOffersTable = ({ missionId, setStateProgress }: any) => {
-
+const JobOffersTable = ({ missionId }: any) => {
   const [jobs, setJobs] = React.useState([])
   const { loading, error, data } = useQuery(GET_JOBS_SERVER, {
     variables: { missionId },
