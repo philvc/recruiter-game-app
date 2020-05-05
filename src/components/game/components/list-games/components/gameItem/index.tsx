@@ -7,7 +7,6 @@ const GameItem = ({ game }: any) => {
   const client = useApolloClient();
   const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
   const playerRole = player.id === game.recruiterId ? 'Recruiter' : 'Applicant';
-  console.log('game', game)
   return (
     <div>
       <Link to={`${game.title.split(" ").join('')}/missions`}>

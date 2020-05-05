@@ -6,13 +6,16 @@ import ApplicationProofModal from './components/application-proof-modal';
 
 // reducer
 import { reducer } from './reducer';
-import { useMutation } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
 import { UPDATE_MISSION_SERVER } from '../../../../../../../../../../../../../../graphql/mutations/server/updateMissionServer';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 
 const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
+  const client = useApolloClient()
+  const { game, player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
   const [state, dispatch] = React.useReducer(reducer, job)
   const [updateMission] = useMutation(UPDATE_MISSION_SERVER, { variables: { id: missionId } })
   const [updateJobServer] = useMutation(UPDATE_JOB_SERVER, {
@@ -94,14 +97,25 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
 
   function handleChange(e: any) {
     console.log('checkbox event', e.target.checked, e.target.name)
-    dispatch({ type: e.target.name, payload: e.target.value })
-    updateJobServer({
-      variables: {
-        id: state.id,
-        field: e.target.name,
-        data: e.target.value
-      }
-    })
+    if (e.target.name !== 'isAccepted') {
+      dispatch({ type: e.target.name, payload: e.target.value })
+      updateJobServer({
+        variables: {
+          id: state.id,
+          field: e.target.name,
+          data: e.target.value
+        }
+      })
+    } else {
+      dispatch({ type: e.target.name, payload: e.target.checked })
+      updateJobServer({
+        variables: {
+          id: state.id,
+          field: e.target.name,
+          data: e.target.checked
+        }
+      })
+    }
   }
 
   const opacity = isDragging ? 0 : 1;
@@ -111,9 +125,11 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
       <span>{index + 1}</span>
       <span>{state.id}</span>
       <input name='url' value={state.url} onChange={handleChange} />
-      <label>
-        <input type='checkbox' name="isAccepted" onChange={handleChange} />
-      </label>
+      {player.id === game.applicantId &&
+        (<label>
+          <input type='checkbox' name="isAccepted" onChange={handleChange} checked={state.isAccepted} />
+        </label>)
+      }
       <ApplicationProofModal
         applicationProofUrl={state.applicationProofUrl}
         jobId={state.id}

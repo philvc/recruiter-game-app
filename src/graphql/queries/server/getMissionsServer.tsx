@@ -7,10 +7,12 @@ export const GET_MISSIONS_SERVER = gql`
       type
       progress
       isReviewed
+      isRecruiter
       isLocked
       gameId
       status
       isEvaluated
+      score
     }
   }
 `

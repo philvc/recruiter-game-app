@@ -21,10 +21,12 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       type
       progress
       isReviewed
+      isRecruiter
       isLocked
       gameId
       status
       isEvaluated
+      score
     }
     game @client {
       id

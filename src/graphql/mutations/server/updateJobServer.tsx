@@ -19,6 +19,8 @@ export const UPDATE_JOB_SERVER = gql`
       applicationProofUrl
       rank
       isComplete
+      isAccepted
+      missionId
     }
   }
 `

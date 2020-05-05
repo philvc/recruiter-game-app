@@ -1,7 +1,8 @@
 
 export const actions = {
   urlChanged: 'url',
-  applicationProofUrlChanged: 'applicationProofUrl'
+  applicationProofUrlChanged: 'applicationProofUrl',
+  isAcceptedChanged: 'isAccepted',
 };
 
 export const reducer = (state: any, action: any) => {
@@ -13,7 +14,9 @@ export const reducer = (state: any, action: any) => {
       }
       return { ...state, url: action.payload, isComplete: formComplete }
     case actions.applicationProofUrlChanged:
-      return { ...state, applicationProofUrl: action.payload }
+      return { ...state, applicationProofUrl: action.payload };
+    case actions.isAcceptedChanged:
+      return { ...state, isAccepted: action.payload }
     default:
       return state
   }

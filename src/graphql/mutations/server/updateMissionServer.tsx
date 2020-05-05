@@ -6,6 +6,14 @@ export const UPDATE_MISSION_SERVER = gql`
       id
       type
       progress
+      gameId
+      isReviewed
+      isRecruiter
+      isLocked
+      status
+      score
+      isEvaluated
+      score
     }
   }
 `

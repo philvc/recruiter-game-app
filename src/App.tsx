@@ -71,13 +71,15 @@ client.writeQuery({
       mission: localStorage.hasOwnProperty('mission') ?
         {
           id: mission.id,
-          isReviewed: false,
-          isEvaluated: false,
+          isReviewed: mission.isReviewed,
+          isEvaluated: mission.isEvaluated,
+          isRecruiter: mission.isRecruiter,
           type: mission.type,
           progress: mission.progress,
           status: mission.status,
           isLocked: mission.isLocked,
           gameId: mission.gameId,
+          score: mission.score,
           __typename: 'Mission',
         }
         :
@@ -85,11 +87,13 @@ client.writeQuery({
           id: '',
           isReviewed: false,
           isEvaluated: false,
+          isRecruiter: true,
           type: '',
           progress: 0,
           status: '',
           isLocked: '',
           gameId: '',
+          score: null,
           __typename: 'Mission',
         },
       game: localStorage.hasOwnProperty('game') ?
@@ -125,11 +129,13 @@ client.writeQuery({
         id: '',
         isReviewed: false,
         isEvaluated: false,
+        isRecruiter: true,
         type: '',
         progress: 0,
         status: '',
         isLocked: '',
         gameId: '',
+        score: null,
         __typename: 'Mission',
       },
       game: {
