@@ -15,7 +15,7 @@ const MenuChallenges = ({ path }: any) => {
 
   return (
     <Router>
-      <ListChallenges path='/' />
+      <ListChallenges path='/' navigate />
       <Challenge path='/:challengeId' />
       <NotFound default />
     </Router>

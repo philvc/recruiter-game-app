@@ -13,6 +13,7 @@ export const UPDATE_MISSION_COMPLETE = gql`
       status
       isEvaluated
       score
+      selectedJob
     }
       
   }

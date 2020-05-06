@@ -9,12 +9,12 @@ import NotFound from '../../../../../notFound';
 
 // graphql
 import { useApolloClient } from '@apollo/client';
-import { GET_GAME_ID_CLIENT } from '../../../../../../graphql/queries/client/getGameId';
 import Mission from './components/mission';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 const MenuMissions = ({ path }: any) => {
   const client = useApolloClient()
-  const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
+  const { gameId }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
 
 
   return (

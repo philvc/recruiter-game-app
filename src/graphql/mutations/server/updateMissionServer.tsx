@@ -14,6 +14,7 @@ export const UPDATE_MISSION_SERVER = gql`
       score
       isEvaluated
       score
+      selectedJob
     }
   }
 `

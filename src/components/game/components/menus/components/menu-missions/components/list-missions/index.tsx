@@ -13,19 +13,23 @@ import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graph
 
 // style
 import './style.css'
-import { GET_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getGameId';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 const ListMissions = ({ path }: any) => {
   const client = useApolloClient()
   const [stateMissions, setStateMissions] = React.useState([])
-  const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
+  const { game, gameId }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
     variables: { gameId },
     onCompleted(data) {
       const { missions } = data;
-      console.log('missions on complete', missions)
-      setStateMissions(missions)
+      client.writeQuery({
+        query: GET_PLAYERANDGAMES_CLIENT,
+        data: {
+          missions
+        }
+      })
+      setStateMissions(missions.filter((mission: any) => mission.type === '10jobs'))
       localStorage.setItem('missions', JSON.stringify(missions))
     }
 
@@ -43,7 +47,7 @@ const ListMissions = ({ path }: any) => {
           missions: newMissions
         }
       })
-      setStateMissions(newMissions)
+      setStateMissions(newMissions.filter((mission: any) => mission.type === '10jobs'))
       localStorage.setItem('missions', JSON.stringify(newMissions))
 
     }

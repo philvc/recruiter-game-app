@@ -13,6 +13,7 @@ export const SEND_REVIEW_REQUEST = gql`
       status
       isEvaluated
       score
+      selectedJob
     }
   }
 `

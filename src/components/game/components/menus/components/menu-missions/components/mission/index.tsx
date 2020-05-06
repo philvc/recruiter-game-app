@@ -10,6 +10,7 @@ const Mission = ({ path }: any) => {
   const [getMission, { data }] = useLazyQuery(GET_MISSION_SERVER)
 
   const client = useApolloClient()
+
   const { missionId }: any = client.readQuery({ query: GET_MISSION_ID_CLIENT })
   const mission = client.readFragment({
     id: `Mission:${missionId}`,

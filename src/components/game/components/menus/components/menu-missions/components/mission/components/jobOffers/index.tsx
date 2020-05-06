@@ -13,11 +13,34 @@ import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../../../graphql
 import { UPDATE_MISSION_COMPLETE } from '../../../../../../../../../../graphql/mutations/server/updateMissionComplete';
 import { navigate } from '@reach/router';
 import { UPDATE_GAME } from '../../../../../../../../../../graphql/mutations/server/updateGame';
+import { CREATE_NEW_MISSION } from '../../../../../../../../../../graphql/mutations/server/createNewMission';
 
 const JobOffers = () => {
   const client = useApolloClient()
   const { missionId, gameId, game }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
-  const [updateGame] = useMutation(UPDATE_GAME, { variables: { id: gameId } })
+  const [createNewMission] = useMutation(CREATE_NEW_MISSION, {
+    update(cache, { data: { createNewMission } }) {
+      const { missions }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+      client.writeQuery({
+        query: GET_PLAYERANDGAMES_CLIENT,
+        data: {
+          missions: missions.concat([createNewMission])
+        }
+      })
+      localStorage.setItem('missions', JSON.stringify(missions.concat([createNewMission])))
+    }
+  })
+  const [updateGame] = useMutation(UPDATE_GAME, {
+    variables: { id: gameId },
+    onCompleted({ updateGame }) {
+      const { missionsAccomplished } = updateGame;
+
+      if (missionsAccomplished === 1 && game.missionsAccomplished === 0) {
+        createNewMission({ variables: { gameId, type: 'jobapplication' } })
+      }
+      localStorage.setItem('game', JSON.stringify(updateGame))
+    }
+  })
   const [updateMissionComplete] = useMutation(UPDATE_MISSION_COMPLETE, {
     variables: { missionId, gameId },
     onCompleted() {

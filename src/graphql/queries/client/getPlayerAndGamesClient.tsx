@@ -28,6 +28,7 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       status
       isEvaluated
       score
+      selectedJob
     }
     game @client {
       id

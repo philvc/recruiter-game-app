@@ -48,7 +48,6 @@ if (localStorage.hasOwnProperty('game')) {
 if (localStorage.hasOwnProperty('mission')) {
   mission = JSON.parse(localStorage.getItem('mission') || '')
 }
-console.log('mission and game', mission, game)
 
 client.writeQuery({
   query: GET_PLAYERANDGAMES_CLIENT,
@@ -79,6 +78,7 @@ client.writeQuery({
           isLocked: mission.isLocked,
           gameId: mission.gameId,
           score: mission.score,
+          selectedJob: mission.selectedJob,
           __typename: 'Mission',
         }
         :
@@ -93,6 +93,7 @@ client.writeQuery({
           isLocked: '',
           gameId: '',
           score: null,
+          selectedJob: null,
           __typename: 'Mission',
         },
       game: localStorage.hasOwnProperty('game') ?
@@ -137,6 +138,7 @@ client.writeQuery({
         isLocked: '',
         gameId: '',
         score: null,
+        selectedJob: null,
         __typename: 'Mission',
       },
       game: {

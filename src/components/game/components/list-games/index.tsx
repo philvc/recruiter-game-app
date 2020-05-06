@@ -12,7 +12,7 @@ import GameItem from './components/gameItem';
 // style
 import './style.css';
 import NavBar from '../../../navbar';
-import { GET_GAMES_ClIENT } from '../../../../graphql/queries/client/getGamesClient';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 
 
@@ -20,11 +20,10 @@ const ListGames = ({ path }: any) => {
 
   const client = useApolloClient()
   const { games }: any = client.readQuery({
-    query: GET_GAMES_ClIENT
+    query: GET_PLAYERANDGAMES_CLIENT
   })
 
   const [gamesList, setGamesList] = React.useState(games)
-
   return (
     <div>
       <NavBar />

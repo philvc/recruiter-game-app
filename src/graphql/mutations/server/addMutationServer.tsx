@@ -14,6 +14,7 @@ export const ADD_LIST10JOBOFFERSMISSION_SERVER = gql`
       status
       isEvaluated
       score
+      selectedJob
       }
     }
   }

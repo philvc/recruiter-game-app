@@ -13,6 +13,7 @@ export const GET_MISSIONS_SERVER = gql`
       status
       isEvaluated
       score
+      selectedJob
     }
   }
 `
