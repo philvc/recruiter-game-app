@@ -54,8 +54,9 @@ const ListMissions = ({ path }: any) => {
   })
   React.useEffect(() => {
     // il faut un effect pour quand la job table modify la progression de la mission
-    if (data?.missions)
-      setStateMissions(data.missions)
+    if (data?.missions) {
+      setStateMissions(data.missions.filter((mission: any) => mission.type === '10jobs'))
+    }
   }, [data])
 
   function handleClick() {
