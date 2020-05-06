@@ -65,6 +65,7 @@ client.writeQuery({
       games: JSON.parse(localStorage.getItem('games') || '[]'),
       missions: JSON.parse(localStorage.getItem("missions") || '[]'),
       gameId: localStorage.getItem('gameId'),
+      jobs: JSON.parse(localStorage.getItem("jobs") || '[]'),
       missionId: localStorage.getItem('missionId'),
       mission: localStorage.hasOwnProperty('mission') ?
         {
@@ -125,6 +126,7 @@ client.writeQuery({
       },
       games: [],
       missions: [],
+      jobs: [],
       gameId: localStorage.getItem('gameId') || '',
       missionId: localStorage.getItem('missionId') || '',
       mission: {

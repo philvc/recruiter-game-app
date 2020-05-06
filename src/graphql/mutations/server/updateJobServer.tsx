@@ -21,6 +21,7 @@ export const UPDATE_JOB_SERVER = gql`
       isComplete
       isAccepted
       missionId
+      gameId
     }
   }
 `
