@@ -12,6 +12,7 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       title
       applicantId
       recruiterId
+      missionsAccomplished
     }
     gameId @client
     missionId @client
@@ -33,6 +34,7 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       title
       applicantId
       recruiterId
+      missionsAccomplished
     }
   }
 `

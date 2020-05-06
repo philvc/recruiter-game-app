@@ -13,6 +13,7 @@ export const GET_ACCOUNT = gql`
         title
         recruiterId
         applicantId
+        missionsAccomplished
       }
     }
   }

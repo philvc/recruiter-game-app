@@ -12,13 +12,16 @@ import { SEND_REVIEW_REQUEST } from '../../../../../../../../../../graphql/mutat
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { UPDATE_MISSION_COMPLETE } from '../../../../../../../../../../graphql/mutations/server/updateMissionComplete';
 import { navigate } from '@reach/router';
+import { UPDATE_GAME } from '../../../../../../../../../../graphql/mutations/server/updateGame';
 
 const JobOffers = () => {
   const client = useApolloClient()
   const { missionId, gameId, game }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+  const [updateGame] = useMutation(UPDATE_GAME, { variables: { id: gameId } })
   const [updateMissionComplete] = useMutation(UPDATE_MISSION_COMPLETE, {
     variables: { missionId, gameId },
     onCompleted() {
+      updateGame()
       navigate(`/games/${game.title.split(" ").join('')}/missions`)
     }
   })

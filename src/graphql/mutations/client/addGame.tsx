@@ -7,6 +7,8 @@ export const ADDGAME_CLIENT = gql`
       id
       title
       recruiterId
+      applicantId
+      missionsAccomplished
     }
   }
 `

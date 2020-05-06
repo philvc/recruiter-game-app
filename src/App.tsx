@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // Packages
 import { Router, Redirect } from '@reach/router';
-import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, useQuery, useLazyQuery } from '@apollo/client';
+import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, } from '@apollo/client';
 
 
 // Components
@@ -17,7 +17,6 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 // Style
 import './App.css';
 import NotFound from './components/notFound';
-import { GET_MISSION_SERVER } from './graphql/queries/server/getMission';
 
 // Graphql default state
 const cache = new InMemoryCache({
@@ -102,6 +101,7 @@ client.writeQuery({
           title: game.title,
           recruiterId: game.recruiterId,
           applicantId: game.applicantId,
+          missionsAccomplished: game.missionsAccomplished,
           __typename: 'Game',
         }
         :
@@ -110,6 +110,7 @@ client.writeQuery({
           title: '',
           recruiterId: '',
           applicantId: '',
+          missionsAccomplished: null,
           __typename: 'Game',
         }
     }
@@ -143,6 +144,7 @@ client.writeQuery({
         title: '',
         recruiterId: '',
         applicantId: '',
+        missionsAccomplished: null,
         __typename: 'Game',
       }
     }

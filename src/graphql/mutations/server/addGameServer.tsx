@@ -6,6 +6,7 @@ export const ADDGAME_SERVER = gql`
       title
       recruiterId
       applicantId
+      missionsAccomplished
     }
   }
 `
