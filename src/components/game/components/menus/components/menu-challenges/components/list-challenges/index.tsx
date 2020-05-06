@@ -23,7 +23,8 @@ const ListChallenges = ({ path, navigate }: any) => {
               client.writeQuery({
                 query: GET_PLAYERANDGAMES_CLIENT,
                 data: {
-                  mission: challenge
+                  missionId: challenge.id,
+                  mission: challenge,
                 }
               })
               if (challenge.status === 'new') {
