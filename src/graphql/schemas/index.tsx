@@ -5,6 +5,7 @@ export const typeDefs = gql`
     id: String!
     email: String
     games: [Game]
+    missions: [Mission]
     isLoggedIn: Boolean!
     gameId: String
     missionId: String

@@ -5,6 +5,16 @@ export const GET_MISSIONS_CLIENT = gql`
     missions(input: {gameId: $gameId})@client{
       id
       type
+      progress
+      isReviewed
+      isRecruiter
+      isLocked
+      gameId
+      status
+      isEvaluated
+      score
+      selectedJob
+      time
     }
   }
 `

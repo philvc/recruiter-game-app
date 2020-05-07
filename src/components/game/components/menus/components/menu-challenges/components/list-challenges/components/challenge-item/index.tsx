@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { calculateCountDown } from '../../../challenge/helper';
+import { calculateCountDown } from '../../../challenge/components/countdown/helper';
 
 
 const ChallengeItem = ({ challenge, handleClick }: any) => {
@@ -12,7 +12,7 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
   return (
     <div key={challenge.id}>
       <p>Apply for jobs</p>
-      {challenge.isLocked && <p>Progress: {countdown}</p>}
+      {challenge.status === 'pending' && <p>Progress: {countdown}</p>}
       <button onClick={() => handleClick(challenge)}>{challenge.status === 'new' ? 'Start' : 'Resume'}</button>
     </div>
   )

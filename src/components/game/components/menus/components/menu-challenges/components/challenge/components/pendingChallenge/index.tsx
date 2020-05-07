@@ -6,7 +6,7 @@ import ApplicationProofModal from '../../../../../menu-missions/components/missi
 const PendingChallenge = ({ status, selectedJob, missionTime, missionId }: any) => {
   return (
     <div>
-      <Select status={status} selectedJob={selectedJob} />
+      <p><a href={selectedJob?.url}>{selectedJob?.url}</a></p>
       <Countdown missionTime={missionTime} />
       <ApplicationProofModal
         applicationProofUrl={selectedJob?.applicationProofUrl}

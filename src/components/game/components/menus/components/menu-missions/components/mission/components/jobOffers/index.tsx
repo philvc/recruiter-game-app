@@ -14,15 +14,17 @@ import { UPDATE_MISSION_COMPLETE } from '../../../../../../../../../../graphql/m
 import { navigate } from '@reach/router';
 import { UPDATE_GAME } from '../../../../../../../../../../graphql/mutations/server/updateGame';
 import { CREATE_NEW_MISSION } from '../../../../../../../../../../graphql/mutations/server/createNewMission';
+import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionsClient';
 
 const JobOffers = () => {
   const client = useApolloClient()
   const { missionId, gameId, game }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
   const [createNewMission] = useMutation(CREATE_NEW_MISSION, {
     update(cache, { data: { createNewMission } }) {
-      const { missions }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId } })
       client.writeQuery({
-        query: GET_PLAYERANDGAMES_CLIENT,
+        query: GET_MISSIONS_CLIENT,
+        variables: { gameId },
         data: {
           missions: missions.concat([createNewMission])
         }

@@ -3,10 +3,13 @@ import NavBar from '../../../../../../../navbar';
 import { useApolloClient } from '@apollo/client';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import ChallengeItem from './components/challenge-item';
+import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
+import { GET_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getGameIdClient';
 
 const ListChallenges = ({ path, navigate }: any) => {
   const client = useApolloClient()
-  const { missions }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+  const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
+  const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId } })
   const challengesList = missions.filter((mission: any) => mission.type === 'jobapplication')
 
   function handleClick(challenge: any) {

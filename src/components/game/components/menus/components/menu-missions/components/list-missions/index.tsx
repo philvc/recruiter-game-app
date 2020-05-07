@@ -14,6 +14,7 @@ import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graph
 // style
 import './style.css'
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
+import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 
 const ListMissions = ({ path }: any) => {
   const client = useApolloClient()
@@ -24,9 +25,10 @@ const ListMissions = ({ path }: any) => {
     onCompleted(data) {
       const { missions } = data;
       client.writeQuery({
-        query: GET_PLAYERANDGAMES_CLIENT,
+        query: GET_MISSIONS_CLIENT,
+        variables: { gameId },
         data: {
-          missions
+          missions: [...missions]
         }
       })
       setStateMissions(missions.filter((mission: any) => mission.type === '10jobs'))
