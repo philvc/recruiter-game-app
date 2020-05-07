@@ -80,6 +80,7 @@ client.writeQuery({
           gameId: mission.gameId,
           score: mission.score,
           selectedJob: mission.selectedJob,
+          time: mission.time,
           __typename: 'Mission',
         }
         :
@@ -94,7 +95,8 @@ client.writeQuery({
           isLocked: '',
           gameId: '',
           score: null,
-          selectedJob: null,
+          selectedJob: '',
+          time: '',
           __typename: 'Mission',
         },
       game: localStorage.hasOwnProperty('game') ?
@@ -140,7 +142,8 @@ client.writeQuery({
         isLocked: '',
         gameId: '',
         score: null,
-        selectedJob: null,
+        selectedJob: '',
+        time: '',
         __typename: 'Mission',
       },
       game: {

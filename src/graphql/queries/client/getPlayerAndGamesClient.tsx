@@ -30,6 +30,7 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       isEvaluated
       score
       selectedJob
+      time
     }
     game @client {
       id

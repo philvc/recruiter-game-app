@@ -9,6 +9,7 @@ const ListChallenges = ({ path, navigate }: any) => {
   const { missions }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
   const [updateMissionStatus] = useMutation(UPDATE_MISSION_STATUS)
   const challengesList = missions.filter((mission: any) => mission.type === 'jobapplication')
+  const [countdown, setCountdown] = React.useState('')
 
   return (
     <div>
@@ -19,6 +20,7 @@ const ListChallenges = ({ path, navigate }: any) => {
 
           <div key={challenge.id}>
             <p>Apply for jobs</p>
+            {challenge.isLocked && <p>Progress: {challenge.progress}</p>}
             <button onClick={() => {
               client.writeQuery({
                 query: GET_PLAYERANDGAMES_CLIENT,
@@ -27,6 +29,8 @@ const ListChallenges = ({ path, navigate }: any) => {
                   mission: challenge,
                 }
               })
+              localStorage.setItem('mission', JSON.stringify(challenge))
+              localStorage.setItem('missionId', challenge.id)
               if (challenge.status === 'new') {
                 updateMissionStatus({ variables: { missionId: challenge.id, status: 'pending' } })
               }

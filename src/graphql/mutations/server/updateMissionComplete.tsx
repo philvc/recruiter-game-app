@@ -14,6 +14,7 @@ export const UPDATE_MISSION_COMPLETE = gql`
       isEvaluated
       score
       selectedJob
+      time
     }
       
   }

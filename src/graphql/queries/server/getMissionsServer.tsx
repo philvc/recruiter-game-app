@@ -14,6 +14,7 @@ export const GET_MISSIONS_SERVER = gql`
       isEvaluated
       score
       selectedJob
+      time
     }
   }
 `
