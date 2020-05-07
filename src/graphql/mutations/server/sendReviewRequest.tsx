@@ -14,6 +14,7 @@ export const SEND_REVIEW_REQUEST = gql`
       isEvaluated
       score
       selectedJob
+      time
     }
   }
 `

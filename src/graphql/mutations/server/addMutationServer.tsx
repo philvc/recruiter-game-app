@@ -15,6 +15,7 @@ export const ADD_LIST10JOBOFFERSMISSION_SERVER = gql`
       isEvaluated
       score
       selectedJob
+      time
       }
     }
   }

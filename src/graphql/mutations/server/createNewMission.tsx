@@ -14,6 +14,7 @@ export const CREATE_NEW_MISSION = gql`
       isEvaluated
       score
       selectedJob
+      time
     }
   }
 `
