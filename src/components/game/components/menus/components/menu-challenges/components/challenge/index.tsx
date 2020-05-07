@@ -3,6 +3,8 @@ import { useQuery, useApolloClient, gql, useMutation } from '@apollo/client'
 import { GET_ACCEPTED_JOBS_SERVER } from '../../../../../../../../graphql/queries/server/getAcceptedJobs'
 import { START_JOB_APPLICATION } from '../../../../../../../../graphql/mutations/server/startJobApplication'
 import { calculateCountDown } from './helper';
+import ApplicationProofModal from '../../../menu-missions/components/mission/components/jobOffers/components/table/components/jobRow/components/application-proof-modal';
+import { GET_JOB_SERVER } from '../../../../../../../../graphql/queries/server/getJob';
 
 const Challenge = ({ path }: any) => {
   const client = useApolloClient()
@@ -19,7 +21,7 @@ const Challenge = ({ path }: any) => {
      }
     `,
   })
-  const { loading, error, data } = useQuery(GET_ACCEPTED_JOBS_SERVER, { variables: { gameId } })
+  const { loading, error, data }: any = useQuery(GET_ACCEPTED_JOBS_SERVER, { variables: { gameId } })
   const [startJobApplication] = useMutation(START_JOB_APPLICATION, {
     onCompleted({ startJobApplication }) {
       client.writeQuery({
@@ -35,7 +37,7 @@ const Challenge = ({ path }: any) => {
     }
   })
   const [jobList, setJobList] = React.useState([])
-  const [selectedJob, setSelectedJob] = React.useState({ id: '', url: '', name: '', rank: null })
+  const [selectedJob, setSelectedJob] = React.useState({ id: '', url: '', name: '', rank: null, applicationProofUrl: '' })
   const [isLoaded, setIsLoaded] = React.useState(false)
   const [selectedDate, setSelectedDate] = React.useState(0)
   const [isDateSelected, setIsDateSelected] = React.useState(false)
@@ -46,7 +48,11 @@ const Challenge = ({ path }: any) => {
     if (data?.acceptedJobs) {
       setJobList(data?.acceptedJobs)
     }
-  }, [data])
+    if (mission?.selectedJob) {
+      const job: any = jobList.filter((job: any) => job.id === mission.selectedJob)[0]
+      setSelectedJob(job)
+    }
+  }, [data, mission, jobList])
 
   if (loading) return null;
   if (error) return null;
@@ -91,8 +97,8 @@ const Challenge = ({ path }: any) => {
       <div>
         <p>Step 1: select 1 job </p>
         {mission.isLocked && mission.selectedJob ? (
-          <select name='select'>
-            <option selected>{mission.selectedJob}</option>
+          <select name='select' value={mission.selectedJob}>
+            <option >{selectedJob?.url}</option>
           </select>
         )
           :
@@ -104,15 +110,22 @@ const Challenge = ({ path }: any) => {
           )
         }
         {
-          pendingJob && <p><a href={pendingJob.url}> {pendingJob.url}</a></p>
+          mission.isLocked && pendingJob && <p><a href={pendingJob.url}> {pendingJob.url}</a></p>
         }
-        <p>{countdown}</p>
-        <p>
-          <img style={selectedJob.url && isLoaded ? {} : { display: 'none' }} src='https://media.giphy.com/media/1jkV5ifEE5EENHESRa/giphy.gif' alt='giphy video' onLoad={() => setIsLoaded(true)} />
-        </p>
-        {selectedJob.url && (
+        {mission.isLocked && <p>{countdown}</p>}
+        {mission.isLocked && (
+          <ApplicationProofModal
+            applicationProofUrl={selectedJob?.applicationProofUrl}
+            jobId={selectedJob?.id}
+            missionId={missionId}
+          />
+        )}
+        {!mission.isLocked && <p>
+          <img style={selectedJob?.url && isLoaded ? {} : { display: 'none' }} src='https://media.giphy.com/media/1jkV5ifEE5EENHESRa/giphy.gif' alt='giphy video' onLoad={() => setIsLoaded(true)} />
+        </p>}
+        {!mission.isLocked && selectedJob?.url && (
           <div>
-            <p>{selectedJob.url}</p>
+            <p>{selectedJob?.url}</p>
             <p>Step 2: Choose a deadline, deadline are fun !</p>
             <div>
               <label>
@@ -127,7 +140,7 @@ const Challenge = ({ path }: any) => {
             </div>
           </div>
         )}
-        {isDateSelected && (
+        {!mission.isLocked && isDateSelected && (
           <div>
             <p>Last step: Send your message</p>
             <input type='texteArea' name='message' value={message} onChange={handleChange} />

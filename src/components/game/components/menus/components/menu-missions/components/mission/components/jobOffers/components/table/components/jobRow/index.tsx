@@ -129,12 +129,12 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
           <input type='checkbox' name="isAccepted" onChange={handleChange} checked={state.isAccepted} />
         </label>)
       }
-      <ApplicationProofModal
+      {/* <ApplicationProofModal
         applicationProofUrl={state.applicationProofUrl}
         jobId={state.id}
         missionId={state.missionId}
         dispatch={dispatch}
-      />
+      /> */}
     </div>
   )
 }

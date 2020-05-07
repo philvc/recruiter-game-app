@@ -45,7 +45,7 @@ const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId, dispatch
     };
 
     await axios.put(data.createSignedPutUrl.signedPutUrl, file, { headers });
-    dispatch({ type: 'applicationProofUrl', payload: data.createSignedPutUrl.signedGetUrl })
+    // dispatch({ type: 'applicationProofUrl', payload: data.createSignedPutUrl.signedGetUrl })
     updateJob({
       variables: {
         id: jobId,
