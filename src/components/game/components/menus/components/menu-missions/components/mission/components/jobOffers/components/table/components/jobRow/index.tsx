@@ -2,7 +2,6 @@ import * as React from 'react';
 
 // modules
 import { useDrag, useDrop } from 'react-dnd';
-import ApplicationProofModal from './components/application-proof-modal';
 
 // reducer
 import { reducer } from './reducer';
@@ -129,12 +128,6 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
           <input type='checkbox' name="isAccepted" onChange={handleChange} checked={state.isAccepted} />
         </label>)
       }
-      {/* <ApplicationProofModal
-        applicationProofUrl={state.applicationProofUrl}
-        jobId={state.id}
-        missionId={state.missionId}
-        dispatch={dispatch}
-      /> */}
     </div>
   )
 }
