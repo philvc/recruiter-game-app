@@ -13,7 +13,17 @@ export const GET_MISSIONS_CLIENT = gql`
       status
       isEvaluated
       score
-      selectedJob
+      selectedJob {
+        id
+        url
+        missionId
+        isAccepted
+        rank
+        name
+        applicationProofUrl
+        isComplete
+        gameId
+      }
       time
     }
   }

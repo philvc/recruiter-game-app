@@ -1,16 +1,17 @@
 import * as React from 'react';
 import Countdown from '../countdown';
-import ApplicationProofModal from '../../../../../../../../../application-proof-modal';
+import Modal from '../../../../../../../../../modal';
 
-const PendingChallenge = ({ status, selectedJob, missionTime, missionId }: any) => {
+const PendingChallenge = ({ selectedJob, missionTime, missionId }: any) => {
   return (
     <div>
       <p><a href={selectedJob?.url}>{selectedJob?.url}</a></p>
       <Countdown missionTime={missionTime} />
-      <ApplicationProofModal
+      <Modal
         applicationProofUrl={selectedJob?.applicationProofUrl}
         jobId={selectedJob?.id}
         missionId={missionId}
+        openButton={selectedJob?.applicationProofUrl ? 'View' : 'Upload'}
       />
     </div>
   )

@@ -16,8 +16,6 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
     }
     gameId @client
     missionId @client
-    missions @client
-    jobs @client
     mission @client {
       id
       type
@@ -29,7 +27,17 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       status
       isEvaluated
       score
-      selectedJob
+      selectedJob {
+        id
+        url
+        missionId
+        isAccepted
+        rank
+        name
+        applicationProofUrl
+        isComplete
+        gameId
+      }
       time
     }
     game @client {

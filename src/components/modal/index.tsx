@@ -3,8 +3,9 @@ import * as React from 'react'
 // packages
 import AriaModal from 'react-aria-modal';
 import UploadForm from './uploadForm';
+import Screenshot from '../screenshot';
 
-const ApplicationProofModal = ({ applicationProofUrl, jobId, missionId, dispatch }: any) => {
+const Modal = ({ applicationProofUrl, jobId, missionId, openButton }: any) => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
 
@@ -13,7 +14,7 @@ const ApplicationProofModal = ({ applicationProofUrl, jobId, missionId, dispatch
   }
   return (
     <>
-      <button onClick={openModal}>{applicationProofUrl ? 'View' : 'Upload'}</button>
+      <button onClick={openModal}>{openButton}</button>
       {isModalOpen && (
         <AriaModal
           titleText='Application Proof'
@@ -21,12 +22,14 @@ const ApplicationProofModal = ({ applicationProofUrl, jobId, missionId, dispatch
           initialFocus='#go-back-button'
         >
           <div>
+            <Screenshot
+              openModal={openModal}
+            />
             <UploadForm
               openModal={openModal}
               applicationProofUrl={applicationProofUrl}
               jobId={jobId}
               missionId={missionId}
-              dispatch={dispatch}
             />
           </div>
         </AriaModal>
@@ -35,4 +38,4 @@ const ApplicationProofModal = ({ applicationProofUrl, jobId, missionId, dispatch
   )
 }
 
-export default ApplicationProofModal;
+export default Modal;

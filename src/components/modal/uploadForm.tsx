@@ -14,7 +14,7 @@ import { UPDATE_JOB_SERVER } from '../../graphql/mutations/server/updateJobServe
 // graphql
 
 
-const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId, dispatch }: any) => {
+const UploadForm = ({ openModal, applicationProofUrl, jobId }: any) => {
 
   const [imageSource, setImageSource] = React.useState(applicationProofUrl)
   const [file, setFile] = React.useState({ type: '', name: '' })
@@ -45,7 +45,6 @@ const UploadForm = ({ openModal, applicationProofUrl, jobId, missionId, dispatch
     };
 
     await axios.put(data.createSignedPutUrl.signedPutUrl, file, { headers });
-    // dispatch({ type: 'applicationProofUrl', payload: data.createSignedPutUrl.signedGetUrl })
     updateJob({
       variables: {
         id: jobId,

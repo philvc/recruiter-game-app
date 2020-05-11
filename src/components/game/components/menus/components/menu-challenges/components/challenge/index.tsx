@@ -14,7 +14,17 @@ const Challenge = ({ path }: any) => {
        gameId
        missionId
        mission{
-         selectedJob
+         selectedJob {
+          id
+          url
+          missionId
+          isAccepted
+          rank
+          name
+          applicationProofUrl
+          isComplete
+          gameId
+         }
          isLocked
          time
          status
@@ -38,7 +48,7 @@ const Challenge = ({ path }: any) => {
     }
   })
   const [jobList, setJobList] = React.useState([])
-  const [selectedJob, setSelectedJob] = React.useState({ id: '', url: '', name: '', rank: null, applicationProofUrl: '' })
+  const [selectedJob, setSelectedJob] = React.useState(mission.selectedJob)
   const [selectedDate, setSelectedDate] = React.useState(0)
   const [isDateSelected, setIsDateSelected] = React.useState(false)
   const [message, setMessage] = React.useState('')
@@ -49,8 +59,7 @@ const Challenge = ({ path }: any) => {
       setJobList(data?.acceptedJobs)
     }
     if (mission?.selectedJob) {
-      const job: any = jobList.filter((job: any) => job.id === mission.selectedJob)[0]
-      setSelectedJob(job)
+      setSelectedJob(mission?.selectedJob)
     }
   }, [data, mission, jobList])
 

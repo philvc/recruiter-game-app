@@ -14,7 +14,17 @@ export const UPDATE_MISSION_SERVER = gql`
       score
       isEvaluated
       score
-      selectedJob
+      selectedJob {
+        id
+        url
+        missionId
+        isAccepted
+        rank
+        name
+        applicationProofUrl
+        isComplete
+        gameId
+      }
       time
     }
   }

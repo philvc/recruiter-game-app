@@ -21,7 +21,17 @@ export const START_JOB_APPLICATION = gql`
       score
       isEvaluated
       score
-      selectedJob
+      selectedJob {
+        id
+        url
+        missionId
+        isAccepted
+        rank
+        name
+        applicationProofUrl
+        isComplete
+        gameId
+      }
       time
     }
   }

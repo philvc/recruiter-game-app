@@ -17,6 +17,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 // Style
 import './App.css';
 import NotFound from './components/notFound';
+import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
 
 // Graphql default state
 const cache = new InMemoryCache({
@@ -63,9 +64,7 @@ client.writeQuery({
         __typename: 'Player'
       },
       games: JSON.parse(localStorage.getItem('games') || '[]'),
-      missions: JSON.parse(localStorage.getItem("missions") || '[]'),
       gameId: localStorage.getItem('gameId'),
-      jobs: JSON.parse(localStorage.getItem("jobs") || '[]'),
       missionId: localStorage.getItem('missionId'),
       mission: localStorage.hasOwnProperty('mission') ?
         {
@@ -84,21 +83,7 @@ client.writeQuery({
           __typename: 'Mission',
         }
         :
-        {
-          id: '',
-          isReviewed: false,
-          isEvaluated: false,
-          isRecruiter: true,
-          type: '',
-          progress: 0,
-          status: '',
-          isLocked: '',
-          gameId: '',
-          score: null,
-          selectedJob: '',
-          time: '',
-          __typename: 'Mission',
-        },
+        null,
       game: localStorage.hasOwnProperty('game') ?
         {
           id: game.id,
@@ -109,53 +94,33 @@ client.writeQuery({
           __typename: 'Game',
         }
         :
-        {
-          id: '',
-          title: '',
-          recruiterId: '',
-          applicantId: '',
-          missionsAccomplished: null,
-          __typename: 'Game',
-        }
+        null
     }
     :
     {
-      player: {
-        id: '',
-        email: '',
-        playerName: '',
-        __typename: 'Player'
-      },
+      player: null,
       games: [],
-      missions: [],
-      jobs: [],
       gameId: localStorage.getItem('gameId') || '',
       missionId: localStorage.getItem('missionId') || '',
-      mission: {
-        id: '',
-        isReviewed: false,
-        isEvaluated: false,
-        isRecruiter: true,
-        type: '',
-        progress: 0,
-        status: '',
-        isLocked: '',
-        gameId: '',
-        score: null,
-        selectedJob: '',
-        time: '',
-        __typename: 'Mission',
-      },
-      game: {
-        id: '',
-        title: '',
-        recruiterId: '',
-        applicantId: '',
-        missionsAccomplished: null,
-        __typename: 'Game',
-      }
+      mission: null,
+      game: null,
     }
 })
+
+if (localStorage.hasOwnProperty('missions') && localStorage.hasOwnProperty('gameId')) {
+  const gameId = localStorage.getItem('gameId')
+  const missions = JSON.parse(localStorage.getItem('missions') || '[]')
+  client.writeQuery({
+    query: GET_MISSIONS_SERVER,
+    variables: {
+      gameId,
+    },
+    data: {
+      missions: [...missions]
+    }
+  })
+}
+
 
 function App() {
 
