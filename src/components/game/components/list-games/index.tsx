@@ -6,7 +6,6 @@ import { useApolloClient } from '@apollo/client';
 // components
 import AddGameModal from './components/addGameModal';
 import GameItem from './components/gameItem';
-import chatIcon from './assets/chat_icon.svg'
 
 // query
 
@@ -14,35 +13,9 @@ import chatIcon from './assets/chat_icon.svg'
 import './style.css';
 import NavBar from '../../../navbar';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/getPlayerAndGamesClient';
+import Contact from '../../../contact';
 
-import Chat from '@nightborn/signum';
 
-import '@nightborn/signum/dist/index.css';
-
-const defaultProps = {
-  option: {
-    title: 'Hello !',
-    subTitle: 'Share your thoughts ;-)',
-    message: 'How can I help you?',
-    name: 'Hello there',
-    options: []
-  },
-  config: {
-    openByDefault: false,
-    avatarIcon: chatIcon,
-    mainColor: 'linear-gradient(90deg, #406321 0%, #283E15 100%)',
-    secondaryColor: 'linear-gradient(90deg, #406321 0%, #283E15 100%)',
-    sendButtonColor: '#0074CE',
-    finalButtonColor: "linear-gradient(90deg, #406321 0%, #283E15 100%)",
-    emailPlaceholder: 'Please fill in your e-mail',
-    messagePlaceholder: 'Please provide us some information',
-    finalTitle: 'Thank you.',
-    finalSubTitle: "We'll be in touch!",
-    finalButtonText: "Continue",
-    handleFinalButtonClicked: () => { },
-    handleSendClicked: (information: any) => console.log(information),
-  }
-}
 
 const ListGames = ({ path }: any) => {
 
@@ -69,8 +42,8 @@ const ListGames = ({ path }: any) => {
         <div className='start-game-button'>
           <AddGameModal />
         </div>
-        <Chat {...defaultProps} />
       </div>
+      <Contact />
     </div>
   )
 }
