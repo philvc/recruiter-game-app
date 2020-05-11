@@ -2,10 +2,8 @@ import * as React from 'react'
 
 // packages
 import AriaModal from 'react-aria-modal';
-import UploadForm from './uploadForm';
-import Screenshot from '../screenshot';
 
-const Modal = ({ applicationProofUrl, jobId, missionId, openButton }: any) => {
+const Modal = ({ title, button, WrappedComponent }: any) => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
 
@@ -14,24 +12,14 @@ const Modal = ({ applicationProofUrl, jobId, missionId, openButton }: any) => {
   }
   return (
     <>
-      <button onClick={openModal}>{openButton}</button>
+      <button onClick={openModal}>{button}</button>
       {isModalOpen && (
         <AriaModal
-          titleText='Application Proof'
+          titleText={title}
           onExit={openModal}
           initialFocus='#go-back-button'
         >
-          <div>
-            <Screenshot
-              openModal={openModal}
-            />
-            <UploadForm
-              openModal={openModal}
-              applicationProofUrl={applicationProofUrl}
-              jobId={jobId}
-              missionId={missionId}
-            />
-          </div>
+          <WrappedComponent openModal={openModal} />
         </AriaModal>
       )}
     </>
