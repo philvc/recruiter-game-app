@@ -4,33 +4,35 @@ import NavBar from '../../../../../../../navbar';
 import JobOffers from './components/jobOffers';
 import { GET_MISSION_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionId';
 import { GET_MISSION_SERVER } from '../../../../../../../../graphql/queries/server/getMission';
+import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
 
 const Mission = ({ path }: any) => {
 
-  const [getMission, { data }] = useLazyQuery(GET_MISSION_SERVER)
+  // const [getMission, { data }] = useLazyQuery(GET_MISSION_SERVER)
 
   const client = useApolloClient()
+  const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
 
-  const { missionId }: any = client.readQuery({ query: GET_MISSION_ID_CLIENT })
-  const mission = client.readFragment({
-    id: `Mission:${missionId}`,
-    fragment: gql`
-      fragment myMission on Mission{
-        type
-      }
-    `
-  }, true)
-  const [stateMission, setStateMission] = React.useState(mission)
+  // const { missionId }: any = client.readQuery({ query: GET_MISSION_ID_CLIENT })
+  // const mission = client.readFragment({
+  //   id: `Mission:${missionId}`,
+  //   fragment: gql`
+  //     fragment myMission on Mission{
+  //       type
+  //     }
+  //   `
+  // }, true)
+  // const [stateMission, setStateMission] = React.useState(mission)
 
 
-  React.useEffect(() => {
-    if (stateMission === null) {
-      getMission({ variables: { missionId } })
-    }
-    if (data?.mission) {
-      setStateMission(data.mission)
-    }
-  }, [stateMission, getMission, missionId, data])
+  // React.useEffect(() => {
+  //   if (stateMission === null) {
+  //     getMission({ variables: { missionId } })
+  //   }
+  //   if (data?.mission) {
+  //     setStateMission(data.mission)
+  //   }
+  // }, [stateMission, getMission, missionId, data])
 
 
   const renderMission = (type: any) => {
@@ -47,7 +49,7 @@ const Mission = ({ path }: any) => {
     <div>
       <NavBar />
       <div>
-        {renderMission(stateMission?.type)}
+        {renderMission(mission?.type)}
       </div>
     </div>
   )

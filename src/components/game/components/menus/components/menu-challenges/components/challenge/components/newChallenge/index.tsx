@@ -18,7 +18,6 @@ const NewChallenge = () => {
   const [selectedJob, setSelectedJob] = React.useState({ id: '', url: '', })
   const [isLoaded, setIsLoaded] = React.useState(false)
   const [selectedDate, setSelectedDate] = React.useState(0)
-  const [isDateSelected, setIsDateSelected] = React.useState(false)
   const [message, setMessage] = React.useState('')
   const [isChallengeSent, setIsChallengeSent] = React.useState(false)
 
@@ -26,10 +25,7 @@ const NewChallenge = () => {
   const [startJobApplication] = useMutation(START_JOB_APPLICATION, {
     onCompleted({ startJobApplication }: any) {
       client.writeQuery({
-        query: gql`
-        {
-          mission
-        }`,
+        query: GET_MISSION_CLIENT,
         data: {
           mission: startJobApplication,
         }
@@ -40,7 +36,7 @@ const NewChallenge = () => {
 
   function handleClick() {
     const params = {
-      mission: mission.id,
+      missionId: mission.id,
       jobId: selectedJob.id,
       gameId,
       message,
@@ -51,29 +47,17 @@ const NewChallenge = () => {
     startJobApplication({ variables: params })
   }
 
-  function handleChange(e: any) {
-    switch (e.target.name) {
-      case 'select':
-        return setSelectedJob(e.target.value);
-      case 'date':
-        setSelectedDate(e.target.value)
-        return setIsDateSelected(true);
-      case 'message':
-        return setMessage(e.target.value)
-      default:
-        return null
-    }
-  }
-
-  console.log('selectedJob', selectedJob)
-
   return (
     <div>
       <p>Step 1: select 1 job </p>
-      <Select handleChange={handleChange} />
+      <Select setSelectedJob={setSelectedJob} />
       <p>{selectedJob?.url}</p>
-      {selectedJob?.url && <Deadline handleChange={handleChange} />}
-      {isDateSelected && <Message handleChange={handleChange} message={message} />}
+      {selectedJob?.url && (
+        <div>
+          <Deadline setSelectedDate={setSelectedDate} />
+          <Message setMessage={setMessage} message={message} />
+        </div>
+      )}
       {message && <p><button onClick={handleClick}>Send challenge</button></p>}
       {isChallengeSent && <p><img style={selectedJob?.url && isLoaded ? {} : { display: 'none' }} src='https://media.giphy.com/media/1jkV5ifEE5EENHESRa/giphy.gif' alt='giphy video' onLoad={() => setIsLoaded(true)} /></p>}
     </div>

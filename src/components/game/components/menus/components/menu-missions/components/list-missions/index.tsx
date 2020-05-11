@@ -15,11 +15,18 @@ import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graph
 import './style.css'
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
+import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
 
 const ListMissions = ({ path }: any) => {
+
+  // client
   const client = useApolloClient()
-  const [stateMissions, setStateMissions] = React.useState([])
   const { game, gameId }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+
+  // state
+  const [stateMissions, setStateMissions] = React.useState([])
+
+  // queries
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
     variables: { gameId },
     onCompleted(data) {
@@ -37,6 +44,8 @@ const ListMissions = ({ path }: any) => {
 
   }
   )
+
+  // mutations
   const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
     update(cache, { data: { addList10JobOffersMission } }) {
       const { missions }: any = cache.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId } })
@@ -54,13 +63,17 @@ const ListMissions = ({ path }: any) => {
 
     }
   })
+
+  // effects
   React.useEffect(() => {
-    // il faut un effect pour quand la job table modify la progression de la mission
+
     if (data?.missions) {
       setStateMissions(data.missions.filter((mission: any) => mission.type === '10jobs'))
     }
   }, [data])
 
+
+  // helpers
   function handleClick() {
     addList10JobOffersMission({ variables: { type: '10jobs', gameId, } })
   }
@@ -79,13 +92,11 @@ const ListMissions = ({ path }: any) => {
           <div key={mission.id}>
             <Link to={`${mission.id}`} onClick={() => {
               client.writeQuery({
-                query: GET_PLAYERANDGAMES_CLIENT,
+                query: GET_MISSION_CLIENT,
                 data: {
                   mission,
-                  missionId: mission.id
                 }
               })
-              localStorage.setItem('missionId', mission.id)
               localStorage.setItem('mission', JSON.stringify(mission))
             }}>
               <p>{mission.type}</p>

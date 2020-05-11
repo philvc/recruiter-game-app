@@ -9,14 +9,27 @@ import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
 import { UPDATE_MISSION_SERVER } from '../../../../../../../../../../../../../../graphql/mutations/server/updateMissionServer';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
+import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 
 
 const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
-  const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
+
+  // client
   const client = useApolloClient()
   const { game, player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+
+  // state & ref
   const [state, dispatch] = React.useReducer(reducer, job)
-  const [updateMission] = useMutation(UPDATE_MISSION_SERVER, { variables: { id: missionId } })
+  const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
+
+  //mutation
+  const [updateMission] = useMutation(UPDATE_MISSION_SERVER, {
+    variables: { id: missionId },
+    onCompleted({ updateMission }) {
+      console.log('updateMission', updateMission)
+      localStorage.setItem('mission', JSON.stringify(updateMission))
+    }
+  })
   const [updateJobServer] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted() {
 
@@ -25,6 +38,7 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
     }
   })
 
+  // effects
   React.useEffect(() => {
     async function updateJobRank() {
       updateJobServer({
@@ -53,6 +67,8 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
     updateJobIsComplete()
 
   }, [state.isComplete, updateJobServer, id])
+
+  // helpers
   const [, drop] = useDrop({
     accept: 'JOB',
     hover(item: any, monitor: any) {
@@ -87,6 +103,8 @@ const JobRow = ({ job, index, id, moveJob, missionId }: any) => {
       item.index = hoverIndex;
     }
   });
+
+
   const [{ isDragging }, drag] = useDrag({
     item: { type: 'JOB', id, index },
     collect: monitor => ({

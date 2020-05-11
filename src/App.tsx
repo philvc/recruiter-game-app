@@ -18,6 +18,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 import './App.css';
 import NotFound from './components/notFound';
 import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
+import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
 
 // Graphql default state
 const cache = new InMemoryCache({
@@ -37,7 +38,6 @@ const client = new ApolloClient<NormalizedCacheObject>({
 
 
 let player: any;
-let mission: any;
 let game: any;
 
 if (localStorage.hasOwnProperty('player')) {
@@ -46,9 +46,7 @@ if (localStorage.hasOwnProperty('player')) {
 if (localStorage.hasOwnProperty('game')) {
   game = JSON.parse(localStorage.getItem('game') || '')
 }
-if (localStorage.hasOwnProperty('mission')) {
-  mission = JSON.parse(localStorage.getItem('mission') || '')
-}
+
 
 client.writeQuery({
   query: GET_PLAYERANDGAMES_CLIENT,
@@ -65,25 +63,6 @@ client.writeQuery({
       },
       games: JSON.parse(localStorage.getItem('games') || '[]'),
       gameId: localStorage.getItem('gameId'),
-      missionId: localStorage.getItem('missionId'),
-      mission: localStorage.hasOwnProperty('mission') ?
-        {
-          id: mission.id,
-          isReviewed: mission.isReviewed,
-          isEvaluated: mission.isEvaluated,
-          isRecruiter: mission.isRecruiter,
-          type: mission.type,
-          progress: mission.progress,
-          status: mission.status,
-          isLocked: mission.isLocked,
-          gameId: mission.gameId,
-          score: mission.score,
-          selectedJob: mission.selectedJob,
-          time: mission.time,
-          __typename: 'Mission',
-        }
-        :
-        null,
       game: localStorage.hasOwnProperty('game') ?
         {
           id: game.id,
@@ -101,11 +80,18 @@ client.writeQuery({
       player: null,
       games: [],
       gameId: localStorage.getItem('gameId') || '',
-      missionId: localStorage.getItem('missionId') || '',
-      mission: null,
       game: null,
     }
 })
+
+if (localStorage.hasOwnProperty('mission')) {
+  client.writeQuery({
+    query: GET_MISSION_CLIENT,
+    data: {
+      mission: JSON.parse(localStorage.getItem('mission') || '{}')
+    }
+  })
+}
 
 if (localStorage.hasOwnProperty('missions') && localStorage.hasOwnProperty('gameId')) {
   const gameId = localStorage.getItem('gameId')
