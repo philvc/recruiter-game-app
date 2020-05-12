@@ -1,16 +1,16 @@
 import * as React from 'react';
+import JobInputField from './components/job-input-field';
+import JobCheckboxInputField from './components/job-checkbox-input-field';
 
 const JobItem = ({ job, index }: any) => {
+  console.log('job', job)
   return (
     <div>
       <span>{index + 1}</span>
       <span>{job.id}</span>
-      {/* <input name='url' value={state.url} onChange={handleChange} />
-      {player.id === game.applicantId &&
-        (<label>
-          <input type='checkbox' name="isAccepted" onChange={handleChange} checked={state.isAccepted} />
-        </label>)
-      } */}
+      <JobInputField name='url' value={job.url} jobId={job.id} />
+      <JobInputField name='name' value={job.name} jobId={job.id} />
+      <JobCheckboxInputField name='isAccepted' value={job.isAccepted} jobId={job.id} />
     </div>
   );
 }

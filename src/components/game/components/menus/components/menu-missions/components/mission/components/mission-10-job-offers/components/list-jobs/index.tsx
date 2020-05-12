@@ -7,10 +7,10 @@ import update from 'immutability-helper'
 
 // components
 import DraggableJob from './components/draggableJob';
-import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getJobsServer';
-import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 
 // graphql
+import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getJobsServer';
+import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 
 const List = () => {
 
@@ -56,7 +56,7 @@ const List = () => {
   return (
     <>
       <div>
-        {jobs.length > 0 &&
+        {
           jobs
             .map((job: any, index: number) => (
               <DraggableJob

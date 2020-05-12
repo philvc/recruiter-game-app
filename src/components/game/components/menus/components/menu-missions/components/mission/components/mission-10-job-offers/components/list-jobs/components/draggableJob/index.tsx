@@ -40,7 +40,6 @@ const DraggableJob = ({ id, index, moveJob, job }: any) => {
 
   // effects
   React.useEffect(() => {
-
     async function updateJobRank() {
       updateJobServer({
         variables: {
@@ -112,28 +111,6 @@ const DraggableJob = ({ id, index, moveJob, job }: any) => {
       isDragging: monitor.isDragging()
     })
   });
-
-  // function handleChange(e: any) {
-  //   if (e.target.name !== 'isAccepted') {
-  //     dispatch({ type: e.target.name, payload: e.target.value })
-  //     updateJobServer({
-  //       variables: {
-  //         id: state.id,
-  //         field: e.target.name,
-  //         data: e.target.value
-  //       }
-  //     })
-  //   } else {
-  //     dispatch({ type: e.target.name, payload: e.target.checked })
-  //     updateJobServer({
-  //       variables: {
-  //         id: state.id,
-  //         field: e.target.name,
-  //         data: e.target.checked
-  //       }
-  //     })
-  //   }
-  // }
 
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
