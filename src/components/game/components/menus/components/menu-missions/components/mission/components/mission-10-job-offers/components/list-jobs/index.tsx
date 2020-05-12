@@ -7,6 +7,7 @@ import update from 'immutability-helper'
 
 // components
 import DraggableJob from './components/draggableJob';
+import ListProgress from './components/list-progress';
 
 // graphql
 import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getJobsServer';
@@ -32,6 +33,17 @@ const List = () => {
     }
   });
 
+  // effects
+  React.useEffect(() => {
+    if (data) {
+      const { jobs } = data
+      const jobsSortedByRank = jobs.slice().sort((a: any, b: any) => {
+        return a.rank - b.rank
+      })
+      setJobs(jobsSortedByRank)
+    }
+  }, [data])
+
   // helpers
   const moveJob = React.useCallback(
     (dragIndex, hoverIndex) => {
@@ -56,6 +68,7 @@ const List = () => {
   return (
     <>
       <div>
+        <ListProgress jobs={jobs} />
         {
           jobs
             .map((job: any, index: number) => (

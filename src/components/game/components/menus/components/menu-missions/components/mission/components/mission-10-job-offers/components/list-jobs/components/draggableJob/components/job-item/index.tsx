@@ -3,7 +3,7 @@ import JobInputField from './components/job-input-field';
 import JobCheckboxInputField from './components/job-checkbox-input-field';
 
 const JobItem = ({ job, index }: any) => {
-  console.log('job', job)
+
   return (
     <div>
       <span>{index + 1}</span>
