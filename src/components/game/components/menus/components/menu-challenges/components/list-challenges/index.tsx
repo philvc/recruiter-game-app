@@ -1,27 +1,36 @@
 import * as React from 'react';
-import NavBar from '../../../../../../../navbar';
+
+// modules
 import { useApolloClient } from '@apollo/client';
-import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
+
+// components
+import NavBar from '../../../../../../../navbar';
 import ChallengeItem from './components/challenge-item';
+
+// apollo
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
-import { GET_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getGameIdClient';
+import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
 
 const ListChallenges = ({ path, navigate }: any) => {
+
+  // client
   const client = useApolloClient()
-  const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
-  const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId } })
+  const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+
+
   const challengesList = missions.filter((mission: any) => mission.type === 'jobapplication')
 
+  // helpers
   function handleClick(challenge: any) {
     client.writeQuery({
-      query: GET_PLAYERANDGAMES_CLIENT,
+      query: GET_MISSION_CLIENT,
       data: {
-        missionId: challenge.id,
         mission: challenge,
       }
     })
     localStorage.setItem('mission', JSON.stringify(challenge))
-    localStorage.setItem('missionId', challenge.id)
     navigate(`${challenge.id}`)
   }
 

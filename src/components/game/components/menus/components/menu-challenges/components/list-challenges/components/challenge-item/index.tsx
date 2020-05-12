@@ -1,14 +1,19 @@
 import * as React from 'react';
+
+// helpers
 import { calculateCountDown } from '../../../challenge/components/countdown/helper';
 
 
 const ChallengeItem = ({ challenge, handleClick }: any) => {
-  const [countdown, setCountDown] = React.useState('')
-  if (countdown !== 'EXPIRED') {
-    console.log('challengetime', challenge.time)
-    calculateCountDown(parseInt(challenge.time, 10), setCountDown)
 
+  // state
+  const [countdown, setCountDown] = React.useState('')
+
+  // countdown computation
+  if (challenge.status !== 'new' && countdown !== 'EXPIRED') {
+    calculateCountDown(parseInt(challenge.time, 10), setCountDown)
   }
+
   return (
     <div key={challenge.id}>
       <p>Apply for jobs</p>
