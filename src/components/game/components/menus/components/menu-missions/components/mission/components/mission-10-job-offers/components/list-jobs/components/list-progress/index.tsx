@@ -10,9 +10,14 @@ const ListProgress = ({ jobs }: any) => {
   // client
   const client = useApolloClient()
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
+  console.log('mission', mission)
 
   // mutations
-  const [updateMissionV2] = useMutation(UPDATE_MISSION_V2)
+  const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
+    onCompleted({ updateMissionV2 }) {
+      localStorage.setItem('mission', JSON.stringify(updateMissionV2))
+    }
+  })
 
   const completedJobs = jobs.filter((job: any) => job.url !== "" && job.name !== "").length
 
@@ -29,8 +34,8 @@ const ListProgress = ({ jobs }: any) => {
 
   return (
     <div>
-      <p>{completedJobs}/10</p>
-      {completedJobs === 10 && <button>Send for review</button>}
+      <p>{mission.progress}/10 <span>{mission.progress === 10 ? 'list completed' : null}</span></p>
+      {mission.progress === 10 && <button>Send for review</button>}
     </div>
   )
 }
