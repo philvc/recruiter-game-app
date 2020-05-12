@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import axios from 'axios';
-import { useMutation, useApolloClient } from '@apollo/client';
+import { useMutation, useApolloClient, gql } from '@apollo/client';
 
 
 
@@ -25,9 +25,16 @@ const Screenshot = ({ openModal }: any) => {
 
   // mutations
   const [createSignedPutUrl, { loading, error, data }] = useMutation(CREATE_SIGNED_PUT_URL)
-  const [updateJob] = useMutation(UPDATE_JOB_SERVER)
+  const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
+    onCompleted({ updateJob }) {
+      const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
+      localStorage.setItem('mission', JSON.stringify(mission))
+    }
+  })
 
+  // helpers
 
+  // createSignedPutUrl
   function handleCreateSignedPutUrl(file: any) {
     setFile(file)
     createSignedPutUrl({
@@ -40,7 +47,10 @@ const Screenshot = ({ openModal }: any) => {
 
   }
 
+
   async function handleSaveDocument() {
+
+    // axios headers
     const headers = {
       'Content-Type': file.type,
       'X-AMZ-SERVER-SIDE-ENCRYPTION': 'AES256',
@@ -48,7 +58,10 @@ const Screenshot = ({ openModal }: any) => {
 
     };
 
+    // post document in aws S3
     await axios.put(data.createSignedPutUrl.signedPutUrl, file, { headers });
+
+    // update job with SignedGetUrl
     updateJob({
       variables: {
         id: selectedJob.id,
@@ -56,6 +69,8 @@ const Screenshot = ({ openModal }: any) => {
         data: data.createSignedPutUrl.signedGetUrl
       }
     })
+
+    // close modal
     return openModal()
   }
 

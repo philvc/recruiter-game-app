@@ -13,15 +13,15 @@ export const UPDATE_JOB_SERVER = gql`
         data: $data
     })
       {
-      id
-      name
-      url
-      applicationProofUrl
-      rank
-      isComplete
-      isAccepted
-      missionId
-      gameId
+        id
+        url
+        missionId
+        isAccepted
+        rank
+        name
+        applicationProofUrl
+        isComplete
+        gameId
     }
   }
 `

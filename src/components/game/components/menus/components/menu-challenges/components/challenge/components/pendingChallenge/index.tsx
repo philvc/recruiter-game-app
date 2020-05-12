@@ -15,6 +15,7 @@ const PendingChallenge = () => {
   const client = useApolloClient();
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
 
+
   return (
     <div>
       <p><a href={mission.selectedJob?.url}>{mission.selectedJob?.url}</a></p>

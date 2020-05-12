@@ -1,18 +1,26 @@
 import * as React from 'react';
+
+// modules
+import { useApolloClient, useMutation } from '@apollo/client';
+import { navigate } from '@reach/router';
+
+// components
 import Select from '../select';
 import Deadline from '../deadline';
 import Message from '../../../../../../../../../message';
-import { useApolloClient, gql, useMutation } from '@apollo/client';
+
+// apollo
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
-import { GET_GAME_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameIdClient';
 import { START_JOB_APPLICATION } from '../../../../../../../../../../graphql/mutations/server/startJobApplication';
+import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionsClient';
 
 const NewChallenge = () => {
 
   // client
   const client = useApolloClient()
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
-  const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
+  const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
 
   // state
   const [selectedJob, setSelectedJob] = React.useState({ id: '', url: '', })
@@ -24,13 +32,28 @@ const NewChallenge = () => {
   // mutations
   const [startJobApplication] = useMutation(START_JOB_APPLICATION, {
     onCompleted({ startJobApplication }: any) {
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+      const newMissions = missions.concat([startJobApplication])
+
       client.writeQuery({
         query: GET_MISSION_CLIENT,
         data: {
           mission: startJobApplication,
         }
       })
+
+      client.writeQuery({
+        query: GET_MISSIONS_CLIENT,
+        variables: {
+          gameId: game.id,
+        },
+        data: newMissions
+      })
       localStorage.setItem('mission', JSON.stringify(startJobApplication))
+      localStorage.setItem('missions', JSON.stringify(newMissions))
+
+      navigate(`/games/${game.title.split(" ").join('')}/challenges`)
+
     }
   })
 
@@ -38,7 +61,7 @@ const NewChallenge = () => {
     const params = {
       missionId: mission.id,
       jobId: selectedJob.id,
-      gameId,
+      gameId: game.id,
       message,
       jobUrl: selectedJob.url,
       time: selectedDate,
