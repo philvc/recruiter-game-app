@@ -101,7 +101,7 @@ const ListMissions = ({ path }: any) => {
             }}>
               <p>{mission.type}</p>
             </Link>
-            <p>Progress: {mission.progress}/10</p>
+            <p>Progress: {mission.progress || 0}/10</p>
 
             {mission.isReviewed && <p>Under review</p>}
             {mission.isEvaluated && <p>Mission completed</p>}

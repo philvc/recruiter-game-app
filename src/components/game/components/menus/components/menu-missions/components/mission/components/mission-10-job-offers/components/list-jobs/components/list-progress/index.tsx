@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
+import ReviewButton from './components/review-button';
 
 const ListProgress = ({ jobs }: any) => {
 
@@ -34,7 +35,8 @@ const ListProgress = ({ jobs }: any) => {
 
   return (
     <div>
-      <p>{mission.progress}/10 <span>{mission.progress === 10 ? 'list completed' : null}</span></p>
+      <p>{mission.progress || 0}/10 <span>{mission.progress === 10 ? 'list completed' : null}</span></p>
+      {mission.progress === 10 && !mission.isReviewed && < ReviewButton />}
     </div>
   )
 }
