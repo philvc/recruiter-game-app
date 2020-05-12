@@ -103,9 +103,13 @@ const ListMissions = ({ path }: any) => {
             </Link>
             <p>Progress: {mission.progress || 0}/10</p>
 
-            {mission.isReviewed && <p>Under review</p>}
-            {mission.isEvaluated && <p>Mission completed</p>}
-            {mission.isEvaluated && <p>Score: {mission.score}</p>}
+            {mission.isReviewed && mission.status !== 'completed' && <p>Under review</p>}
+            {mission.status === 'completed' && (
+              <div>
+                <p>Mission completed</p>
+                <p>Score: {mission.score}</p>
+              </div>
+            )}
           </div>
         )
         )}

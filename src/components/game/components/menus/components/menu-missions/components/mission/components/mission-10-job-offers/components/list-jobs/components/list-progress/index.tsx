@@ -1,17 +1,18 @@
 import * as React from 'react';
 
+// component
+import ReviewButton from './components/review-button';
+
 // apollo
 import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
-import ReviewButton from './components/review-button';
 
 const ListProgress = ({ jobs }: any) => {
 
   // client
   const client = useApolloClient()
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
-  console.log('mission', mission)
 
   // mutations
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {

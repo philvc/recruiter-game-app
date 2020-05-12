@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+// modules
+import { navigate } from '@reach/router';
+
 // components
 import Message from '../../../../../../../../../../../../../../../message';
 
@@ -41,6 +44,9 @@ const ReviewButton = () => {
         message,
       }
     })
+
+    navigate(`/games/${game.title.split(" ").join('')}/missions`)
+
   }
 
   return (

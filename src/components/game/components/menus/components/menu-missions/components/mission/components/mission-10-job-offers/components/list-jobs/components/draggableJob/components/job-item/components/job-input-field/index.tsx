@@ -1,10 +1,15 @@
 import * as React from 'react';
 
 // apollo
-import { useMutation } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
+import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 
 const JobInputField = ({ name, value, jobId }: any) => {
+
+  // client
+  const client = useApolloClient()
+  const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
 
   // state
   const [state, setState] = React.useState(value)
@@ -26,7 +31,7 @@ const JobInputField = ({ name, value, jobId }: any) => {
 
   return (
     <label>
-      <input type={name} name={name} value={state} onChange={handleChange} />
+      <input type={name} name={name} value={state} onChange={handleChange} disabled={mission?.isReviewed} />
     </label>
   )
 }

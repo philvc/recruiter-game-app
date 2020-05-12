@@ -12,12 +12,17 @@ import ListProgress from './components/list-progress';
 // graphql
 import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getJobsServer';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getMissionClient';
+import SaveResultButton from './components/save-result-button';
+import { GET_GAME_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_PLAYER_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getPlayerClient';
 
 const List = () => {
 
   // client
   const client = useApolloClient();
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
+  const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   // state 
   const [jobs, setJobs] = React.useState([])
@@ -81,6 +86,7 @@ const List = () => {
               />
             )
             )}
+        {player.id === game.recruiterId && <SaveResultButton />}
       </div>
     </>
   )
