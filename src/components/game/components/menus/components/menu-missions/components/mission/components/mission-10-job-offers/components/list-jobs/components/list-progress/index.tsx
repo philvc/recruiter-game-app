@@ -35,7 +35,6 @@ const ListProgress = ({ jobs }: any) => {
   return (
     <div>
       <p>{mission.progress}/10 <span>{mission.progress === 10 ? 'list completed' : null}</span></p>
-      {mission.progress === 10 && <button>Send for review</button>}
     </div>
   )
 }

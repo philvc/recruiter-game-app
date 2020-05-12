@@ -7,8 +7,9 @@ const Message = ({ setMessage, message }: any) => {
   }
   return (
     <div>
-      <p>Step 3: Send your message</p>
-      <input type='texteArea' name='message' value={message} onChange={handleChange} />
+      <label> Send your message:
+        <input type='texteArea' name='message' value={message} onChange={handleChange} />
+      </label>
     </div>
   )
 };

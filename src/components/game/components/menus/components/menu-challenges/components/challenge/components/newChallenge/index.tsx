@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Select from '../select';
 import Deadline from '../deadline';
-import Message from '../message';
+import Message from '../../../../../../../../../message';
 import { useApolloClient, gql, useMutation } from '@apollo/client';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { GET_GAME_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameIdClient';
