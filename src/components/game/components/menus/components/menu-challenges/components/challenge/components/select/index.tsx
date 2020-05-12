@@ -1,15 +1,25 @@
 import * as React from 'react';
-import { GET_ACCEPTED_JOBS_SERVER } from '../../../../../../../../../../graphql/queries/server/getAcceptedJobs';
+
+// modules
 import { useQuery, useApolloClient } from '@apollo/client';
-import { GET_GAME_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameIdClient';
+
+// apollo
+import { GET_ACCEPTED_JOBS_SERVER } from '../../../../../../../../../../graphql/queries/server/getAcceptedJobs';
+import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 
 const Select = ({ setSelectedJob }: any) => {
 
+  // client
   const client = useApolloClient()
-  const { gameId }: any = client.readQuery({ query: GET_GAME_ID_CLIENT })
-  const { loading, error, data }: any = useQuery(GET_ACCEPTED_JOBS_SERVER, { variables: { gameId } })
+  const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+
+  // state
   const [jobList, setJobList] = React.useState([])
 
+  // queries
+  const { loading, error, data }: any = useQuery(GET_ACCEPTED_JOBS_SERVER, { variables: { gameId: game.id } })
+
+  // effect
   React.useEffect(() => {
     if (data?.acceptedJobs) {
       setJobList(data?.acceptedJobs)
@@ -17,6 +27,7 @@ const Select = ({ setSelectedJob }: any) => {
 
   }, [data])
 
+  // handler
   function handleChange(e: any) {
     const job = jobList[e.target.value]
     setSelectedJob(job)

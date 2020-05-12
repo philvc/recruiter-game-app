@@ -9,7 +9,7 @@ import NavBar from '../../../../../../../navbar';
 
 // grapqhql
 import { GET_MISSIONS_SERVER } from '../../../../../../../../graphql/queries/server/getMissionsServer';
-import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graphql/mutations/server/addMutationServer';
+import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graphql/mutations/server/addList10JobOffersMission';
 
 // style
 import './style.css'

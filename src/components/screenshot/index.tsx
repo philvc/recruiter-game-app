@@ -10,6 +10,11 @@ import DropZone from '../dropzone';
 import { CREATE_SIGNED_PUT_URL } from '../../graphql/mutations/server/createSignedPutUrl';
 import { UPDATE_JOB_SERVER } from '../../graphql/mutations/server/updateJobServer';
 import { GET_MISSION_CLIENT } from '../../graphql/queries/client/getMissionClient';
+import { SEND_MESSAGE } from '../../graphql/mutations/server/sendMessage';
+import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
+import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV2';
+import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
+import { ADD_JOB_APPLICATION_MISSION } from '../../graphql/mutations/server/addJobApplicationMission';
 
 const Screenshot = ({ openModal }: any) => {
 
@@ -17,6 +22,7 @@ const Screenshot = ({ openModal }: any) => {
   const client = useApolloClient()
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { selectedJob } = mission
+  const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
 
   // state
   const [imageSource, setImageSource] = React.useState(selectedJob.applicationProofUrl)
@@ -29,6 +35,25 @@ const Screenshot = ({ openModal }: any) => {
     onCompleted({ updateJob }) {
       const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
       localStorage.setItem('mission', JSON.stringify(mission))
+    }
+  })
+  const [sendMessage] = useMutation(SEND_MESSAGE)
+  const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
+    onCompleted({ updateMissionV2 }) {
+      localStorage.setItem('mission', JSON.stringify(updateMissionV2))
+    }
+  })
+  const [addJobApplicationMission] = useMutation(ADD_JOB_APPLICATION_MISSION, {
+    onCompleted({ addJobApplicationMission }) {
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+      const newMissions = missions.concat(addJobApplicationMission)
+      client.writeQuery({
+        query: GET_MISSIONS_CLIENT,
+        variables: { gameId: game.id },
+        data: { missions: newMissions }
+      })
+
+      localStorage.setItem('missions', JSON.stringify(newMissions))
     }
   })
 
@@ -70,9 +95,54 @@ const Screenshot = ({ openModal }: any) => {
       }
     })
 
+    // send message 
+    sendMessage({
+      variables: {
+        recipientId: game.recruiterId,
+        subject: 'I have applied !!! Please check the screenshot',
+        message: 'Dear recruiter, thank you for your job offer ! I just applied and uploaded my application proof, please review it ;)'
+      }
+    })
+
+    updateMissionV2({
+      variables: {
+        id: mission.id,
+        field: 'isReviewed',
+        data: true,
+      }
+    })
+
     // close modal
     return openModal()
   }
+
+  function handleValidateApplicationProof() {
+
+    sendMessage({
+      variables: {
+        recipientId: game.applicantId,
+        subject: 'One big success !!',
+        message: 'Congrats !! Your recruiter validated your challenge !'
+      }
+    })
+
+    updateMissionV2({
+      variables: {
+        id: mission.id,
+        field: 'status',
+        data: 'completed',
+      }
+    })
+
+    addJobApplicationMission({
+      variables: {
+        quantity: 3,
+        gameId: game.id
+      }
+    })
+
+    return openModal()
+  };
 
 
 
@@ -87,9 +157,10 @@ const Screenshot = ({ openModal }: any) => {
         <p>{file.name}</p>
       )}
       <button id='go-back-button' onClick={openModal} disabled={loading}>Go Back</button>
-      {file.name && (
-        <button onClick={handleSaveDocument} disabled={loading}>Save</button>
+      {mission.status === 'pending' && (
+        <button onClick={handleSaveDocument} disabled={loading}>Save application proof</button>
       )}
+      {mission.isReviewed === true && <button onClick={handleValidateApplicationProof}>Validate application proof</button>}
     </div>
   )
 }
