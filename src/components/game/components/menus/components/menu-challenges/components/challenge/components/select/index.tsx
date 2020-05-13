@@ -17,7 +17,12 @@ const Select = ({ setSelectedJob }: any) => {
   const [jobList, setJobList] = React.useState([])
 
   // queries
-  const { loading, error, data }: any = useQuery(GET_ACCEPTED_JOBS_SERVER, { variables: { gameId: game.id } })
+  const { loading, error, data }: any = useQuery(GET_ACCEPTED_JOBS_SERVER, {
+    variables: { gameId: game.id },
+    onCompleted({ acceptedJobs }) {
+      localStorage.setItem('acceptedJobs', JSON.stringify(acceptedJobs))
+    }
+  })
 
   // effect
   React.useEffect(() => {

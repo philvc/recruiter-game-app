@@ -1,24 +1,25 @@
 import * as React from 'react';
 
-// Packages
+// modules
 import { Router, Redirect } from '@reach/router';
 import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, } from '@apollo/client';
 
 
-// Components
+// components
 import LoginV2 from './components/loginv2';
 import Game from './components/game';
+import NotFound from './components/notFound';
 
-// graphql
+// apollo
 import { resolvers } from './graphql/resolvers';
 import { typeDefs } from './graphql/schemas';
 import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAndGamesClient';
+import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
+import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
+import { GET_ACCEPTED_JOBS_SERVER } from './graphql/queries/server/getAcceptedJobs';
 
 // Style
 import './App.css';
-import NotFound from './components/notFound';
-import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
-import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
 
 // Graphql default state
 const cache = new InMemoryCache({
@@ -88,6 +89,17 @@ if (localStorage.hasOwnProperty('mission')) {
     data: {
       mission: JSON.parse(localStorage.getItem('mission') || '{}')
     }
+  })
+}
+
+
+if (localStorage.hasOwnProperty('acceptedJobs')) {
+  client.writeQuery({
+    query: GET_ACCEPTED_JOBS_SERVER,
+    variables: {
+      gameId: game.id
+    },
+    data: { acceptedJobs: JSON.parse(localStorage.getItem('acceptedJobs') || '[]') }
   })
 }
 
