@@ -10,30 +10,30 @@ import NavBar from '../../../../../../../navbar';
 // grapqhql
 import { GET_MISSIONS_SERVER } from '../../../../../../../../graphql/queries/server/getMissionsServer';
 import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graphql/mutations/server/addList10JobOffersMission';
-
-// style
-import './style.css'
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
+
+// style
+import './style.css'
 
 const ListMissions = ({ path }: any) => {
 
   // client
   const client = useApolloClient()
-  const { game, gameId }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+  const { game }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
 
   // state
   const [stateMissions, setStateMissions] = React.useState([])
 
   // queries
   const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
-    variables: { gameId },
+    variables: { gameId: game.id },
     onCompleted(data) {
       const { missions } = data;
       client.writeQuery({
         query: GET_MISSIONS_CLIENT,
-        variables: { gameId },
+        variables: { gameId: game.id },
         data: {
           missions: [...missions]
         }
@@ -48,12 +48,12 @@ const ListMissions = ({ path }: any) => {
   // mutations
   const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
     update(cache, { data: { addList10JobOffersMission } }) {
-      const { missions }: any = cache.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId } })
+      const { missions }: any = cache.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId: game.id } })
 
       const newMissions = missions.concat([addList10JobOffersMission.mission])
       cache.writeQuery({
         query: GET_MISSIONS_SERVER,
-        variables: { gameId },
+        variables: { gameId: game.id },
         data: {
           missions: newMissions
         }
@@ -75,7 +75,7 @@ const ListMissions = ({ path }: any) => {
 
   // helpers
   function handleClick() {
-    addList10JobOffersMission({ variables: { type: '10jobs', gameId, } })
+    addList10JobOffersMission({ variables: { type: '10jobs', gameId: game.id, } })
   }
 
   if (loading) return null

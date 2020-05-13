@@ -14,7 +14,6 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       recruiterId
       missionsAccomplished
     }
-    gameId @client
     game @client {
       id
       title

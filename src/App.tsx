@@ -62,7 +62,6 @@ client.writeQuery({
         __typename: 'Player'
       },
       games: JSON.parse(localStorage.getItem('games') || '[]'),
-      gameId: localStorage.getItem('gameId'),
       game: localStorage.hasOwnProperty('game') ?
         {
           id: game.id,
@@ -79,7 +78,6 @@ client.writeQuery({
     {
       player: null,
       games: [],
-      gameId: localStorage.getItem('gameId') || '',
       game: null,
     }
 })
@@ -93,13 +91,12 @@ if (localStorage.hasOwnProperty('mission')) {
   })
 }
 
-if (localStorage.hasOwnProperty('missions') && localStorage.hasOwnProperty('gameId')) {
-  const gameId = localStorage.getItem('gameId')
+if (localStorage.hasOwnProperty('missions') && localStorage.hasOwnProperty('game')) {
   const missions = JSON.parse(localStorage.getItem('missions') || '[]')
   client.writeQuery({
     query: GET_MISSIONS_SERVER,
     variables: {
-      gameId,
+      gameId: game.id,
     },
     data: {
       missions: [...missions]
