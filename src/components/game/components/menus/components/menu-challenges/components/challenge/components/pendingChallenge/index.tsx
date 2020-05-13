@@ -25,7 +25,9 @@ const PendingChallenge = () => {
   return (
     <div>
       <p><a href={mission.selectedJob?.url}>{mission.selectedJob?.url}</a></p>
-      <Countdown missionTime={mission.time} />
+      <p>
+        <Countdown missionTime={mission.time} />
+      </p>
       <Modal
         title='Job Application Screenshot'
         button={mission.selectedJob?.applicationProofUrl ? 'View' : 'Upload'}

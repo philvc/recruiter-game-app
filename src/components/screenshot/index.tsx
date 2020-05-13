@@ -132,7 +132,16 @@ const Screenshot = ({ openModal }: any) => {
       }
     })
 
+    await updateMissionV2({
+      variables: {
+        id: mission.id,
+        field: 'status',
+        data: 'completed',
+      }
+    })
+
     if (isValid) {
+
 
       await updateJob({
         variables: {
@@ -142,13 +151,6 @@ const Screenshot = ({ openModal }: any) => {
         }
       })
 
-      await updateMissionV2({
-        variables: {
-          id: mission.id,
-          field: 'status',
-          data: 'completed',
-        }
-      })
 
       await addJobApplicationMission({
         variables: {

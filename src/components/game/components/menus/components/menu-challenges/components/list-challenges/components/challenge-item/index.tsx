@@ -1,8 +1,12 @@
 import * as React from 'react';
 
-// helpers
-import { calculateCountDown } from '../../../challenge/components/countdown/helper';
+// modules
 import { useApolloClient } from '@apollo/client';
+
+// components
+import Countdown from '../../../challenge/components/countdown';
+
+// apollo
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
 
 
@@ -12,18 +16,17 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
   const client = useApolloClient()
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
 
-  // state
-  const [countdown, setCountDown] = React.useState('')
-
-  // countdown computation
-  if (challenge.status !== 'new' && countdown !== 'EXPIRED') {
-    calculateCountDown(parseInt(challenge.time, 10), setCountDown)
-  }
-
   return (
     <div key={challenge.id}>
       <p>Apply for jobs</p>
-      {challenge.status === 'pending' && <p>Progress: {countdown}</p>}
+      {challenge.status === 'pending' && (
+        <div>
+          <p>
+            Progress:
+            <Countdown missionTime={mission.time} />
+          </p>
+        </div>
+      )}
       {challenge.status === 'completed' && (
         <p>
           {mission.score === 1 ? `Challenge succeeded: ${mission.score}/1` : `Challenge failed: ${mission.score}/1`}
