@@ -1,12 +1,14 @@
 import * as React from 'react';
 
+// modules
 import axios from 'axios';
 import { useMutation, useApolloClient, gql } from '@apollo/client';
-
-
+import { navigate } from '@reach/router';
 
 // components
 import DropZone from '../dropzone';
+
+// apollo
 import { CREATE_SIGNED_PUT_URL } from '../../graphql/mutations/server/createSignedPutUrl';
 import { UPDATE_JOB_SERVER } from '../../graphql/mutations/server/updateJobServer';
 import { GET_MISSION_CLIENT } from '../../graphql/queries/client/getMissionClient';
@@ -15,6 +17,7 @@ import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
 import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
 import { ADD_JOB_APPLICATION_MISSION } from '../../graphql/mutations/server/addJobApplicationMission';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
 
 const Screenshot = ({ openModal }: any) => {
 
@@ -23,6 +26,7 @@ const Screenshot = ({ openModal }: any) => {
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { selectedJob } = mission
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
 
   // state
   const [imageSource, setImageSource] = React.useState(selectedJob.applicationProofUrl)
@@ -116,32 +120,46 @@ const Screenshot = ({ openModal }: any) => {
     return openModal()
   }
 
-  function handleValidateApplicationProof() {
+  async function handleAcceptOrDeclineDocument(e: any) {
+
+    const isValid = e.target.value === 'validate' ? true : false;
 
     sendMessage({
       variables: {
         recipientId: game.applicantId,
-        subject: 'One big success !!',
-        message: 'Congrats !! Your recruiter validated your challenge !'
+        subject: isValid ? 'One big success !!' : ' :-(( Declined application proof',
+        message: isValid ? 'Congrats !! Your recruiter validated your challenge !' : 'Your application proof is not accepted, try again !',
       }
     })
 
-    updateMissionV2({
-      variables: {
-        id: mission.id,
-        field: 'status',
-        data: 'completed',
-      }
-    })
+    if (isValid) {
 
-    addJobApplicationMission({
-      variables: {
-        quantity: 3,
-        gameId: game.id
-      }
-    })
+      await updateJob({
+        variables: {
+          id: selectedJob.id,
+          field: 'isApplied',
+          data: true,
+        }
+      })
 
-    return openModal()
+      await updateMissionV2({
+        variables: {
+          id: mission.id,
+          field: 'status',
+          data: 'completed',
+        }
+      })
+
+      await addJobApplicationMission({
+        variables: {
+          quantity: 3,
+          gameId: game.id
+        }
+      })
+    }
+
+    openModal()
+    navigate(`/games/${game.title.split(" ").join('')}/challenges`)
   };
 
 
@@ -157,10 +175,17 @@ const Screenshot = ({ openModal }: any) => {
         <p>{file.name}</p>
       )}
       <button id='go-back-button' onClick={openModal} disabled={loading}>Go Back</button>
-      {mission.status === 'pending' && (
-        <button onClick={handleSaveDocument} disabled={loading}>Save application proof</button>
-      )}
-      {mission.isReviewed === true && <button onClick={handleValidateApplicationProof}>Validate application proof</button>}
+      {mission.status === 'pending' && player.id === game.applicantId &&
+        (<button onClick={handleSaveDocument} disabled={loading}>Save</button>)
+      }
+      {mission.isReviewed === true && player.id === game.recruiterId &&
+        (
+          <div>
+            <button onClick={handleAcceptOrDeclineDocument} value='validate'>Validate</button>
+            <button onClick={handleAcceptOrDeclineDocument} value='decline'>Decline</button>
+          </div>
+        )
+      }
     </div>
   )
 }
