@@ -18,7 +18,17 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
     <div key={challenge.id}>
       <p>Apply for jobs</p>
       {challenge.status === 'pending' && <p>Progress: {countdown}</p>}
-      <button onClick={() => handleClick(challenge)}>{challenge.status === 'new' ? 'Start' : 'Resume'}</button>
+      {challenge.status === 'completed' && <p>Challenge succeeded Or Failed</p>}
+      <button onClick={() => handleClick(challenge)}>
+        {challenge.status === 'new' ?
+          'Start'
+          :
+          challenge.status === 'pending' ?
+            'Resume'
+            :
+            'View result'
+        }
+      </button>
     </div>
   )
 }

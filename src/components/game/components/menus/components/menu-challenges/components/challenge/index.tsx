@@ -7,6 +7,7 @@ import PendingChallenge from './components/pendingChallenge';
 
 // apollo
 import { useApolloClient, gql } from '@apollo/client';
+import CompletedChallenge from './components/completedChallenge';
 
 
 const Challenge = ({ path }: any) => {
@@ -30,6 +31,8 @@ const Challenge = ({ path }: any) => {
         return <NewChallenge />;
       case 'pending':
         return <PendingChallenge />;
+      case 'completed':
+        return <CompletedChallenge />;
       default:
         return null;
     }
