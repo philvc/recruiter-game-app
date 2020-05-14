@@ -44,6 +44,10 @@ const Screenshot = ({ openModal }: any) => {
   const [sendMessage] = useMutation(SEND_MESSAGE)
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
+
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+
+      localStorage.setItem('missions', JSON.stringify(missions))
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
     }
   })
@@ -116,8 +120,8 @@ const Screenshot = ({ openModal }: any) => {
       }
     })
 
-    // close modal
-    return openModal()
+    openModal()
+    navigate(`/games/${game.title.split(" ").join('')}/challenges`)
   }
 
   async function handleAcceptOrDeclineDocument(e: any) {
@@ -132,13 +136,6 @@ const Screenshot = ({ openModal }: any) => {
       }
     })
 
-    await updateMissionV2({
-      variables: {
-        id: mission.id,
-        field: 'status',
-        data: 'completed',
-      }
-    })
 
     if (isValid) {
 
@@ -160,6 +157,13 @@ const Screenshot = ({ openModal }: any) => {
       })
     }
 
+    await updateMissionV2({
+      variables: {
+        id: mission.id,
+        field: 'status',
+        data: 'completed',
+      }
+    })
     openModal()
     navigate(`/games/${game.title.split(" ").join('')}/challenges`)
   };

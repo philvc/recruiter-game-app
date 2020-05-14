@@ -1,20 +1,11 @@
 import * as React from 'react';
 
-// modules
-import { useApolloClient } from '@apollo/client';
-
 // components
 import Countdown from '../../../challenge/components/countdown';
-
-// apollo
-import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
 
 
 const ChallengeItem = ({ challenge, handleClick }: any) => {
 
-  // client
-  const client = useApolloClient()
-  const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
 
   return (
     <div key={challenge.id}>
@@ -23,13 +14,13 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
         <div>
           <p>
             Progress:
-            <Countdown missionTime={mission.time} />
+            <Countdown missionTime={challenge.time} />
           </p>
         </div>
       )}
       {challenge.status === 'completed' && (
         <p>
-          {mission.score === 1 ? `Challenge succeeded: ${mission.score}/1` : `Challenge failed: ${mission.score}/1`}
+          {challenge.score === 1 ? `Challenge succeeded: ${challenge.score}/1` : `Challenge failed: ${challenge.score}/1`}
         </p>
       )}
       <button onClick={() => handleClick(challenge)}>
