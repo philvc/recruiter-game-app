@@ -12,6 +12,8 @@ export const GET_JOB_SERVER = gql`
       applicationProofUrl
       isComplete
       gameId
+      isApplied
+      isSelected
     }
   }
 `

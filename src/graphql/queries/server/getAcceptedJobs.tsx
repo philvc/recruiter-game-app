@@ -12,6 +12,8 @@ export const GET_ACCEPTED_JOBS_SERVER = gql`
       isComplete
       isAccepted
       gameId
+      isSelected
+      isApplied
     }
   }
 `

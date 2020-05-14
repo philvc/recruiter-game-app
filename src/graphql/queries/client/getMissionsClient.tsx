@@ -23,6 +23,8 @@ export const GET_MISSIONS_CLIENT = gql`
         applicationProofUrl
         isComplete
         gameId
+        isApplied
+        isSelected
       }
       time
     }
