@@ -6,6 +6,7 @@ import { Link } from '@reach/router';
 
 // components
 import NavBar from '../../../../../../../navbar';
+import Contact from '../../../../../../../contact';
 
 // grapqhql
 import { GET_MISSIONS_SERVER } from '../../../../../../../../graphql/queries/server/getMissionsServer';
@@ -115,6 +116,7 @@ const ListMissions = ({ path }: any) => {
         )}
         <button onClick={handleClick}>Start "List 10 job offers" mission</button>
       </div>
+      <Contact />
     </div>
   )
 }

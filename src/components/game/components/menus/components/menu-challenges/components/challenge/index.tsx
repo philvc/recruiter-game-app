@@ -4,10 +4,11 @@ import * as React from 'react';
 import NavBar from '../../../../../../../navbar';
 import NewChallenge from './components/newChallenge';
 import PendingChallenge from './components/pendingChallenge';
+import CompletedChallenge from './components/completedChallenge';
+import Contact from '../../../../../../../contact';
 
 // apollo
 import { useApolloClient, gql } from '@apollo/client';
-import CompletedChallenge from './components/completedChallenge';
 
 
 const Challenge = ({ path }: any) => {
@@ -45,6 +46,7 @@ const Challenge = ({ path }: any) => {
       </div>
       Challenge
       {renderChallenge(mission?.status)}
+      <Contact />
     </div>
   )
 }

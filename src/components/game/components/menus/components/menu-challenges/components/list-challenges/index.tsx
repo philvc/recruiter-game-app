@@ -11,6 +11,7 @@ import ChallengeItem from './components/challenge-item';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
+import Contact from '../../../../../../../contact';
 
 const ListChallenges = ({ path, navigate }: any) => {
 
@@ -41,6 +42,7 @@ const ListChallenges = ({ path, navigate }: any) => {
           <ChallengeItem key={challenge.id} challenge={challenge} handleClick={handleClick} />
         ))}
       </div>
+      <Contact />
     </div>
   )
 }

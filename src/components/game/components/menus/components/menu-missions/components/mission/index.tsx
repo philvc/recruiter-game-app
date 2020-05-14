@@ -1,8 +1,15 @@
 import * as React from 'react';
+
+// modules
 import { useApolloClient } from '@apollo/client';
+
+// components
 import NavBar from '../../../../../../../navbar';
-import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
 import Mission10JobOffers from './components/mission-10-job-offers';
+import Contact from '../../../../../../../contact';
+
+// apollo
+import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
 
 const Mission = ({ path }: any) => {
 
@@ -26,6 +33,7 @@ const Mission = ({ path }: any) => {
       <div>
         {renderMission(mission?.type)}
       </div>
+      <Contact />
     </div>
   )
 }
