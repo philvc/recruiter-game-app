@@ -19,9 +19,7 @@ const ListChallenges = ({ path, navigate }: any) => {
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
   const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
 
-
   const challengesList = missions.filter((mission: any) => mission.type === 'jobapplication')
-
   // helpers
   function handleClick(challenge: any) {
     client.writeQuery({

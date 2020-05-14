@@ -6,7 +6,7 @@ import Modal from '../../../../../../../../../modal';
 import Screenshot from '../../../../../../../../../screenshot';
 
 // apollo
-import { useApolloClient, useQuery } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
 
 const PendingChallenge = () => {

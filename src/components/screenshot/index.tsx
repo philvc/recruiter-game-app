@@ -39,6 +39,22 @@ const Screenshot = ({ openModal }: any) => {
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted({ updateJob }) {
 
+      const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
+
+      if (updateJob.applicationProofUrl) {
+        client.writeFragment({
+          id: `Mission:${mission.id}`,
+          fragment: gql`
+            fragment MySelectedJob on Mission {
+              selectedJob
+            }
+          `,
+          data: {
+            selectedJob: updateJob,
+          }
+        })
+      }
+
       if (updateJob.isApplied || !updateJob.isSelected) {
 
         // update client
@@ -63,8 +79,6 @@ const Screenshot = ({ openModal }: any) => {
         // update storage
         localStorage.setItem('acceptedJobs', JSON.stringify(filterAcceptedJobs))
       }
-
-      const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
 
       // update storage
       localStorage.setItem('mission', JSON.stringify(mission))
@@ -150,7 +164,7 @@ const Screenshot = ({ openModal }: any) => {
     })
 
     openModal()
-    navigate(`/games/${game.title.split(" ").join('')}/challenges`)
+    setTimeout(() => { navigate(`/games/${game.title.split(" ").join('')}/challenges`) }, 0)
   }
 
   async function handleAcceptOrDeclineDocument(e: any) {
