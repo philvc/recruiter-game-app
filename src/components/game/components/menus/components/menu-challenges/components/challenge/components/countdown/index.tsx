@@ -8,6 +8,7 @@ import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/querie
 import { SEND_MESSAGE } from '../../../../../../../../../../graphql/mutations/server/sendMessage';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 import { navigate } from '@reach/router';
+import { UPDATE_JOB_SERVER } from '../../../../../../../../../../graphql/mutations/server/updateJobServer';
 
 const Countdown = ({ missionTime }: any) => {
 
@@ -20,15 +21,29 @@ const Countdown = ({ missionTime }: any) => {
   const [countdown, setCountDown] = React.useState('');
 
   // mutations
-  const [updateMissionV2] = useMutation(UPDATE_MISSION_V2)
+  const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
+    onCompleted({ updateMissionV2 }) {
+      localStorage.setItem('mission', JSON.stringify(updateMissionV2))
+    }
+  })
   const [sendMessage] = useMutation(SEND_MESSAGE)
+  const [updateJob] = useMutation(UPDATE_JOB_SERVER)
 
   if (countdown !== 'EXPIRED') {
     calculateCountDown(parseInt(missionTime, 10), setCountDown)
   }
 
   if (countdown === 'EXPIRED' && mission.status === 'pending') {
-    // update mission completed & send message
+
+    updateJob(
+      {
+        variables: {
+          id: mission.selectedJob.id,
+          field: 'isSelected',
+          data: false
+        }
+      })
+
     updateMissionV2({
       variables: {
         id: mission.id,
@@ -45,7 +60,8 @@ const Countdown = ({ missionTime }: any) => {
       }
     })
 
-    navigate(`/games/${game.title.split(" ").join('')}/challenges`)
+
+    setTimeout(() => { navigate(`/games/${game.title.split(" ").join('')}/challenges`) }, 0)
 
   }
 
