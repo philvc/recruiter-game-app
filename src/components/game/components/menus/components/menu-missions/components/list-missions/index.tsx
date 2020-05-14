@@ -11,9 +11,9 @@ import Contact from '../../../../../../../contact';
 // grapqhql
 import { GET_MISSIONS_SERVER } from '../../../../../../../../graphql/queries/server/getMissionsServer';
 import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graphql/mutations/server/addList10JobOffersMission';
-import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
+import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
 
 // style
 import './style.css'
@@ -22,7 +22,7 @@ const ListMissions = ({ path }: any) => {
 
   // client
   const client = useApolloClient()
-  const { game }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+  const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
 
   // state
   const [stateMissions, setStateMissions] = React.useState([])

@@ -62,7 +62,7 @@ const SaveResultButton = () => {
       }
     })
 
-    navigate(`/games/${game.title.split(" ").join('')}/missions`)
+    setTimeout(() => { navigate(`/games/${game.title.split(" ").join('')}/missions`) }, 1)
 
   }
 
