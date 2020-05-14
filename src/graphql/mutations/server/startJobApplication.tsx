@@ -31,6 +31,8 @@ export const START_JOB_APPLICATION = gql`
         applicationProofUrl
         isComplete
         gameId
+        isSelected
+        isApplied
       }
       time
     }

@@ -24,6 +24,8 @@ export const UPDATE_MISSION_V2 = gql`
         applicationProofUrl
         isComplete
         gameId
+        isApplied
+        isSelected
       }
       time
     }

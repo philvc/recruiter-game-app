@@ -39,11 +39,16 @@ const Screenshot = ({ openModal }: any) => {
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted({ updateJob }) {
 
-      if (updateJob.isApplied) {
+      if (updateJob.isApplied || !updateJob.isSelected) {
 
         // update client
         const { acceptedJobs }: any = client.readQuery({ query: GET_ACCEPTED_JOBS_SERVER, variables: { gameId: game.id } })
-        const filterAcceptedJobs = acceptedJobs.filter((job: any) => job.id !== updateJob.id)
+
+        const filterAcceptedJobs = updateJob.isApplied ?
+          acceptedJobs.filter((job: any) => job.id !== updateJob.id)
+          :
+          // if challenge declined, save again the selected job in the acceptedJobs list
+          acceptedJobs.concat([updateJob])
 
         client.writeQuery({
           query: GET_ACCEPTED_JOBS_SERVER,
@@ -177,6 +182,16 @@ const Screenshot = ({ openModal }: any) => {
         variables: {
           quantity: 3,
           gameId: game.id
+        }
+      })
+    }
+
+    if (!isValid) {
+      await updateJob({
+        variables: {
+          id: selectedJob.id,
+          field: 'isSelected',
+          data: false,
         }
       })
     }

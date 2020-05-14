@@ -24,6 +24,8 @@ export const ADD_JOB_APPLICATION_MISSION = gql`
         applicationProofUrl
         isComplete
         gameId
+        isSelected
+        isApplied
       }
       time
     }

@@ -61,11 +61,11 @@ const NewChallenge = () => {
 
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted({ updateJob }) {
-
+      console.log('updateJob', updateJob)
       // update client
       const { acceptedJobs }: any = client.readQuery({ query: GET_ACCEPTED_JOBS_SERVER, variables: { gameId: game.id } })
       const filterAcceptedJobs = acceptedJobs.filter((job: any) => job.id !== updateJob.id)
-
+      console.log('filteracceptejobs', filterAcceptedJobs)
       client.writeQuery({
         query: GET_ACCEPTED_JOBS_SERVER,
         variables: {
@@ -75,6 +75,8 @@ const NewChallenge = () => {
           acceptedJobs: filterAcceptedJobs
         }
       })
+
+      // TODO storage mission
 
       // update storage
       localStorage.setItem('acceptedJobs', JSON.stringify(filterAcceptedJobs))
@@ -92,6 +94,7 @@ const NewChallenge = () => {
       time: selectedDate,
     }
     setIsChallengeSent(true)
+
     updateJob({
       variables: {
         id: selectedJob.id,
@@ -99,6 +102,7 @@ const NewChallenge = () => {
         data: true,
       }
     })
+
     startJobApplication({ variables: params })
   }
 

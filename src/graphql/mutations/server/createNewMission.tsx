@@ -23,6 +23,8 @@ export const CREATE_NEW_MISSION = gql`
         applicationProofUrl
         isComplete
         gameId
+        isApplied
+        isSelected
       }
       time
     }

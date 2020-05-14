@@ -24,6 +24,8 @@ export const ADD_LIST10JOBOFFERSMISSION_SERVER = gql`
           applicationProofUrl
           isComplete
           gameId
+          isApplied
+          isSelected
         }
         time
       }
