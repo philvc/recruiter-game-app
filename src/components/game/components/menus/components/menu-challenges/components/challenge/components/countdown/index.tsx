@@ -4,17 +4,15 @@ import * as React from 'react';
 import { calculateCountDown } from './helper'
 import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_MISSION_V2 } from '../../../../../../../../../../graphql/mutations/server/updateMissionV2';
-import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { SEND_MESSAGE } from '../../../../../../../../../../graphql/mutations/server/sendMessage';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 import { navigate } from '@reach/router';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../graphql/mutations/server/updateJobServer';
 
-const Countdown = ({ missionTime }: any) => {
+const Countdown = ({ mission }: any) => {
 
   // client 
   const client = useApolloClient();
-  const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
 
   // state
@@ -30,7 +28,7 @@ const Countdown = ({ missionTime }: any) => {
   const [updateJob] = useMutation(UPDATE_JOB_SERVER)
 
   if (countdown !== 'EXPIRED') {
-    calculateCountDown(parseInt(missionTime, 10), setCountDown)
+    calculateCountDown(parseInt(mission.time, 10), setCountDown)
   }
 
   if (countdown === 'EXPIRED' && mission.status === 'pending') {

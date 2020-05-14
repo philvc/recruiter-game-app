@@ -14,7 +14,7 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
         <div>
           <p>
             Progress:
-            <Countdown missionTime={challenge.time} />
+            <Countdown mission={challenge} />
           </p>
         </div>
       )}

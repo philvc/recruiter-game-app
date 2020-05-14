@@ -19,7 +19,7 @@ const PendingChallenge = () => {
     <div>
       <p><a href={mission.selectedJob?.url}>{mission.selectedJob?.url}</a></p>
       <p>
-        <Countdown missionTime={mission.time} />
+        <Countdown mission={mission} />
       </p>
       <Modal
         title='Job Application Screenshot'
