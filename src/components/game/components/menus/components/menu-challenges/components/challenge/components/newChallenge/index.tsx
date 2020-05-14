@@ -14,6 +14,8 @@ import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/querie
 import { START_JOB_APPLICATION } from '../../../../../../../../../../graphql/mutations/server/startJobApplication';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionsClient';
+import { UPDATE_JOB_SERVER } from '../../../../../../../../../../graphql/mutations/server/updateJobServer';
+import { GET_ACCEPTED_JOBS_SERVER } from '../../../../../../../../../../graphql/queries/server/getAcceptedJobs';
 
 const NewChallenge = () => {
 
@@ -57,6 +59,29 @@ const NewChallenge = () => {
     }
   })
 
+  const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
+    onCompleted({ updateJob }) {
+
+      // update client
+      const { acceptedJobs }: any = client.readQuery({ query: GET_ACCEPTED_JOBS_SERVER, variables: { gameId: game.id } })
+      const filterAcceptedJobs = acceptedJobs.filter((job: any) => job.id !== updateJob.id)
+
+      client.writeQuery({
+        query: GET_ACCEPTED_JOBS_SERVER,
+        variables: {
+          gameId: game.id
+        },
+        data: {
+          acceptedJobs: filterAcceptedJobs
+        }
+      })
+
+      // update storage
+      localStorage.setItem('acceptedJobs', JSON.stringify(filterAcceptedJobs))
+    }
+  })
+
+  // helpers
   function handleClick() {
     const params = {
       missionId: mission.id,
@@ -67,6 +92,13 @@ const NewChallenge = () => {
       time: selectedDate,
     }
     setIsChallengeSent(true)
+    updateJob({
+      variables: {
+        id: selectedJob.id,
+        field: 'isSelected',
+        data: true,
+      }
+    })
     startJobApplication({ variables: params })
   }
 

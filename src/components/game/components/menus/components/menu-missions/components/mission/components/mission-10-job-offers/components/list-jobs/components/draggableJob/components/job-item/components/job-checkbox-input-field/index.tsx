@@ -18,12 +18,16 @@ const JobCheckboxInputField = ({ name, value, jobId }: any) => {
   // mutations
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted({ updateJob }) {
-      if (updateJob.isAccepted && localStorage.hasOwnProperty('acceptedJobs')) {
+      if (localStorage.hasOwnProperty('acceptedJobs')) {
 
         const { acceptedJobs }: any = client.readQuery({ query: GET_ACCEPTED_JOBS_SERVER, variables: { gameId: game.id } })
 
-        const newAcceptedJobs = acceptedJobs.concat([updateJob])
-
+        const newAcceptedJobs = updateJob.isAccepted ?
+          // add unchecked job
+          acceptedJobs.concat([updateJob])
+          :
+          // remove unchecked job
+          acceptedJobs.filter((job: any) => job.id !== updateJob.id)
         client.writeQuery({
           query: GET_ACCEPTED_JOBS_SERVER,
           variables: {
@@ -34,6 +38,7 @@ const JobCheckboxInputField = ({ name, value, jobId }: any) => {
 
         localStorage.setItem('acceptedJobs', JSON.stringify(newAcceptedJobs))
       }
+
     }
   })
 

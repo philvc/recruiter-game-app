@@ -18,6 +18,7 @@ import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV
 import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
 import { ADD_JOB_APPLICATION_MISSION } from '../../graphql/mutations/server/addJobApplicationMission';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
+import { GET_ACCEPTED_JOBS_SERVER } from '../../graphql/queries/server/getAcceptedJobs';
 
 const Screenshot = ({ openModal }: any) => {
 
@@ -37,7 +38,30 @@ const Screenshot = ({ openModal }: any) => {
   const [createSignedPutUrl, { loading, error, data }] = useMutation(CREATE_SIGNED_PUT_URL)
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted({ updateJob }) {
+
+      if (updateJob.isApplied) {
+
+        // update client
+        const { acceptedJobs }: any = client.readQuery({ query: GET_ACCEPTED_JOBS_SERVER, variables: { gameId: game.id } })
+        const filterAcceptedJobs = acceptedJobs.filter((job: any) => job.id !== updateJob.id)
+
+        client.writeQuery({
+          query: GET_ACCEPTED_JOBS_SERVER,
+          variables: {
+            gameId: game.id
+          },
+          data: {
+            acceptedJobs: filterAcceptedJobs
+          }
+        })
+
+        // update storage
+        localStorage.setItem('acceptedJobs', JSON.stringify(filterAcceptedJobs))
+      }
+
       const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
+
+      // update storage
       localStorage.setItem('mission', JSON.stringify(mission))
     }
   })
