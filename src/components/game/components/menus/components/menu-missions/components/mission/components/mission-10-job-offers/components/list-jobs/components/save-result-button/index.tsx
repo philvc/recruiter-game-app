@@ -21,7 +21,12 @@ const SaveResultButton = () => {
   // mutations
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
+
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+      console.log('missions', missions)
+      // update storage
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
+      localStorage.setItem('missions', JSON.stringify(missions))
     }
   })
 
