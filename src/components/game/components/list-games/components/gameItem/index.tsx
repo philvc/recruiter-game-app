@@ -6,7 +6,7 @@ import { useApolloClient, useLazyQuery } from '@apollo/client';
 
 // apollo
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
-import { GET_JOBS_BY_GAME_ID } from '../../../../../../graphql/queries/server/getJobsByGameIdServer';
+import { GET_JOBS_BY_GAME_ID_SERVER } from '../../../../../../graphql/queries/server/getJobsByGameIdServer';
 
 const GameItem = ({ game }: any) => {
 
@@ -15,7 +15,7 @@ const GameItem = ({ game }: any) => {
   const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
 
   // query
-  const [getJobsByGameId] = useLazyQuery(GET_JOBS_BY_GAME_ID, {
+  const [getJobsByGameId] = useLazyQuery(GET_JOBS_BY_GAME_ID_SERVER, {
 
     onCompleted({ getJobsByGameId }) {
       console.log('lazy query result', getJobsByGameId)

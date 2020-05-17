@@ -4,23 +4,32 @@ import * as React from 'react';
 import { navigate } from '@reach/router';
 
 // grapqhql
-import { useMutation, useQuery, useApolloClient, } from '@apollo/client';
+import { useMutation, useApolloClient, } from '@apollo/client';
 import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server/addGameServer';
 import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
+import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
 // reducer
 import { formReducer, initialState, actions } from './reducer';
-import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 const AddGameForm = ({ openModal }: any) => {
-  // Attributes
+
+  // client
   const client = useApolloClient()
+
+  // state
   const [state, dispatch] = React.useReducer(formReducer, initialState);
-  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
+  // queries
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT });
 
+  // mutations
   const [addGameMutation] = useMutation(ADDGAME_SERVER, {
+
     update(cache, { data: { addGame } }) {
+
+      // update client
       const { games }: any = cache.readQuery({ query: GET_PLAYERANDGAMES_CLIENT });
       const newGames = games.concat([addGame])
       cache.writeQuery({
@@ -31,21 +40,32 @@ const AddGameForm = ({ openModal }: any) => {
           game: addGame,
         }
       })
+
+      client.writeQuery({
+        query: GET_JOBS_BY_GAME_ID_CLIENT,
+        variables: { gameId: addGame.id },
+        data: {
+          getJobsByGameId: null
+        }
+      })
+
+      // update storage
       localStorage.setItem('games', JSON.stringify(newGames))
       localStorage.setItem('game', JSON.stringify(addGame))
-      localStorage.setItem('gameId', addGame.id)
     },
     onCompleted({ addGame }) {
       navigate(`/games/${addGame.title.split(" ").join('')}/missions`)
     }
   })
 
+  // effects
   React.useEffect(() => {
     if (state.status === 'completed') {
       addGameMutation({ variables: { title: state.title, recruiterId: player.id, email: state.email } })
     }
   }, [state, addGameMutation, player.id])
 
+  // helpers
   function handleChange(e: any) {
     dispatch({ type: `${e.target.name}Changed`, payload: e.target.value })
   }

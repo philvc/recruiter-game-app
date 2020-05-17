@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-export const GET_JOBS_BY_GAME_ID_SERVER = gql`
-  query getJobsByGameId($gameId: String){
-    getJobsByGameId(input: {gameId: $gameId}){
+export const GET_JOBS_BY_GAME_ID_CLIENT = gql`
+  query getJobsByGameIdClient($gameId: String){
+    getJobsByGameId(input: {gameId: $gameId}) @client {
       id
       name
       url
@@ -19,3 +19,4 @@ export const GET_JOBS_BY_GAME_ID_SERVER = gql`
     }
   }
 `
+

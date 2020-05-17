@@ -10,6 +10,9 @@ import LoginV2 from './components/loginv2';
 import Game from './components/game';
 import NotFound from './components/notFound';
 
+// Style
+import './App.css';
+
 // apollo
 import { resolvers } from './graphql/resolvers';
 import { typeDefs } from './graphql/schemas';
@@ -17,10 +20,8 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
 import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
 import { GET_ACCEPTED_JOBS_SERVER } from './graphql/queries/server/getAcceptedJobs';
-import { GET_JOBS_BY_GAME_ID } from './graphql/queries/server/getJobsByGameIdServer';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from './graphql/queries/client/getJobsByGameIdClient';
 
-// Style
-import './App.css';
 
 // Graphql default state
 const cache = new InMemoryCache({
@@ -86,7 +87,7 @@ client.writeQuery({
 
 if (localStorage.hasOwnProperty('jobs')) {
   client.writeQuery({
-    query: GET_JOBS_BY_GAME_ID,
+    query: GET_JOBS_BY_GAME_ID_CLIENT,
     variables: {
       gameId: game.id
     },
