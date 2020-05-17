@@ -17,6 +17,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
 import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
 import { GET_ACCEPTED_JOBS_SERVER } from './graphql/queries/server/getAcceptedJobs';
+import { GET_JOBS_BY_GAME_ID } from './graphql/queries/server/getJobsByGameIdServer';
 
 // Style
 import './App.css';
@@ -82,6 +83,18 @@ client.writeQuery({
       game: null,
     }
 })
+
+if (localStorage.hasOwnProperty('jobs')) {
+  client.writeQuery({
+    query: GET_JOBS_BY_GAME_ID,
+    variables: {
+      gameId: game.id
+    },
+    data: {
+      getJobsByGameId: JSON.parse(localStorage.getItem('jobs') || '[]')
+    }
+  })
+}
 
 if (localStorage.hasOwnProperty('mission')) {
   client.writeQuery({

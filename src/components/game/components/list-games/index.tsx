@@ -7,13 +7,13 @@ import { useApolloClient } from '@apollo/client';
 import AddGameModal from './components/addGameModal';
 import GameItem from './components/gameItem';
 import Contact from '../../../contact';
+import NavBar from '../../../navbar';
 
 // apollo
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/getPlayerAndGamesClient';
 
 // style
 import './style.css';
-import NavBar from '../../../navbar';
 
 
 
