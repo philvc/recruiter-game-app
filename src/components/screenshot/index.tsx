@@ -62,6 +62,20 @@ const Screenshot = ({ openModal }: any) => {
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
 
+      client.writeFragment({
+        id: `Mission:${updateMissionV2.id}`,
+        fragment: gql`
+          fragment MyMission on Mission {
+            isReviewed
+            status
+          }
+        `,
+        data: {
+          isReviewed: updateMissionV2.isReviewed,
+          status: updateMissionV2.status,
+        }
+      })
+
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
 
       localStorage.setItem('missions', JSON.stringify(missions))
