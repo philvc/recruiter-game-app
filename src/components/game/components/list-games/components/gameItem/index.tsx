@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // modules
 import { Link } from '@reach/router';
-import { useApolloClient, useLazyQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 
 // apollo
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
@@ -15,14 +15,10 @@ const GameItem = ({ game }: any) => {
   const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
 
   // query
-  const [getJobsByGameId] = useLazyQuery(GET_JOBS_BY_GAME_ID_SERVER, {
+  const { loading, error, data } = useQuery(GET_JOBS_BY_GAME_ID_SERVER, { variables: { gameId: game.id } })
 
-    onCompleted({ getJobsByGameId }) {
-      console.log('lazy query result', getJobsByGameId)
-
-      localStorage.setItem('jobs', JSON.stringify(getJobsByGameId))
-    }
-  })
+  if (loading) return null
+  if (error) return null
 
   const playerRole = player.id === game.recruiterId ? 'Recruiter' : 'Applicant';
 
@@ -30,13 +26,6 @@ const GameItem = ({ game }: any) => {
     <div>
       <Link to={`${game.title.split(" ").join('')}/missions`}>
         <div className='game-link' onClick={() => {
-
-          // query
-          getJobsByGameId({
-            variables: {
-              gameId: game.id,
-            }
-          })
 
           // update client
           client.writeQuery(
