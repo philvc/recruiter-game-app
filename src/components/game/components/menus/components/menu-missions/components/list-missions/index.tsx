@@ -55,7 +55,9 @@ const ListMissions = ({ path }: any) => {
 
       // update client
       const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
-      const newJobsList = getJobsByGameId.concat(createJobs)
+
+      const newJobsList = getJobsByGameId !== null ? getJobsByGameId.concat(createJobs) : createJobs
+
       client.writeQuery({
         query: GET_JOBS_BY_GAME_ID_CLIENT,
         variables: {
@@ -76,7 +78,7 @@ const ListMissions = ({ path }: any) => {
     onCompleted({ createMission }) {
 
       // create 10 job offers
-      createJobs({ variables: { gameId: game.id, missionType: 'mission10JobsId', missionId: createMission.id, quantity: 10 } })
+      createJobs({ variables: { gameId: game.id, missionType: 'mission10JobsId', missionId: createMission[0].id, quantity: 10 } })
 
       // update client
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId: game.id } })
@@ -98,9 +100,6 @@ const ListMissions = ({ path }: any) => {
       localStorage.setItem('missions', JSON.stringify(newMissions))
     }
   })
-
-
-  // creer 1 mission, créer 10 jobs, update missions, mission, getJobsByGameId, save dans storage
 
   // effects
   React.useEffect(() => {

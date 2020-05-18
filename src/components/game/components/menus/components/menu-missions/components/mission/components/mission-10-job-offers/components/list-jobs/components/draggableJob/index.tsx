@@ -3,13 +3,13 @@ import * as React from 'react';
 // modules
 import { useDrag, useDrop } from 'react-dnd';
 
+// components
+import JobItem from './components/job-item';
+
 // apollo
-import { useMutation, useApolloClient } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
 
-// reducer
-import { reducer } from './reducer';
-import JobItem from './components/job-item';
 
 
 

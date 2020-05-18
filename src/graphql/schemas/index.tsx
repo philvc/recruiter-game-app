@@ -10,7 +10,4 @@ export const typeDefs = gql`
     gameId: String
     missionId: String
   }
-
-  extend type Mutation {
-  }
 `

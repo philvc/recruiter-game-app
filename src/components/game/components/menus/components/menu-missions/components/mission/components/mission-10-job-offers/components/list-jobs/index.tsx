@@ -1,20 +1,20 @@
 import * as React from 'react';
 
 // modules
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import update from 'immutability-helper'
 
 
 // components
 import DraggableJob from './components/draggableJob';
 import ListProgress from './components/list-progress';
+import SaveResultButton from './components/save-result-button';
 
 // graphql
-import { GET_JOBS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getJobsServer';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getMissionClient';
-import SaveResultButton from './components/save-result-button';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_PLAYER_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getPlayerClient';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
 const List = () => {
 
@@ -23,31 +23,16 @@ const List = () => {
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
   const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
+  const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
+
+  // filter jobs for missionId
+  const filteredJobs = getJobsByGameId.filter((job: any) => job.mission10JobsId === mission.id)
+  const jobsSortedByRank = filteredJobs.slice().sort((a: any, b: any) => {
+    return a.rank - b.rank
+  })
 
   // state 
-  const [jobs, setJobs] = React.useState([])
-
-  // queries
-  const { loading, error, data } = useQuery(GET_JOBS_SERVER, {
-    variables: { missionId: mission.id },
-    onCompleted({ jobs }) {
-      const jobsSortedByRank = jobs.slice().sort((a: any, b: any) => {
-        return a.rank - b.rank
-      })
-      setJobs(jobsSortedByRank)
-    }
-  });
-
-  // effects
-  React.useEffect(() => {
-    if (data) {
-      const { jobs } = data
-      const jobsSortedByRank = jobs.slice().sort((a: any, b: any) => {
-        return a.rank - b.rank
-      })
-      setJobs(jobsSortedByRank)
-    }
-  }, [data])
+  const [jobs, setJobs] = React.useState(jobsSortedByRank)
 
   // helpers
   const moveJob = React.useCallback(
@@ -66,9 +51,6 @@ const List = () => {
     },
     [jobs],
   )
-
-  if (loading) return null
-  if (error) return null
 
   return (
     <>

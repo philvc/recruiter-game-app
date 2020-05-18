@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 // apollo
-import { useMutation, useApolloClient } from '@apollo/client';
+import { useMutation, useApolloClient, gql } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
-import { GET_ACCEPTED_JOBS_SERVER } from '../../../../../../../../../../../../../../../../../../graphql/queries/server/getAcceptedJobs';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
 const JobCheckboxInputField = ({ name, value, jobId }: any) => {
 
@@ -18,27 +18,22 @@ const JobCheckboxInputField = ({ name, value, jobId }: any) => {
   // mutations
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted({ updateJob }) {
-      if (localStorage.hasOwnProperty('acceptedJobs')) {
+      // update client
+      client.writeFragment({
+        id: `Job:${updateJob.id}`,
+        fragment: gql`
+          fragment MyJob on Job {
+            isAccepted
+          }
+        `,
+        data: {
+          isAccepted: updateJob.isAccepted,
+        }
+      })
 
-        const { acceptedJobs }: any = client.readQuery({ query: GET_ACCEPTED_JOBS_SERVER, variables: { gameId: game.id } })
-
-        const newAcceptedJobs = updateJob.isAccepted ?
-          // add unchecked job
-          acceptedJobs.concat([updateJob])
-          :
-          // remove unchecked job
-          acceptedJobs.filter((job: any) => job.id !== updateJob.id)
-        client.writeQuery({
-          query: GET_ACCEPTED_JOBS_SERVER,
-          variables: {
-            gameId: game.id
-          },
-          data: { acceptedJobs: newAcceptedJobs }
-        })
-
-        localStorage.setItem('acceptedJobs', JSON.stringify(newAcceptedJobs))
-      }
-
+      // update storage
+      const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
+      localStorage.setItem('jobs', JSON.stringify(getJobsByGameId))
     }
   })
 
