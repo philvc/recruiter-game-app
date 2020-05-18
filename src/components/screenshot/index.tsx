@@ -17,7 +17,6 @@ import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
 import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
-import { GET_ACCEPTED_JOBS_SERVER } from '../../graphql/queries/server/getAcceptedJobs';
 import { CREATE_MISSION } from '../../graphql/mutations/server/createMissionServer';
 
 const Screenshot = ({ openModal }: any) => {
@@ -53,31 +52,6 @@ const Screenshot = ({ openModal }: any) => {
             selectedJob: updateJob,
           }
         })
-      }
-
-      if (updateJob.isApplied || !updateJob.isSelected) {
-
-        // update client
-        const { acceptedJobs }: any = client.readQuery({ query: GET_ACCEPTED_JOBS_SERVER, variables: { gameId: game.id } })
-
-        const filterAcceptedJobs = updateJob.isApplied ?
-          acceptedJobs.filter((job: any) => job.id !== updateJob.id)
-          :
-          // if challenge declined, save again the selected job in the acceptedJobs list
-          acceptedJobs.concat([updateJob])
-
-        client.writeQuery({
-          query: GET_ACCEPTED_JOBS_SERVER,
-          variables: {
-            gameId: game.id
-          },
-          data: {
-            acceptedJobs: filterAcceptedJobs
-          }
-        })
-
-        // update storage
-        localStorage.setItem('acceptedJobs', JSON.stringify(filterAcceptedJobs))
       }
 
       // update storage

@@ -19,7 +19,6 @@ import { typeDefs } from './graphql/schemas';
 import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAndGamesClient';
 import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
 import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
-import { GET_ACCEPTED_JOBS_SERVER } from './graphql/queries/server/getAcceptedJobs';
 import { GET_JOBS_BY_GAME_ID_SERVER } from './graphql/queries/server/getJobsByGameIdServer';
 
 
@@ -110,17 +109,6 @@ if (localStorage.hasOwnProperty('mission')) {
     data: {
       mission: JSON.parse(localStorage.getItem('mission') || '{}')
     }
-  })
-}
-
-
-if (localStorage.hasOwnProperty('acceptedJobs')) {
-  client.writeQuery({
-    query: GET_ACCEPTED_JOBS_SERVER,
-    variables: {
-      gameId: game.id
-    },
-    data: { acceptedJobs: JSON.parse(localStorage.getItem('acceptedJobs') || '[]') }
   })
 }
 

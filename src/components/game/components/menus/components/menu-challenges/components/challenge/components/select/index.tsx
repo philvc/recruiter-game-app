@@ -18,6 +18,7 @@ const Select = ({ setSelectedJob }: any) => {
   const filteredJobs = getJobsByGameId
     .filter((job: any) => job.gameId === game.id)
     .filter((job: any) => job.isAccepted === true)
+    .filter((job: any) => job.isApplied === false)
 
   const [jobList, setJobList] = React.useState(filteredJobs)
 
