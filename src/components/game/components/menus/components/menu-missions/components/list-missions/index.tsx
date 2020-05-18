@@ -65,6 +65,8 @@ const ListMissions = ({ path }: any) => {
     }
   })
 
+  // creer 1 mission , send an email et créer 10 jobs, update missions, mission, getJobsByGameId, save dans storage
+
   // effects
   React.useEffect(() => {
 

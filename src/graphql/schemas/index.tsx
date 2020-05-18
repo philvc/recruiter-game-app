@@ -12,6 +12,5 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    updateGameId(id: String): String
   }
 `

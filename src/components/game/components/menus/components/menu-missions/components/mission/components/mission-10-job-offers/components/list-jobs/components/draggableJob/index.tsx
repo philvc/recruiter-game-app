@@ -15,28 +15,10 @@ import JobItem from './components/job-item';
 
 const DraggableJob = ({ id, index, moveJob, job }: any) => {
 
-  // client
-  // const client = useApolloClient()
-  // const { game, player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
-
-  // state & ref
-  // const [state, dispatch] = React.useReducer(reducer, job)
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
 
-  //mutation
-  // const [updateMission] = useMutation(UPDATE_MISSION_SERVER, {
-  //   variables: { id: missionId },
-  //   onCompleted({ updateMission }) {
-  //     console.log('updateMission', updateMission)
-  //     localStorage.setItem('mission', JSON.stringify(updateMission))
-  //   }
-  // })
 
-  const [updateJobServer] = useMutation(UPDATE_JOB_SERVER, {
-    onCompleted() {
-      // updateMission()
-    }
-  })
+  const [updateJobServer] = useMutation(UPDATE_JOB_SERVER)
 
   // effects
   React.useEffect(() => {
@@ -52,21 +34,6 @@ const DraggableJob = ({ id, index, moveJob, job }: any) => {
     updateJobRank()
 
   }, [index, id, updateJobServer, job])
-
-  // React.useEffect(() => {
-  //   async function updateJobIsComplete() {
-  //     updateJobServer({
-  //       variables: {
-  //         id: job.id,
-  //         field: 'isComplete',
-  //         data: state.isComplete
-  //       }
-  //     })
-
-  //   }
-  //   updateJobIsComplete()
-
-  // }, [state.isComplete, updateJobServer, job])
 
   // helpers
   const [, drop] = useDrop({
