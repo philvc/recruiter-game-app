@@ -16,9 +16,9 @@ import { SEND_MESSAGE } from '../../graphql/mutations/server/sendMessage';
 import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
 import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
-import { ADD_JOB_APPLICATION_MISSION } from '../../graphql/mutations/server/addJobApplicationMission';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_ACCEPTED_JOBS_SERVER } from '../../graphql/queries/server/getAcceptedJobs';
+import { CREATE_MISSION } from '../../graphql/mutations/server/createMissionServer';
 
 const Screenshot = ({ openModal }: any) => {
 
@@ -94,10 +94,10 @@ const Screenshot = ({ openModal }: any) => {
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
     }
   })
-  const [addJobApplicationMission] = useMutation(ADD_JOB_APPLICATION_MISSION, {
-    onCompleted({ addJobApplicationMission }) {
+  const [createMission] = useMutation(CREATE_MISSION, {
+    onCompleted({ createMission }) {
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
-      const newMissions = missions.concat(addJobApplicationMission)
+      const newMissions = missions.concat(createMission)
       client.writeQuery({
         query: GET_MISSIONS_CLIENT,
         variables: { gameId: game.id },
@@ -192,10 +192,11 @@ const Screenshot = ({ openModal }: any) => {
       })
 
 
-      await addJobApplicationMission({
+      await createMission({
         variables: {
           quantity: 3,
-          gameId: game.id
+          gameId: game.id,
+          type: 'jobapplication',
         }
       })
     }

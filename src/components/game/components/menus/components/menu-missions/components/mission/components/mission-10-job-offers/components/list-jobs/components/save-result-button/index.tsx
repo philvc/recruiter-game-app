@@ -7,9 +7,9 @@ import { navigate } from '@reach/router';
 import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
-import { ADD_JOB_APPLICATION_MISSION } from '../../../../../../../../../../../../../../graphql/mutations/server/addJobApplicationMission';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionsClient';
+import { CREATE_MISSION } from '../../../../../../../../../../../../../../graphql/mutations/server/createMissionServer';
 
 const SaveResultButton = () => {
 
@@ -23,17 +23,17 @@ const SaveResultButton = () => {
     onCompleted({ updateMissionV2 }) {
 
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
-      console.log('missions', missions)
+
       // update storage
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
       localStorage.setItem('missions', JSON.stringify(missions))
     }
   })
 
-  const [addJobApplicationMission] = useMutation(ADD_JOB_APPLICATION_MISSION, {
-    onCompleted({ addJobApplicationMission }) {
+  const [createMission] = useMutation(CREATE_MISSION, {
+    onCompleted({ createMission }) {
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
-      const newMissions = missions.concat(addJobApplicationMission)
+      const newMissions = missions.concat(createMission)
       client.writeQuery({
         query: GET_MISSIONS_CLIENT,
         variables: { gameId: game.id },
@@ -55,10 +55,11 @@ const SaveResultButton = () => {
     })
 
     // add 1 job-application mission
-    addJobApplicationMission({
+    createMission({
       variables: {
         quantity: 1,
-        gameId: game.id
+        gameId: game.id,
+        type: 'jobapplication',
       }
     })
 
