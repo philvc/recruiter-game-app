@@ -55,7 +55,7 @@ const List = () => {
   return (
     <>
       <div>
-        <ListProgress jobs={jobs} />
+        <ListProgress />
         {
           jobs
             .map((job: any, index: number) => (

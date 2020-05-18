@@ -9,13 +9,15 @@ import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../gra
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
-const ListProgress = ({ jobs }: any) => {
+const ListProgress = () => {
 
   // client
   const client = useApolloClient()
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
 
   // mutations
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
@@ -28,7 +30,7 @@ const ListProgress = ({ jobs }: any) => {
     }
   })
 
-  const completedJobs = jobs.filter((job: any) => job.url !== "" && job.name !== "").length
+  const completedJobs = getJobsByGameId.filter((job: any) => job.url !== "" && job.name !== "").length
 
   // effect 
   React.useEffect(() => {
@@ -39,7 +41,7 @@ const ListProgress = ({ jobs }: any) => {
         data: completedJobs,
       }
     })
-  }, [jobs, updateMissionV2, mission, completedJobs])
+  }, [getJobsByGameId, updateMissionV2, mission, completedJobs])
 
   return (
     <div>
