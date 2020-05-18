@@ -7,7 +7,6 @@ import update from 'immutability-helper'
 
 // components
 import DraggableJob from './components/draggableJob';
-import ListProgress from './components/list-progress';
 import SaveResultButton from './components/save-result-button';
 
 // graphql
@@ -55,7 +54,6 @@ const List = () => {
   return (
     <>
       <div>
-        <ListProgress />
         {
           jobs
             .map((job: any, index: number) => (

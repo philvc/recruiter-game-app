@@ -7,6 +7,7 @@ import { Link } from '@reach/router';
 // components
 import NavBar from '../../../../../../../navbar';
 import Contact from '../../../../../../../contact';
+import ListProgress from '../mission/components/mission-10-job-offers/components/list-jobs/components/list-progress';
 
 // style
 import './style.css'
@@ -118,7 +119,6 @@ const ListMissions = ({ path }: any) => {
 
   if (loading) return null
   if (error) return null
-
   return (
     <div>
       <NavBar />
@@ -139,8 +139,7 @@ const ListMissions = ({ path }: any) => {
             }}>
               <p>{mission.type}</p>
             </Link>
-            <p>Progress: {mission.progress || 0}/10</p>
-
+            <ListProgress />
             {mission.isReviewed && mission.status !== 'completed' && <p>Under review</p>}
             {mission.status === 'completed' && (
               <div>

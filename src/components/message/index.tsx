@@ -7,7 +7,7 @@ const Message = ({ setMessage, message }: any) => {
   }
   return (
     <div>
-      <label> Send your message:
+      <label> Ask your friend to review the message and send him a message:
         <input type='texteArea' name='message' value={message} onChange={handleChange} />
       </label>
     </div>
