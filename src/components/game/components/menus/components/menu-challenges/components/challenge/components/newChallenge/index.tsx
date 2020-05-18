@@ -32,8 +32,20 @@ const NewChallenge = () => {
   const [isChallengeSent, setIsChallengeSent] = React.useState(false)
 
   // mutations
+
+  // update mission & send email
   const [startJobApplication] = useMutation(START_JOB_APPLICATION, {
     onCompleted({ startJobApplication }: any) {
+
+      updateJob({
+        variables: {
+          id: startJobApplication.selectedJob.id,
+          field: 'missionJobApplicationId',
+          data: startJobApplication.id
+        }
+      })
+
+      // update client
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
       const newMissions = missions.concat([startJobApplication])
 
@@ -51,9 +63,12 @@ const NewChallenge = () => {
         },
         data: newMissions
       })
+
+      // update storage
       localStorage.setItem('mission', JSON.stringify(startJobApplication))
       localStorage.setItem('missions', JSON.stringify(newMissions))
 
+      // redirect
       navigate(`/games/${game.title.split(" ").join('')}/challenges`)
 
     }

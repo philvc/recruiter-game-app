@@ -1,22 +1,25 @@
 import * as React from 'react';
 
 // modules
-import { useMutation, useQuery, useApolloClient, gql } from '@apollo/client';
+import { useMutation, useQuery, useApolloClient } from '@apollo/client';
 import { Link } from '@reach/router';
 
 // components
 import NavBar from '../../../../../../../navbar';
 import Contact from '../../../../../../../contact';
 
+// style
+import './style.css'
+
 // grapqhql
 import { GET_MISSIONS_SERVER } from '../../../../../../../../graphql/queries/server/getMissionsServer';
-import { ADD_LIST10JOBOFFERSMISSION_SERVER } from '../../../../../../../../graphql/mutations/server/addList10JobOffersMission';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
+import { CREATE_MISSION } from '../../../../../../../../graphql/mutations/server/createMissionServer';
+import { CREATE_JOBS } from '../../../../../../../../graphql/mutations/server/createJobsServer';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
-// style
-import './style.css'
 
 const ListMissions = ({ path }: any) => {
 
@@ -47,25 +50,57 @@ const ListMissions = ({ path }: any) => {
   )
 
   // mutations
-  const [addList10JobOffersMission] = useMutation(ADD_LIST10JOBOFFERSMISSION_SERVER, {
-    update(cache, { data: { addList10JobOffersMission } }) {
-      const { missions }: any = cache.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId: game.id } })
+  const [createJobs] = useMutation(CREATE_JOBS, {
+    onCompleted({ createJobs }) {
 
-      const newMissions = missions.concat([addList10JobOffersMission.mission])
-      cache.writeQuery({
+      // update client
+      const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
+      const newJobsList = getJobsByGameId.concat(createJobs)
+      client.writeQuery({
+        query: GET_JOBS_BY_GAME_ID_CLIENT,
+        variables: {
+          gameId: game.id
+        },
+        data: {
+          getJobsByGameId: newJobsList
+        }
+      })
+
+      // update storage
+      localStorage.setItem('jobs', JSON.stringify(newJobsList))
+    }
+  })
+
+  const [createMission] = useMutation(CREATE_MISSION, {
+
+    onCompleted({ createMission }) {
+
+      // create 10 job offers
+      createJobs({ variables: { gameId: game.id, missionType: 'mission10JobsId', missionId: createMission.id, quantity: 10 } })
+
+      // update client
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId: game.id } })
+
+      const newMissions = missions.concat(createMission)
+
+      client.writeQuery({
         query: GET_MISSIONS_SERVER,
         variables: { gameId: game.id },
         data: {
           missions: newMissions
         }
       })
-      setStateMissions(newMissions.filter((mission: any) => mission.type === '10jobs'))
-      localStorage.setItem('missions', JSON.stringify(newMissions))
 
+      // update state
+      setStateMissions(newMissions.filter((mission: any) => mission.type === '10jobs'))
+
+      // update storage
+      localStorage.setItem('missions', JSON.stringify(newMissions))
     }
   })
 
-  // creer 1 mission , send an email et créer 10 jobs, update missions, mission, getJobsByGameId, save dans storage
+
+  // creer 1 mission, créer 10 jobs, update missions, mission, getJobsByGameId, save dans storage
 
   // effects
   React.useEffect(() => {
@@ -78,7 +113,8 @@ const ListMissions = ({ path }: any) => {
 
   // helpers
   function handleClick() {
-    addList10JobOffersMission({ variables: { type: '10jobs', gameId: game.id, } })
+    createMission({ variables: { type: '10jobs', gameId: game.id, quantity: 1 } })
+
   }
 
   if (loading) return null
