@@ -4,7 +4,7 @@ import * as React from 'react';
 import { navigate } from '@reach/router';
 
 // apollo
-import { useMutation, useApolloClient } from '@apollo/client';
+import { useMutation, useApolloClient, gql } from '@apollo/client';
 import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
@@ -22,6 +22,17 @@ const SaveResultButton = () => {
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
 
+      client.writeFragment({
+        id: `Mission:${mission.id}`,
+        fragment: gql`
+          fragment MyMission on Mission {
+            status
+          }
+        `,
+        data: {
+          status: 'completed'
+        }
+      })
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
 
       // update storage

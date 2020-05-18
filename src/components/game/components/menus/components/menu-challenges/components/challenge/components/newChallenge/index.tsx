@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient, useMutation, gql } from '@apollo/client';
 import { navigate } from '@reach/router';
 
 // components
@@ -15,7 +15,8 @@ import { START_JOB_APPLICATION } from '../../../../../../../../../../graphql/mut
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionsClient';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../graphql/mutations/server/updateJobServer';
-import { GET_ACCEPTED_JOBS_SERVER } from '../../../../../../../../../../graphql/queries/server/getAcceptedJobs';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
+import { SEND_MESSAGE } from '../../../../../../../../../../graphql/mutations/server/sendMessage';
 
 const NewChallenge = () => {
 
@@ -33,17 +34,9 @@ const NewChallenge = () => {
 
   // mutations
 
-  // update mission & send email
+  const [sendMessage] = useMutation(SEND_MESSAGE)
   const [startJobApplication] = useMutation(START_JOB_APPLICATION, {
-    onCompleted({ startJobApplication }: any) {
-
-      updateJob({
-        variables: {
-          id: startJobApplication.selectedJob.id,
-          field: 'missionJobApplicationId',
-          data: startJobApplication.id
-        }
-      })
+    onCompleted({ startJobApplication }) {
 
       // update client
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
@@ -70,30 +63,31 @@ const NewChallenge = () => {
 
       // redirect
       navigate(`/games/${game.title.split(" ").join('')}/challenges`)
-
     }
   })
 
+
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted({ updateJob }) {
+
       // update client
-      const { acceptedJobs }: any = client.readQuery({ query: GET_ACCEPTED_JOBS_SERVER, variables: { gameId: game.id } })
-      const filterAcceptedJobs = acceptedJobs.filter((job: any) => job.id !== updateJob.id)
-      console.log('filteracceptejobs', filterAcceptedJobs)
-      client.writeQuery({
-        query: GET_ACCEPTED_JOBS_SERVER,
-        variables: {
-          gameId: game.id
-        },
+      client.writeFragment({
+        id: `Job:${updateJob.id}`,
+        fragment: gql`
+          fragment MyJob on Job {
+            isSelected
+            missionJobApplicationId
+          }
+        `,
         data: {
-          acceptedJobs: filterAcceptedJobs
+          isSelected: updateJob.isSelected,
+          missionJobApplicationId: updateJob.missionJobApplicationId
         }
       })
 
-      // TODO storage mission
-
-      // update storage
-      localStorage.setItem('acceptedJobs', JSON.stringify(filterAcceptedJobs))
+      //update storage
+      const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
+      localStorage.setItem('jobs', JSON.stringify(getJobsByGameId))
     }
   })
 
@@ -117,7 +111,26 @@ const NewChallenge = () => {
       }
     })
 
+    updateJob({
+      variables: {
+        id: selectedJob.id,
+        field: 'missionJobApplicationId',
+        data: mission.id
+      }
+    })
+
     startJobApplication({ variables: params })
+
+    sendMessage({
+      variables:
+      {
+        recipientId: game.applicantId,
+        subject: 'Quick ! You have a new challenge',
+        message: 'Go see your new Challenge & apply for a new job',
+        link: selectedJob.url,
+      }
+    })
+
   }
 
   return (

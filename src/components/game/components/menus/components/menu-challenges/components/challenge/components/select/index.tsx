@@ -1,45 +1,31 @@
 import * as React from 'react';
 
 // modules
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 
 // apollo
-import { GET_ACCEPTED_JOBS_SERVER } from '../../../../../../../../../../graphql/queries/server/getAcceptedJobs';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
 const Select = ({ setSelectedJob }: any) => {
 
   // client
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
 
   // state
-  const [jobList, setJobList] = React.useState([])
+  const filteredJobs = getJobsByGameId
+    .filter((job: any) => job.gameId === game.id)
+    .filter((job: any) => job.isAccepted === true)
 
-  // queries
-  const { loading, error, data }: any = useQuery(GET_ACCEPTED_JOBS_SERVER, {
-    variables: { gameId: game.id },
-    onCompleted({ acceptedJobs }) {
-      localStorage.setItem('acceptedJobs', JSON.stringify(acceptedJobs))
-    }
-  })
-
-  // effect
-  React.useEffect(() => {
-    if (data?.acceptedJobs) {
-      setJobList(data?.acceptedJobs)
-    }
-
-  }, [data])
+  const [jobList, setJobList] = React.useState(filteredJobs)
 
   // handler
   function handleChange(e: any) {
     const job = jobList[e.target.value]
     setSelectedJob(job)
   }
-
-  if (loading) return null;
-  if (error) return null;
 
   return (
     <div>

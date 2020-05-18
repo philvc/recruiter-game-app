@@ -18,7 +18,8 @@ const GameItem = ({ game }: any) => {
   const { loading, error, data } = useQuery(GET_JOBS_BY_GAME_ID_SERVER, {
     variables: { gameId: game.id },
     onCompleted({ getJobsByGameId }) {
-      localStorage.setItem('jobs', JSON.stringify(getJobsByGameId))
+      const jobs = JSON.parse(localStorage.getItem('jobs') || '[]')
+      localStorage.setItem('jobs', JSON.stringify(jobs.concat(getJobsByGameId) || getJobsByGameId))
     }
   })
 
