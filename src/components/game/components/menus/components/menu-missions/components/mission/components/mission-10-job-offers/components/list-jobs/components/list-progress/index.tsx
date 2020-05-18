@@ -30,7 +30,9 @@ const ListProgress = () => {
     }
   })
 
-  const completedJobs = getJobsByGameId.filter((job: any) => job.url !== "" && job.name !== "").length
+  const completedJobs = getJobsByGameId
+    .filter((job: any) => job.mission10JobsId === mission.id)
+    .filter((job: any) => job.url !== "" && job.name !== "").length
 
   // effect 
   React.useEffect(() => {
