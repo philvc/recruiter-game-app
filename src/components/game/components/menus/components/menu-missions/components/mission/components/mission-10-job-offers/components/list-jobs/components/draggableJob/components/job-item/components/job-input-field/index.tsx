@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { actions } from '../../reducer'
+
 // apollo
 import { useMutation, useApolloClient, gql } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
@@ -7,7 +9,7 @@ import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../..
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
 
-const JobInputField = ({ name, value, jobId }: any) => {
+const JobInputField = ({ name, value, jobId, dispatch }: any) => {
 
   // client
   const client = useApolloClient()
@@ -52,6 +54,8 @@ const JobInputField = ({ name, value, jobId }: any) => {
         data: e.target.value
       }
     })
+
+    dispatch({ type: e.target.name === 'name' ? actions.isNameComplete : actions.isUrlComplete, payload: e.target.value })
   }
 
   return (

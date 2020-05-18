@@ -1,29 +1,107 @@
 import * as React from 'react';
 
 // modules
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useMutation, gql } from '@apollo/client';
 
 // components
 import JobInputField from './components/job-input-field';
 import JobCheckboxInputField from './components/job-checkbox-input-field';
 
+import { reducer } from './reducer';
+
 // apollo
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_PLAYER_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getPlayerClient';
+import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
+import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
+import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
+import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getMissionsClient';
 
 const JobItem = ({ job, index }: any) => {
 
   // client
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
+
+  // state
+  const initialState = {
+    isUrlComplete: job.url ? true : false,
+    isNameComplete: job.name ? true : false,
+    isJobItemComplete: job.url && job.name ? true : false
+  }
+
+  const [state, dispatch] = React.useReducer(reducer, initialState)
+
+  // mutation
+  const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
+    onCompleted({ updateMissionV2 }) {
+
+      // update mission
+      localStorage.setItem('mission', JSON.stringify(updateMissionV2))
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+      localStorage.setItem('missions', JSON.stringify(missions))
+
+    }
+  })
+
+  const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
+    onCompleted({ updateJob }) {
+      console.log('updateJob', updateJob)
+      // update client
+      client.writeFragment({
+        id: `Job:${updateJob.id}`,
+        fragment: gql`
+          fragment MyJob on Job {
+            isComplete
+          }
+        `,
+        data: {
+          isComplete: updateJob.isComplete
+        }
+      })
+
+      // update mission progress
+      const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
+      const completedJobs = getJobsByGameId
+        .filter((job: any) => job.mission10JobsId === mission.id)
+        .filter((job: any) => job.isComplete === true)
+
+      console.log('completedJob', completedJobs)
+
+      updateMissionV2({
+        variables: {
+          id: mission.id,
+          field: 'progress',
+          data: completedJobs.length
+        }
+      })
+
+      // update storage
+      localStorage.setItem('jobs', JSON.stringify(getJobsByGameId))
+    }
+  })
+
+  // effect
+  React.useEffect(() => {
+    console.log('state', state)
+    updateJob({
+      variables: {
+        id: job.id,
+        field: 'isComplete',
+        data: state.isJobItemComplete
+      }
+    })
+  }, [updateJob, job.id, state])
 
   return (
     <div>
       <span>{index + 1}</span>
       <span>{job.id}</span>
-      <JobInputField name='url' value={job.url} jobId={job.id} />
-      <JobInputField name='name' value={job.name} jobId={job.id} />
+      <JobInputField name='url' value={job.url} jobId={job.id} dispatch={dispatch} />
+      <JobInputField name='name' value={job.name} jobId={job.id} dispatch={dispatch} />
       {player.id === game.applicantId && <JobCheckboxInputField name='isAccepted' value={job.isAccepted} jobId={job.id} />}
     </div>
   );
