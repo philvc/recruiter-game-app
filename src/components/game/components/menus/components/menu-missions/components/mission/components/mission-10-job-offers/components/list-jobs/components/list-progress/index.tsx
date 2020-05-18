@@ -1,20 +1,16 @@
 import * as React from 'react';
 
 // modules
-import { useApolloClient } from '@apollo/client';
 
 // component
 import ReviewButton from './components/review-button';
 
 // apollo
-import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 
 
-const ListProgress = () => {
+const ListProgress = ({ mission }: any) => {
 
   // client
-  const client = useApolloClient()
-  const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
 
 
   return (

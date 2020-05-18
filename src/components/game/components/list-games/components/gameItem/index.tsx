@@ -15,7 +15,12 @@ const GameItem = ({ game }: any) => {
   const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
 
   // query
-  const { loading, error, data } = useQuery(GET_JOBS_BY_GAME_ID_SERVER, { variables: { gameId: game.id } })
+  const { loading, error, data } = useQuery(GET_JOBS_BY_GAME_ID_SERVER, {
+    variables: { gameId: game.id },
+    onCompleted({ getJobsByGameId }) {
+      localStorage.setItem('jobs', JSON.stringify(getJobsByGameId))
+    }
+  })
 
   if (loading) return null
   if (error) return null

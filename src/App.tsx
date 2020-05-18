@@ -20,7 +20,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
 import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
 import { GET_ACCEPTED_JOBS_SERVER } from './graphql/queries/server/getAcceptedJobs';
-import { GET_JOBS_BY_GAME_ID_CLIENT } from './graphql/queries/client/getJobsByGameIdClient';
+import { GET_JOBS_BY_GAME_ID_SERVER } from './graphql/queries/server/getJobsByGameIdServer';
 
 
 // Graphql default state
@@ -85,16 +85,23 @@ client.writeQuery({
     }
 })
 
-if (localStorage.hasOwnProperty('jobs')) {
-  client.writeQuery({
-    query: GET_JOBS_BY_GAME_ID_CLIENT,
-    variables: {
-      gameId: game.id
-    },
-    data: {
-      getJobsByGameId: JSON.parse(localStorage.getItem('jobs') || '[]')
-    }
-  })
+if (localStorage.hasOwnProperty('games')) {
+
+  const games = JSON.parse(localStorage.getItem('games') || '[]')
+  const jobs = JSON.parse(localStorage.getItem('jobs') || '[]')
+
+  for (let i = 0; i < games.length; i++) {
+
+    client.writeQuery({
+      query: GET_JOBS_BY_GAME_ID_SERVER,
+      variables: { gameId: games[i].id },
+      data: {
+        getJobsByGameId: jobs.filter((job: any) => job.gameId === games[i].id)
+      }
+    })
+
+  }
+
 }
 
 if (localStorage.hasOwnProperty('mission')) {
