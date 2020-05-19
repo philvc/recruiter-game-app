@@ -7,6 +7,14 @@ export const GET_GAME_CLIENT = gql`
       title
       applicantId
       recruiterId
+      applicant {
+        email
+        playerName
+      }
+      recruiter {
+        email
+        playerName
+      }
       missionsAccomplished
     }
   }

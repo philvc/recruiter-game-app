@@ -1,16 +1,6 @@
-.game-list-container {
+.list-games-body {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-
-}
-
-.game-list-ul {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: space-evenly;
 }
 
 .game-list-ul li {
@@ -21,9 +11,9 @@
     margin: 10px 0;
 }
 
-.game-list-title {
-    margin: 20px 0;
-} 
+.list-games-title {
+    text-align: center;
+}
 
 .start-game-button {
     margin: 20px 0;

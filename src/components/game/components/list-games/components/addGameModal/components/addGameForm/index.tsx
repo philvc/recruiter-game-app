@@ -65,7 +65,7 @@ const AddGameForm = ({ openModal }: any) => {
     }
   }, [state, addGameMutation, player.id])
 
-  // helpers
+  // handlers
   function handleChange(e: any) {
     dispatch({ type: `${e.target.name}Changed`, payload: e.target.value })
   }

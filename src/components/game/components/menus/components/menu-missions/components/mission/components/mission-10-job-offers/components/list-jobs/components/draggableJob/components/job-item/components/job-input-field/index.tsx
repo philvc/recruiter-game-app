@@ -44,7 +44,7 @@ const JobInputField = ({ name, value, jobId, dispatch }: any) => {
     }
   })
 
-  // helpers
+  // handlers
   function handleChange(e: any) {
     setState(e.target.value)
     updateJob({

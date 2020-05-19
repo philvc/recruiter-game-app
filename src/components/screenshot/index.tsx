@@ -96,9 +96,7 @@ const Screenshot = ({ openModal }: any) => {
     }
   })
 
-  // helpers
-
-  // createSignedPutUrl
+  // handlers
   function handleCreateSignedPutUrl(file: any) {
     setFile(file)
     createSignedPutUrl({

@@ -111,7 +111,7 @@ const ListMissions = ({ path }: any) => {
   }, [data])
 
 
-  // helpers
+  // handlers
   function handleClick() {
     createMission({ variables: { type: '10jobs', gameId: game.id, quantity: 1 } })
 

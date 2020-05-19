@@ -31,19 +31,19 @@ const ListGames = ({ path }: any) => {
   return (
     <div>
       <NavBar />
-      <div className='game-list-container'>
-        <div className='game-list-title'>
+      <div className='list-games-container'>
+        <div className='list-games-title'>
           <h3>Games</h3>
+          <div className='start-game-button'>
+            <AddGameModal />
+          </div>
         </div>
-        <ul className='game-list-ul'>
+        <div className='list-games-body'>
           {
             gamesList.map((game: any) => (
               <GameItem key={game.id} game={game} />
             ))
           }
-        </ul>
-        <div className='start-game-button'>
-          <AddGameModal />
         </div>
       </div>
       <Contact />

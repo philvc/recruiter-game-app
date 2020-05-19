@@ -55,7 +55,7 @@ const SaveResultButton = () => {
     }
   })
 
-  // helpers
+  // handlers
   function handleClick(e: any) {
     updateMissionV2({
       variables: {

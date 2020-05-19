@@ -26,8 +26,6 @@ const GameItem = ({ game }: any) => {
   if (loading) return null
   if (error) return null
 
-  const playerRole = player.id === game.recruiterId ? 'Recruiter' : 'Applicant';
-
   return (
     <div>
       <Link to={`${game.title.split(" ").join('')}/missions`}>
@@ -49,7 +47,9 @@ const GameItem = ({ game }: any) => {
           {game.title}
         </div>
       </Link>
-      <p>{`I am ${playerRole}`}</p>
+      <p>{`recruiter: `}</p>
+      <p>{`job seeker: `}</p>
+      <p>{`started: `}</p>
     </div>
   )
 }

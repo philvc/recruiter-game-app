@@ -91,7 +91,7 @@ const NewChallenge = () => {
     }
   })
 
-  // helpers
+  // handlers
   function handleClick() {
     const params = {
       missionId: mission.id,

@@ -26,7 +26,7 @@ const ReviewButton = () => {
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2)
   const [sendMessage] = useMutation(SEND_MESSAGE)
 
-  // helpers
+  // handlers
   function handleClick(e: any) {
     // update mission
     updateMissionV2({

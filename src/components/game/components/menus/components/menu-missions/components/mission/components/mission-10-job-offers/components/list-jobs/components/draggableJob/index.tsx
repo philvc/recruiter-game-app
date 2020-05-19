@@ -18,6 +18,7 @@ const DraggableJob = ({ id, index, moveJob, job }: any) => {
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
 
 
+  // mutations
   const [updateJobServer] = useMutation(UPDATE_JOB_SERVER)
 
   // effects

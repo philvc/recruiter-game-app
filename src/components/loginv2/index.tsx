@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useLazyQuery, useApolloClient } from '@apollo/client';
 import { navigate } from '@reach/router';
 
-// helpers
+// reducer
 import { formReducer, actions } from './reducer';
 
 // graphql
@@ -23,13 +23,22 @@ const initialState = {
 }
 
 const LoginV2 = ({ path }: any) => {
-  const [state, dispatch] = React.useReducer(formReducer, initialState)
+
+  // client
   const client = useApolloClient();
+
+  // state
+  const [state, dispatch] = React.useReducer(formReducer, initialState)
+
+  // queries
   const [getAccount, { loading, data }] = useLazyQuery(
     GET_ACCOUNT,
     {
       onCompleted({ account }) {
+
         const { player, games } = account;
+
+        // update client
         client.writeQuery({
           query: GET_PLAYERANDGAMES_CLIENT,
           data: {
@@ -42,18 +51,25 @@ const LoginV2 = ({ path }: any) => {
             games: [...games]
           }
         })
+
+        // update storage
         localStorage.setItem('player', JSON.stringify(player))
         localStorage.setItem('games', JSON.stringify(games))
+
+        // navigate
         navigate(`games`)
       }
     })
 
+  // effect
   React.useEffect(() => {
     if (state.status === 'completed') {
       getAccount({ variables: { email: state.email } })
     }
   }, [state, getAccount])
 
+
+  // handlers
   function handleChange({ target: { value } }: any) {
     dispatch({ type: actions.emailChanged, payload: value })
   }
@@ -77,22 +93,28 @@ const LoginV2 = ({ path }: any) => {
       )
         :
         (
-          <div>
+          <div className='body-container'>
             <h1>10 Jobs Challenge</h1>
-            <form onSubmit={handleSubmit}>
+            <div className='game-description-container'>
+              <p>10 Jobs Challenge is a simple game where the goal is to help one of your friend to find his or her new job.</p>
+              <p>Does it mean what I really think ? Yes ;)</p>
+              <p>In other words, you will be become like a personal recruiter for your friend, finding him new job offers and challenging him to apply to jobs who have been confirmed.</p>
+              <p>If you want to help a friend to find his or her new job, just create your account with your email address and start the 10 Jobs Challenge ;)</p>
+            </div>
+            <form onSubmit={handleSubmit} className='email-form'>
               <label>
-                <span>email:</span>
                 <input
                   style={inputStyle(state.emailError)}
                   onChange={handleChange}
                   name="email"
                   value={state.email}
                   type="text"
+                  placeholder="Your email..."
                 />
                 <span>{state.submitAttempted && state.emailError}</span>
               </label>
+              <button className='start-button' type="submit">START</button>
               <p>{state.submitMessage}</p>
-              <button type="submit">START</button>
             </form>
           </div>
         )

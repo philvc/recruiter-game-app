@@ -11,6 +11,14 @@ export const GET_ACCOUNT = gql`
       games{
         id
         title
+        applicant {
+          email
+          playerName
+        }
+        recruiter {
+          email
+          playerName
+        }
         recruiterId
         applicantId
         missionsAccomplished
