@@ -150,7 +150,7 @@ const Screenshot = ({ openModal }: any) => {
     })
 
     openModal()
-    setTimeout(() => { navigate(`/games/${game.title.split(" ").join('')}/challenges`) }, 0)
+    setTimeout(() => { navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`) }, 0)
   }
 
   async function handleAcceptOrDeclineDocument(e: any) {
@@ -205,7 +205,7 @@ const Screenshot = ({ openModal }: any) => {
       }
     })
     openModal()
-    navigate(`/games/${game.title.split(" ").join('')}/challenges`)
+    navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
   };
 
 

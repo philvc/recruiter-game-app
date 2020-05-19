@@ -33,7 +33,7 @@ const GameItem = ({ game }: any) => {
   const { recruiter, applicant, createdAt, title } = game;
   return (
     <div className='game-item-container'>
-      <Link to={`${game.title.split(" ").join('')}/missions`}>
+      <Link to={`${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`}>
         <div className='game-link' onClick={() => {
 
           // update client

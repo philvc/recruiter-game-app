@@ -63,7 +63,7 @@ const Countdown = ({ mission }: any) => {
     })
 
 
-    setTimeout(() => { navigate(`/games/${game.title.split(" ").join('')}/challenges`) }, 0)
+    setTimeout(() => { navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`) }, 0)
 
   }
 

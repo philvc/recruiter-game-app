@@ -10,7 +10,6 @@ const NavBar = (props: any) => {
 
   const location = useLocation()
   const splitLocation = location.pathname.split('/').slice(1)
-
   let navigation = ''
 
   const navbar = splitLocation.map((navItem: any, index: number) => {
@@ -20,7 +19,7 @@ const NavBar = (props: any) => {
       return <span key={navItem}>{navItem}</span>
     }
 
-    return <Link className='nav-item' key={navItem} to={navigation}>{navItem}/</Link>
+    return <Link className='nav-item' key={navItem} to={navigation}>{navItem.toLowerCase()}/</Link>
   })
 
   return (

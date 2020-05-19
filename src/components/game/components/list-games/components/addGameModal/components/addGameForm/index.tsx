@@ -58,7 +58,7 @@ const AddGameForm = ({ openModal }: any) => {
       localStorage.setItem('game', JSON.stringify(addGame))
     },
     onCompleted({ addGame }) {
-      navigate(`/games/${addGame.title.split(" ").join('')}/missions`)
+      navigate(`/games/${addGame.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`)
     }
   })
 

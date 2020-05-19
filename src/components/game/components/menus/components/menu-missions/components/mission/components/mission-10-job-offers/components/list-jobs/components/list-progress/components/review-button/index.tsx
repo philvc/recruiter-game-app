@@ -45,7 +45,7 @@ const ReviewButton = () => {
       }
     })
 
-    navigate(`/games/${game.title.split(" ").join('')}/missions`)
+    navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`)
 
   }
 

@@ -74,7 +74,7 @@ const SaveResultButton = () => {
       }
     })
 
-    setTimeout(() => { navigate(`/games/${game.title.split(" ").join('')}/missions`) }, 1)
+    setTimeout(() => { navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`) }, 1)
 
   }
 
