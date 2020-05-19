@@ -1,3 +1,42 @@
 .add-game-form-container{
     padding: 20px;
+    
+}
+
+.add-game-form-body{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-game-form-title{
+    text-align: center;
+}
+
+.add-game-form-invite-title{
+    text-align: center;
+    margin: 10px;
+}
+
+.add-game-form-button-save{
+    width: 80px;
+}
+
+.add-game-form-button-cancel{
+    width: 80px;
+}
+
+.add-game-form-invite-fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 75px;
+}
+
+.add-game-form-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50px;
 }

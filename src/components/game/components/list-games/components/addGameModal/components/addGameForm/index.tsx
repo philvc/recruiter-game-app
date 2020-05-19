@@ -86,10 +86,9 @@ const AddGameForm = ({ openModal }: any) => {
   }
   return (
     <div className='add-game-form-container'>
-      <form style={{ width: '300px' }} onSubmit={handleSubmit}>
-        <h4>New Game</h4>
+      <form style={{ width: '300px' }} onSubmit={handleSubmit} className='add-game-form-body'>
+        <h4 className='add-game-form-title'>New Game</h4>
         <label>
-          <span>Title: </span>
           <input
             style={inputStyle(state.titleError)}
             id='title'
@@ -97,32 +96,37 @@ const AddGameForm = ({ openModal }: any) => {
             name="title"
             value={state.title}
             type="text"
+            placeholder='Title...'
           />
           <span>{state.submitAttempted && state.nameError}</span>
         </label>
-        <p>Invite your friend</p>
-        <label>
-          <span>Email: </span>
-          <input
-            style={inputStyle(state.emailError)}
-            onChange={handleChange}
-            name="email"
-            value={state.email}
-            type="text"
-          />
-        </label>
-        <label>
-          <span>Name: </span>
-          <input
-            style={inputStyle(state.nameError)}
-            onChange={handleChange}
-            name="name"
-            value={state.name}
-            type="text"
-          />
-        </label>
-        <button type="submit">Save</button>
-        <button type="button" onClick={openModal}>Cancel</button>
+        <h6 className='add-game-form-invite-title'>Invite your friend</h6>
+        <div className='add-game-form-invite-fields'>
+          <label>
+            <input
+              style={inputStyle(state.emailError)}
+              onChange={handleChange}
+              name="email"
+              value={state.email}
+              type="text"
+              placeholder='email...'
+            />
+          </label>
+          <label>
+            <input
+              style={inputStyle(state.nameError)}
+              onChange={handleChange}
+              name="name"
+              value={state.name}
+              type="text"
+              placeholder='name...'
+            />
+          </label>
+        </div>
+        <div className='add-game-form-buttons'>
+          <button className='add-game-form-button-save' type="submit">Save</button>
+          <button className='add-game-form-button-cancel' type="button" onClick={openModal}>Cancel</button>
+        </div>
         <span>{state.submitAttempted && state.emailError}</span>
         <p>{state.submitMessage}</p>
       </form>
