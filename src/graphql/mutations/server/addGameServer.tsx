@@ -5,8 +5,19 @@ export const ADDGAME_SERVER = gql`
       id
       title
       recruiterId
+      applicant {
+        id
+        email
+        playerName
+      }
+      recruiter {
+        id
+        email
+        playerName
+      }
       applicantId
       missionsAccomplished
+      createdAt
     }
   }
 `

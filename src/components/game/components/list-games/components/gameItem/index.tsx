@@ -3,6 +3,8 @@ import * as React from 'react';
 // modules
 import { Link } from '@reach/router';
 import { useApolloClient, useQuery } from '@apollo/client';
+import { format } from 'date-fns'
+
 
 // apollo
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
@@ -26,6 +28,7 @@ const GameItem = ({ game }: any) => {
   if (loading) return null
   if (error) return null
 
+  const { recruiter, applicant, createdAt, title } = game;
   return (
     <div>
       <Link to={`${game.title.split(" ").join('')}/missions`}>
@@ -44,12 +47,12 @@ const GameItem = ({ game }: any) => {
           localStorage.setItem('game', JSON.stringify(game))
         }
         }>
-          {game.title}
+          {title.charAt(0).toUpperCase() + title.slice(1)}
         </div>
       </Link>
-      <p>{`recruiter: `}</p>
-      <p>{`job seeker: `}</p>
-      <p>{`started: `}</p>
+      <p>{`recruiter: ${recruiter.playerName || recruiter.email}`}</p>
+      <p>{`job seeker: ${applicant.playerName || applicant.email}`}</p>
+      <p>{`started: ${format(new Date(createdAt), 'dd/MM/yyyy')}`}</p>
     </div>
   )
 }

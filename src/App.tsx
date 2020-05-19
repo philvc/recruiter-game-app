@@ -73,6 +73,7 @@ client.writeQuery({
           recruiter: game.recruiter,
           applicantId: game.applicantId,
           missionsAccomplished: game.missionsAccomplished,
+          createdAt: game.createdAt,
           __typename: 'Game',
         }
         :

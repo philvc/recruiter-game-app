@@ -30,7 +30,6 @@ const ListGames = ({ path }: any) => {
 
   return (
     <div>
-      <NavBar />
       <div className='list-games-container'>
         <div className='list-games-title'>
           <h3>Games</h3>
