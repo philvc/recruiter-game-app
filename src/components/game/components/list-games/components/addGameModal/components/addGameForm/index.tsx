@@ -3,8 +3,11 @@ import * as React from 'react';
 // packages
 import { navigate } from '@reach/router';
 
+
 // style
 import './style.css';
+
+// component
 
 // reducer
 import { formReducer, initialState, actions } from './reducer';
@@ -24,6 +27,7 @@ const AddGameForm = ({ openModal }: any) => {
 
   // state
   const [state, dispatch] = React.useReducer(formReducer, initialState);
+
 
   // queries
   const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT });
@@ -130,7 +134,6 @@ const AddGameForm = ({ openModal }: any) => {
         <span>{state.submitAttempted && state.emailError}</span>
         <p>{state.submitMessage}</p>
       </form>
-
     </div>
   )
 }

@@ -10,8 +10,9 @@ import AddGameForm from './components/addGameForm';
 import './style.css'
 
 const AddGameModal = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
+  // state
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   function openModal() {
     setIsModalOpen((prevState) => !prevState)
