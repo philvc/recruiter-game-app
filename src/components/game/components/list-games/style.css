@@ -1,6 +1,7 @@
 .list-games-body {
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .game-list-ul li {

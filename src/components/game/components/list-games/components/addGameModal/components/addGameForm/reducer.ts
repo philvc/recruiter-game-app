@@ -1,14 +1,17 @@
 export const actions = {
     titleChanged: 'titleChanged',
     emailChanged: 'emailChanged',
+    nameChanged: 'nameChanged',
     formSubmitted: 'FORM_SUBMITTED',
 }
 
 export const initialState = {
     title: '',
     email: '',
+    name: '',
     titleError: null,
     emailError: null,
+    nameError: null,
     submitAttempted: false,
     submitMessage: '',
     status: 'clean',
@@ -60,6 +63,15 @@ export function formReducer(state: any, action: any) {
                         submitMessage: '',
                         status: 'dirty',
                     }
+                case actions.nameChanged:
+                    error = validate('name', action.payload)
+                    return {
+                        ...state,
+                        name: action.payload,
+                        nameError: error,
+                        submitMessage: '',
+                        status: 'dirty',
+                    }
                 case actions.formSubmitted:
                     return {
                         ...state,
@@ -82,6 +94,12 @@ function validate(name: any, value: any) {
         case 'title':
             if (value.length === 0) {
                 return 'Must enter title'
+            } else {
+                return null
+            }
+        case 'name':
+            if (value.length === 0) {
+                return 'Must enter name'
             } else {
                 return null
             }

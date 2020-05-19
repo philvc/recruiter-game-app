@@ -3,6 +3,12 @@ import * as React from 'react';
 // packages
 import { navigate } from '@reach/router';
 
+// style
+import './style.css';
+
+// reducer
+import { formReducer, initialState, actions } from './reducer';
+
 // grapqhql
 import { useMutation, useApolloClient, } from '@apollo/client';
 import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server/addGameServer';
@@ -10,8 +16,6 @@ import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/clien
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
-// reducer
-import { formReducer, initialState, actions } from './reducer';
 
 const AddGameForm = ({ openModal }: any) => {
 
@@ -61,7 +65,7 @@ const AddGameForm = ({ openModal }: any) => {
   // effects
   React.useEffect(() => {
     if (state.status === 'completed') {
-      addGameMutation({ variables: { title: state.title, recruiterId: player.id, email: state.email } })
+      addGameMutation({ variables: { title: state.title, recruiterId: player.id, email: state.email, name: state.name } })
     }
   }, [state, addGameMutation, player.id])
 
@@ -81,10 +85,11 @@ const AddGameForm = ({ openModal }: any) => {
     }
   }
   return (
-    <div>
+    <div className='add-game-form-container'>
       <form style={{ width: '300px' }} onSubmit={handleSubmit}>
+        <h4>New Game</h4>
         <label>
-          <span>Title:</span>
+          <span>Title: </span>
           <input
             style={inputStyle(state.titleError)}
             id='title'
@@ -95,8 +100,9 @@ const AddGameForm = ({ openModal }: any) => {
           />
           <span>{state.submitAttempted && state.nameError}</span>
         </label>
+        <p>Invite your friend</p>
         <label>
-          <span>Your job-looking friend's email:</span>
+          <span>Email: </span>
           <input
             style={inputStyle(state.emailError)}
             onChange={handleChange}
@@ -104,11 +110,21 @@ const AddGameForm = ({ openModal }: any) => {
             value={state.email}
             type="text"
           />
-          <span>{state.submitAttempted && state.emailError}</span>
         </label>
-        <p>{state.submitMessage}</p>
+        <label>
+          <span>Name: </span>
+          <input
+            style={inputStyle(state.nameError)}
+            onChange={handleChange}
+            name="name"
+            value={state.name}
+            type="text"
+          />
+        </label>
         <button type="submit">Save</button>
         <button type="button" onClick={openModal}>Cancel</button>
+        <span>{state.submitAttempted && state.emailError}</span>
+        <p>{state.submitMessage}</p>
       </form>
 
     </div>

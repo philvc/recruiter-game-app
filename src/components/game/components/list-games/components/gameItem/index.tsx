@@ -5,6 +5,8 @@ import { Link } from '@reach/router';
 import { useApolloClient, useQuery } from '@apollo/client';
 import { format } from 'date-fns'
 
+// style
+import './style.css';
 
 // apollo
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
@@ -30,7 +32,7 @@ const GameItem = ({ game }: any) => {
 
   const { recruiter, applicant, createdAt, title } = game;
   return (
-    <div>
+    <div className='game-item-container'>
       <Link to={`${game.title.split(" ").join('')}/missions`}>
         <div className='game-link' onClick={() => {
 

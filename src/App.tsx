@@ -91,14 +91,13 @@ if (localStorage.hasOwnProperty('games')) {
 
   const games = JSON.parse(localStorage.getItem('games') || '[]')
   const jobs = JSON.parse(localStorage.getItem('jobs') || '[]')
-
   for (let i = 0; i < games.length; i++) {
 
     client.writeQuery({
       query: GET_JOBS_BY_GAME_ID_SERVER,
       variables: { gameId: games[i].id },
       data: {
-        getJobsByGameId: jobs.filter((job: any) => job.gameId === games[i].id)
+        getJobsByGameId: jobs[0] !== null ? jobs.filter((job: any) => job.gameId === games[i].id) : null
       }
     })
 
