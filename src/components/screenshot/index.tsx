@@ -205,6 +205,7 @@ const Screenshot = ({ openModal }: any) => {
         data: 'completed',
       }
     })
+    // navigate problem
     openModal()
     navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
   };

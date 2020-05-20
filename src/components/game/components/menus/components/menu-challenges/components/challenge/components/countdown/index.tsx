@@ -25,6 +25,8 @@ const Countdown = ({ mission }: any) => {
   // mutations
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
+      // navigate problem
+      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
     }
   })
@@ -61,9 +63,6 @@ const Countdown = ({ mission }: any) => {
         message: 'Sorry you missed the deadline and failed the challenged',
       }
     })
-
-
-    setTimeout(() => { navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`) }, 0)
 
   }
 

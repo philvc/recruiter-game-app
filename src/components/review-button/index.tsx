@@ -12,6 +12,7 @@ import { GET_MISSION_CLIENT } from '../../graphql/queries/client/getMissionClien
 import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
 import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV2';
 import { SEND_MESSAGE } from '../../graphql/mutations/server/sendMessage';
+import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
 
 
 const ReviewButton = () => {
@@ -26,7 +27,24 @@ const ReviewButton = () => {
 
 
   // mutations
-  const [updateMissionV2] = useMutation(UPDATE_MISSION_V2)
+  const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
+    onCompleted({ updateMissionV2 }) {
+
+      client.writeQuery({
+        query: GET_MISSION_CLIENT,
+        data: {
+          mission: updateMissionV2,
+        }
+      })
+
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+      console.log('missions dans onCompleted updateMission review button', missions)
+
+      localStorage.setItem('missions', JSON.stringify(missions))
+      localStorage.setItem('mission', JSON.stringify(updateMissionV2))
+      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`)
+    }
+  })
   const [sendMessage] = useMutation(SEND_MESSAGE)
 
   // handlers
@@ -48,7 +66,6 @@ const ReviewButton = () => {
       }
     })
 
-    navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`)
 
   }
 

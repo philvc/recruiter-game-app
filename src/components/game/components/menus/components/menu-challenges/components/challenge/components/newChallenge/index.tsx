@@ -62,6 +62,7 @@ const NewChallenge = () => {
       localStorage.setItem('missions', JSON.stringify(newMissions))
 
       // redirect
+      // navigate problem
       navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
     }
   })

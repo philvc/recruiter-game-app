@@ -43,6 +43,7 @@ const ListMissions = ({ path }: any) => {
           missions: [...missions]
         }
       })
+      console.log('missions dans list missions', missions)
       setStateMissions(missions.filter((mission: any) => mission.type === '10jobs'))
       localStorage.setItem('missions', JSON.stringify(missions))
     }
@@ -82,10 +83,9 @@ const ListMissions = ({ path }: any) => {
       createJobs({ variables: { gameId: game.id, missionType: 'mission10JobsId', missionId: createMission[0].id, quantity: 10 } })
 
       // update client
+
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId: game.id } })
-
       const newMissions = missions.concat(createMission)
-
       client.writeQuery({
         query: GET_MISSIONS_SERVER,
         variables: { gameId: game.id },
