@@ -141,7 +141,7 @@ const NewChallenge = () => {
       {selectedJob?.url && (
         <div>
           <Deadline setSelectedDate={setSelectedDate} />
-          <Message setMessage={setMessage} message={message} />
+          <Message setMessage={setMessage} message={message} label='Send a message' />
         </div>
       )}
       {message && <p><button onClick={handleClick}>Send challenge</button></p>}

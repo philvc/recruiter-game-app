@@ -7,7 +7,6 @@ import { useApolloClient } from '@apollo/client';
 import AddGameModal from './components/addGameModal';
 import GameItem from './components/gameItem';
 import Contact from '../../../contact';
-import MessageHub from './components/message-hub';
 
 // apollo
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/getPlayerAndGamesClient';
@@ -58,8 +57,6 @@ const ListGames = ({ path }: any) => {
           }
         </div>
       </div>
-      <button onClick={() => ref.current('helloooo')}>see notif</button>
-      <MessageHub children={(add: any) => (ref.current = add)} />
       <Contact />
     </div>
   )

@@ -51,7 +51,7 @@ const ReviewButton = () => {
 
   return (
     <div>
-      <Message message={message} setMessage={setMessage} />
+      <Message message={message} setMessage={setMessage} label='Send message' />
       <button onClick={handleClick}>Push for review</button>
     </div>
   )

@@ -50,6 +50,7 @@ const MessageHub = ({ config = { tension: 125, friction: 20, precision: 0.1 }, t
                 e.stopPropagation()
                 cancelMap.has(item) && cancelMap.get(item)()
               }}>
+              X
             </Button>
           </Content>
         </Message>
