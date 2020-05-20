@@ -44,7 +44,7 @@ const Screenshot = ({ openModal }: any) => {
         client.writeFragment({
           id: `Mission:${mission.id}`,
           fragment: gql`
-            fragment MySelectedJob on Mission {
+            fragment SelectedJob on Mission {
               selectedJob
             }
           `,
@@ -61,11 +61,12 @@ const Screenshot = ({ openModal }: any) => {
   const [sendMessage] = useMutation(SEND_MESSAGE)
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
-
+      console.log('updateMISSION', updateMissionV2)
+      console.log('isReviewed', updateMissionV2.isReviewed)
       client.writeFragment({
         id: `Mission:${updateMissionV2.id}`,
         fragment: gql`
-          fragment MyMission on Mission {
+          fragment ReviewedAndStatus on Mission {
             isReviewed
             status
           }

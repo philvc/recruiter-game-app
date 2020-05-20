@@ -55,7 +55,7 @@ const JobItem = ({ job, index, setProgress }: any) => {
       client.writeFragment({
         id: `Job:${updateJob.id}`,
         fragment: gql`
-          fragment MyJob on Job {
+          fragment isComplete on Job {
             isComplete
           }
         `,

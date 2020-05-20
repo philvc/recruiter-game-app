@@ -27,7 +27,7 @@ const JobInputField = ({ name, value, jobId, dispatch }: any) => {
       client.writeFragment({
         id: `Job:${updateJob.id}`,
         fragment: gql`
-          fragment MyJob on Job {
+          fragment UrlAndName on Job {
             url
             name
           }

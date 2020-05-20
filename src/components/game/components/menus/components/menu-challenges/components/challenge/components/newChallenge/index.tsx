@@ -74,7 +74,7 @@ const NewChallenge = () => {
       client.writeFragment({
         id: `Job:${updateJob.id}`,
         fragment: gql`
-          fragment MyJob on Job {
+          fragment IsSelectedAndMissionId on Job {
             isSelected
             missionJobApplicationId
           }

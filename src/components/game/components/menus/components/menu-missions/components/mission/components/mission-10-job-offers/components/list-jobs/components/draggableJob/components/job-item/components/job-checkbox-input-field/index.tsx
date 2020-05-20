@@ -22,7 +22,7 @@ const JobCheckboxInputField = ({ name, value, jobId }: any) => {
       client.writeFragment({
         id: `Job:${updateJob.id}`,
         fragment: gql`
-          fragment MyJob on Job {
+          fragment isAccepted on Job {
             isAccepted
           }
         `,

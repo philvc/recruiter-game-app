@@ -10,6 +10,7 @@ import List from './components/list-jobs';
 
 // apollo
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
+import ReviewButton from '../../../../../../../../../review-button';
 
 const Mission10JobOffers = () => {
 
@@ -24,7 +25,8 @@ const Mission10JobOffers = () => {
     <div>
       <h1>10 Job Offers Mission</h1>
       <DndProvider backend={Backend}>
-        {progress}
+        {progress}/10
+        {progress === 10 && !mission.isReviewed && <ReviewButton />}
         <List setProgress={setProgress} />
       </DndProvider>
     </div>

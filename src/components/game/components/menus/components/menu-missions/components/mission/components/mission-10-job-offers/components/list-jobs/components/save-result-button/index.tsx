@@ -25,7 +25,7 @@ const SaveResultButton = () => {
       client.writeFragment({
         id: `Mission:${mission.id}`,
         fragment: gql`
-          fragment MyMission on Mission {
+          fragment Status on Mission {
             status
           }
         `,
