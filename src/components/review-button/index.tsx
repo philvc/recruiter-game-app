@@ -2,16 +2,17 @@ import * as React from 'react';
 
 // modules
 import { navigate } from '@reach/router';
+import { useMutation, useApolloClient } from '@apollo/client';
 
 // components
-import Message from '../../../../../../../../../../../message';
+import Message from '../message';
 
 // apollo
-import { useMutation, useApolloClient } from '@apollo/client';
-import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
-import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getMissionClient';
-import { SEND_MESSAGE } from '../../../../../../../../../../../../graphql/mutations/server/sendMessage';
-import { GET_GAME_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_MISSION_CLIENT } from '../../graphql/queries/client/getMissionClient';
+import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
+import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV2';
+import { SEND_MESSAGE } from '../../graphql/mutations/server/sendMessage';
+
 
 const ReviewButton = () => {
 

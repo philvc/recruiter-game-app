@@ -38,27 +38,8 @@ const JobItem = ({ job, index, setProgress }: any) => {
   // mutation
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
-      console.log('updateMISSION, ', updateMissionV2)
       setProgress(updateMissionV2.progress)
       // update client
-      client.writeFragment({
-        id: `Mission:${updateMissionV2.id}`,
-        fragment: gql`
-        fragment MyMission on Mission {
-          progress
-          }
-          `,
-        data: {
-          progress: updateMissionV2.progress
-        }
-      })
-
-      client.writeQuery({
-        query: GET_MISSION_CLIENT,
-        data: {
-          mission: updateMissionV2
-        }
-      })
 
       // update storage
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
