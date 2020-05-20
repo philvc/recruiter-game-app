@@ -27,8 +27,6 @@ const ListGames = ({ path }: any) => {
   // state
   const [gamesList, setGamesList] = React.useState(games)
 
-  const ref = React.useRef((arg: any) => console.log('ref'))
-
   return (
     <div>
       <div className='list-games-container'>

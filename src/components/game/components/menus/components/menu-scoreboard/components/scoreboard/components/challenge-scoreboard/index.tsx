@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 const ChallengeScoreboard = ({ challenges }: any) => {
-  console.log('challenges', challenges)
   const totalSucceeded = challenges.filter((challenge: any) => challenge.score).length
   const totalFailed = challenges.filter((challenge: any) => !challenge.score).length
   return (

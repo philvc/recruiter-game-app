@@ -4,7 +4,6 @@ export const actions = {
 }
 
 export const reducer = (state: any, action: any) => {
-    console.log('actions', action)
     let formComplete;
     switch (action.type) {
         case actions.isUrlComplete:

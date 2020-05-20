@@ -15,7 +15,7 @@ import { GET_GAME_CLIENT } from '../../../../../../../../../../../../graphql/que
 import { GET_PLAYER_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getPlayerClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
-const List = () => {
+const List = ({ setProgress }: any) => {
 
   // client
   const client = useApolloClient();
@@ -63,6 +63,7 @@ const List = () => {
                 index={index}
                 moveJob={moveJob}
                 job={job}
+                setProgress={setProgress}
               />
             )
             )}

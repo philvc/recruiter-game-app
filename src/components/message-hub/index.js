@@ -21,7 +21,6 @@ const MessageHub = ({ config = { tension: 125, friction: 20, precision: 0.1 }, t
     {
       from: { opacity: 0, height: 0, life: '100%' },
       enter: (item) => async (next) => {
-        console.log('item', item)
         await next({ opacity: 1, height: 76 })
       },
       leave: (item) => async (next, cancel) => {

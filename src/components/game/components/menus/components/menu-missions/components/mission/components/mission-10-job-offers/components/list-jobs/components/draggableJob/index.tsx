@@ -13,7 +13,7 @@ import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../gra
 
 
 
-const DraggableJob = ({ id, index, moveJob, job }: any) => {
+const DraggableJob = ({ id, index, moveJob, job, setProgress }: any) => {
 
   const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
 
@@ -85,7 +85,7 @@ const DraggableJob = ({ id, index, moveJob, job }: any) => {
 
   return (
     <div ref={ref} style={{ opacity, margin: "30px" }}>
-      <JobItem index={index} job={job} />
+      <JobItem index={index} job={job} setProgress={setProgress} />
     </div>
   )
 }

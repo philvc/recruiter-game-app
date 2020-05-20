@@ -18,7 +18,7 @@ import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../..
 import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getMissionsClient';
 
-const JobItem = ({ job, index }: any) => {
+const JobItem = ({ job, index, setProgress }: any) => {
 
   // client
   const client = useApolloClient()
@@ -38,8 +38,29 @@ const JobItem = ({ job, index }: any) => {
   // mutation
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
+      console.log('updateMISSION, ', updateMissionV2)
+      setProgress(updateMissionV2.progress)
+      // update client
+      client.writeFragment({
+        id: `Mission:${updateMissionV2.id}`,
+        fragment: gql`
+        fragment MyMission on Mission {
+          progress
+          }
+          `,
+        data: {
+          progress: updateMissionV2.progress
+        }
+      })
 
-      // update mission
+      client.writeQuery({
+        query: GET_MISSION_CLIENT,
+        data: {
+          mission: updateMissionV2
+        }
+      })
+
+      // update storage
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
       localStorage.setItem('missions', JSON.stringify(missions))
@@ -49,7 +70,6 @@ const JobItem = ({ job, index }: any) => {
 
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
     onCompleted({ updateJob }) {
-      console.log('updateJob', updateJob)
       // update client
       client.writeFragment({
         id: `Job:${updateJob.id}`,
@@ -69,8 +89,6 @@ const JobItem = ({ job, index }: any) => {
         .filter((job: any) => job.mission10JobsId === mission.id)
         .filter((job: any) => job.isComplete === true)
 
-      console.log('completedJob', completedJobs)
-
       updateMissionV2({
         variables: {
           id: mission.id,
@@ -86,7 +104,6 @@ const JobItem = ({ job, index }: any) => {
 
   // effect
   React.useEffect(() => {
-    console.log('state', state)
     updateJob({
       variables: {
         id: job.id,

@@ -30,7 +30,6 @@ const Contact = () => {
       finalButtonText: "Continue",
       handleFinalButtonClicked: () => { },
       handleSendClicked: (information: any) => {
-        console.log(information)
         addMessage({ variables: { email: information.email, message: information.message } })
       },
     }
