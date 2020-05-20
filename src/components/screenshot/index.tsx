@@ -19,6 +19,7 @@ import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsCli
 import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
 import { CREATE_MISSION } from '../../graphql/mutations/server/createMissionServer';
 
+
 const Screenshot = ({ openModal }: any) => {
 
   // client
@@ -35,52 +36,18 @@ const Screenshot = ({ openModal }: any) => {
 
   // mutations
   const [createSignedPutUrl, { loading, error, data }] = useMutation(CREATE_SIGNED_PUT_URL)
-  const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
-    onCompleted({ updateJob }) {
-
-      const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
-
-      if (updateJob.applicationProofUrl) {
-        client.writeFragment({
-          id: `Mission:${mission.id}`,
-          fragment: gql`
-            fragment SelectedJob on Mission {
-              selectedJob
-            }
-          `,
-          data: {
-            selectedJob: updateJob,
-          }
-        })
-      }
-
-      // update storage
-      localStorage.setItem('mission', JSON.stringify(mission))
-    }
-  })
+  const [updateJob] = useMutation(UPDATE_JOB_SERVER)
   const [sendMessage] = useMutation(SEND_MESSAGE)
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
-      console.log('updateMISSION', updateMissionV2)
-      console.log('isReviewed', updateMissionV2.isReviewed)
-      client.writeFragment({
-        id: `Mission:${updateMissionV2.id}`,
-        fragment: gql`
-          fragment ReviewedAndStatus on Mission {
-            isReviewed
-            status
-          }
-        `,
-        data: {
-          isReviewed: updateMissionV2.isReviewed,
-          status: updateMissionV2.status,
-        }
-      })
 
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
 
       localStorage.setItem('missions', JSON.stringify(missions))
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
+
+      openModal()
+      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
     }
   })
   const [createMission] = useMutation(CREATE_MISSION, {
@@ -94,6 +61,8 @@ const Screenshot = ({ openModal }: any) => {
       })
 
       localStorage.setItem('missions', JSON.stringify(newMissions))
+      openModal()
+      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
     }
   })
 
@@ -125,24 +94,19 @@ const Screenshot = ({ openModal }: any) => {
     await axios.put(data.createSignedPutUrl.signedPutUrl, file, { headers });
 
     // update job with SignedGetUrl
-    updateJob({
+
+    await updateJob({
       variables: {
         id: selectedJob.id,
         field: 'applicationProofUrl',
         data: data.createSignedPutUrl.signedGetUrl
       }
+    }).then(data => {
+      const { updateJob } = data.data
+      console.log('data updateJob saveDocument getSignedUrl :', updateJob)
     })
 
-    // send message 
-    sendMessage({
-      variables: {
-        recipientId: game.recruiterId,
-        subject: 'I have applied !!! Please check the screenshot',
-        message: 'Dear recruiter, thank you for your job offer ! I just applied and uploaded my application proof, please review it ;)'
-      }
-    })
-
-    updateMissionV2({
+    await updateMissionV2({
       variables: {
         id: mission.id,
         field: 'isReviewed',
@@ -150,8 +114,15 @@ const Screenshot = ({ openModal }: any) => {
       }
     })
 
-    openModal()
-    setTimeout(() => { navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`) }, 0)
+    // send message 
+    await sendMessage({
+      variables: {
+        recipientId: game.recruiterId,
+        subject: 'I have applied !!! Please check the screenshot',
+        message: 'Dear recruiter, thank you for your job offer ! I just applied and uploaded my application proof, please review it ;)'
+      }
+    })
+
   }
 
   async function handleAcceptOrDeclineDocument(e: any) {
@@ -198,6 +169,14 @@ const Screenshot = ({ openModal }: any) => {
       })
     }
 
+    await updateJob({
+      variables: {
+        id: selectedJob.id,
+        field: 'applicationProofRef',
+        data: '',
+      }
+    })
+
     await updateMissionV2({
       variables: {
         id: mission.id,
@@ -205,9 +184,7 @@ const Screenshot = ({ openModal }: any) => {
         data: 'completed',
       }
     })
-    // navigate problem
-    openModal()
-    navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
+
   };
 
 
@@ -223,7 +200,9 @@ const Screenshot = ({ openModal }: any) => {
         <p>{file.name}</p>
       )}
       <button id='go-back-button' onClick={openModal} disabled={loading}>Go Back</button>
-      {mission.status === 'pending' && player.id === game.applicantId &&
+      {mission.status === 'pending' &&
+        player.id === game.applicantId &&
+        data?.createSignedPutUrl.signedGetUrl &&
         (<button onClick={handleSaveDocument} disabled={loading}>Save</button>)
       }
       {mission.isReviewed === true && player.id === game.recruiterId &&
