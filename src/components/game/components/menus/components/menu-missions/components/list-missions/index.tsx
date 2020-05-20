@@ -7,7 +7,7 @@ import { Link } from '@reach/router';
 // components
 import NavBar from '../../../../../../../navbar';
 import Contact from '../../../../../../../contact';
-import ListProgress from '../mission/components/mission-10-job-offers/components/list-jobs/components/list-progress';
+import ListProgress from './components/list-progress';
 
 // style
 import './style.css'

@@ -4,14 +4,14 @@ import * as React from 'react';
 import { navigate } from '@reach/router';
 
 // components
-import Message from '../../../../../../../../../../../../../../../message';
+import Message from '../../../../../../../../../../../message';
 
 // apollo
 import { useMutation, useApolloClient } from '@apollo/client';
-import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
-import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
-import { SEND_MESSAGE } from '../../../../../../../../../../../../../../../../graphql/mutations/server/sendMessage';
-import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
+import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
+import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getMissionClient';
+import { SEND_MESSAGE } from '../../../../../../../../../../../../graphql/mutations/server/sendMessage';
+import { GET_GAME_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getGameClient';
 
 const ReviewButton = () => {
 
@@ -19,8 +19,10 @@ const ReviewButton = () => {
   const client = useApolloClient()
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+
   // state
   const [message, setMessage] = React.useState('')
+
 
   // mutations
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2)
