@@ -20,7 +20,7 @@ const JobsList = () => {
   return (
     <div>
       <h4>JOBS: </h4>
-      <p>Ratio applied/accepted jobs: {Math.round(ratio)}%</p>
+      <p>Ratio applied/accepted jobs: {ratio ? `${Math.round(ratio)}%` : 0}</p>
       <h6>Applied jobs</h6>
       <ul>
         {appliedJobs.map((job: any) => <li key={`applied+${job.id}`}>{job.name} url: {job.url}</li>)}

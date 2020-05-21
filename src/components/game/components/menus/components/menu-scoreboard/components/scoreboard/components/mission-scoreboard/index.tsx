@@ -24,7 +24,7 @@ const MissionScoreboard = () => {
     <div>
       <h4>MISSIONS</h4>
       <p>Total: {total}</p>
-      <p>Average per mission: {averageScore}/10</p>
+      <p>Average per mission: {averageScore ? `${averageScore}/10` : 0}</p>
     </div>
   )
 }

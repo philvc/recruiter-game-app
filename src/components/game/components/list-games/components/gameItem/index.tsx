@@ -11,6 +11,7 @@ import './style.css';
 // apollo
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_JOBS_BY_GAME_ID_SERVER } from '../../../../../../graphql/queries/server/getJobsByGameIdServer';
+import { GET_GAME_CLIENT } from '../../../../../../graphql/queries/client/getGameClient';
 
 const GameItem = ({ game }: any) => {
 
@@ -39,7 +40,7 @@ const GameItem = ({ game }: any) => {
           // update client
           client.writeQuery(
             {
-              query: GET_PLAYERANDGAMES_CLIENT,
+              query: GET_GAME_CLIENT,
               data: {
                 game,
               }

@@ -25,12 +25,5 @@ export const GET_PLAYERANDGAMES_CLIENT = gql`
       createdAt
       missionsAccomplished
     }
-    game @client {
-      id
-      title
-      applicantId
-      recruiterId
-      missionsAccomplished
-    }
   }
 `

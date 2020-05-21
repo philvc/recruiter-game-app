@@ -13,7 +13,7 @@ const LogoutButton = () => {
   function handleClick() {
     client.clearStore()
     localStorage.clear()
-    navigate('http://localhost:3000')
+    navigate('http://localhost:3000/')
   };
 
 

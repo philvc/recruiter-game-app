@@ -20,6 +20,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAnd
 import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
 import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
 import { GET_JOBS_BY_GAME_ID_SERVER } from './graphql/queries/server/getJobsByGameIdServer';
+import { GET_GAME_CLIENT } from './graphql/queries/client/getGameClient';
 
 
 // Graphql default state
@@ -64,28 +65,23 @@ client.writeQuery({
         __typename: 'Player'
       },
       games: JSON.parse(localStorage.getItem('games') || '[]'),
-      game: localStorage.hasOwnProperty('game') ?
-        {
-          id: game.id,
-          title: game.title,
-          recruiterId: game.recruiterId,
-          applicant: game.applicant,
-          recruiter: game.recruiter,
-          applicantId: game.applicantId,
-          missionsAccomplished: game.missionsAccomplished,
-          createdAt: game.createdAt,
-          __typename: 'Game',
-        }
-        :
-        null
     }
     :
     {
       player: null,
       games: [],
-      game: null,
     }
 })
+
+if (localStorage.hasOwnProperty('game')) {
+  const game = JSON.parse(localStorage.getItem('game') || '{}')
+  client.writeQuery({
+    query: GET_GAME_CLIENT,
+    data: {
+      game
+    }
+  })
+}
 
 if (localStorage.hasOwnProperty('games')) {
 

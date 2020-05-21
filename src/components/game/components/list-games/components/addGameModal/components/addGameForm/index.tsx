@@ -18,6 +18,7 @@ import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server
 import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
+import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
 
 
 const AddGameForm = ({ openModal }: any) => {
@@ -43,9 +44,14 @@ const AddGameForm = ({ openModal }: any) => {
       cache.writeQuery({
         query: GET_PLAYERANDGAMES_CLIENT,
         data: {
-          gameId: addGame.id,
           games: newGames,
-          game: addGame,
+        }
+      })
+
+      client.writeQuery({
+        query: GET_GAME_CLIENT,
+        data: {
+          game: addGame
         }
       })
 
