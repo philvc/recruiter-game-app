@@ -6,24 +6,20 @@ export const Container = styled('div')`
   z-index: 1000;
   width: 0 auto;
   top: ${props => (props.top ? '30px' : 'unset')};
-  bottom: ${props => (props.top ? 'unset' : '30px')};
-  margin: 0 auto;
+  bottom: ${props => (props.top ? 'unset' : '40px')};
   left: 30px;
   right: 30px;
   display: flex;
   flex-direction: ${props => (props.top ? 'column-reverse' : 'column')};
   pointer-events: none;
-  align-items: ${props => (props.position === 'center' ? 'center' : `flex-${props.position || 'end'}`)};
+  align-items: center;
   @media (max-width: 680px) {
     align-items: center;
   }
 `
 
 export const Message = styled(animated.div)`
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-  width: 40ch;
+  height: 40px;
   @media (max-width: 680px) {
     width: 100%;
   }
@@ -31,15 +27,14 @@ export const Message = styled(animated.div)`
 
 export const Content = styled('div')`
   color: white;
-  background: #445159;
-  opacity: 0.9;
-  padding: 12px 22px;
+  background-color: black;
+  text-align: center;
+  vertical-align: top;
+  opacity: 0.85;
+  padding: 4px;
   font-size: 1em;
-  display: grid;
-  grid-template-columns: ${props => (props.canClose === false ? '1fr' : '1fr auto')};
-  grid-gap: 10px;
   overflow: hidden;
-  height: auto;
+  height: 40px;
   border-radius: 3px;
   margin-top: ${props => (props.top ? '0' : '10px')};
   margin-bottom: ${props => (props.top ? '10px' : '0')};

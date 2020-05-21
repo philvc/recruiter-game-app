@@ -9,7 +9,7 @@ import { Container, Message, Button, Content, Life } from './styles.js'
 let id = 0
 
 
-const MessageHub = ({ config = { tension: 125, friction: 20, precision: 0.1 }, timeout = 3000, children }) => {
+const MessageHub = ({ config = { tension: 125, friction: 20, precision: 0.1 }, timeout = 1500, children }) => {
 
   // state
   const [refMap] = React.useState(() => new WeakMap())
@@ -21,7 +21,7 @@ const MessageHub = ({ config = { tension: 125, friction: 20, precision: 0.1 }, t
     {
       from: { opacity: 0, height: 0, life: '100%' },
       enter: (item) => async (next) => {
-        await next({ opacity: 1, height: 76 })
+        await next({ opacity: 1, height: 46 })
       },
       leave: (item) => async (next, cancel) => {
         cancelMap.set(item, cancel)
@@ -42,15 +42,15 @@ const MessageHub = ({ config = { tension: 125, friction: 20, precision: 0.1 }, t
       {transitions.map(({ key, item, props: { life, ...style } }) => (
         <Message key={key} style={style}>
           <Content ref={(ref) => ref && refMap.set(item, ref)}>
-            <Life style={{ right: life }} />
+            {/* <Life style={{ right: life }} /> */}
             <p>{item.msg}</p>
-            <Button
+            {/* <Button
               onClick={(e) => {
                 e.stopPropagation()
                 cancelMap.has(item) && cancelMap.get(item)()
               }}>
               X
-            </Button>
+            </Button> */}
           </Content>
         </Message>
       ))}
