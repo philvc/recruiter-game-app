@@ -1,7 +1,14 @@
 import * as React from 'react';
 
-import './styles.css';
+// modules
 import { Link } from '@reach/router';
+
+// styles
+import './styles.css';
+
+// components
+import LogoutButton from './logout-button/logoutButton';
+
 
 const Sidebar = () => {
   return (
@@ -10,6 +17,7 @@ const Sidebar = () => {
       <Link to='challenges/'>CHALLENGES</Link>
       <Link to='scoreboard/'>SCOREBOARD</Link>
       <Link to='settings/'>SETTINGS</Link>
+      <LogoutButton />
     </div>
   )
 }
