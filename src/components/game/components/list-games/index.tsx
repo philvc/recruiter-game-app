@@ -21,7 +21,7 @@ const ListGames = ({ path }: any) => {
   // client
   const client = useApolloClient()
   const { games }: any = client.readQuery({
-    query: GET_PLAYERANDGAMES_CLIENT
+    query: GET_PLAYERANDGAMES_CLIENT,
   })
 
   // state

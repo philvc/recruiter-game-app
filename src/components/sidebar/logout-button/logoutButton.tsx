@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // modules
 import { useApolloClient } from '@apollo/client';
-import { navigate } from '@reach/router';
+import { Link } from '@reach/router';
 
 const LogoutButton = () => {
 
@@ -13,14 +13,15 @@ const LogoutButton = () => {
   function handleClick() {
     client.clearStore()
     localStorage.clear()
-    navigate('http://localhost:3000/')
   };
 
 
   return (
     <div>
       <p>
-        <button onClick={handleClick}>LOGOUT</button>
+        <Link to='/'>
+          <button onClick={handleClick}>LOGOUT</button>
+        </Link>
       </p>
     </div>
   )

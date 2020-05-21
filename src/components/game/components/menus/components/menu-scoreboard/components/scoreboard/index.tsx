@@ -5,6 +5,7 @@ import NavBar from '../../../../../../../navbar';
 import ChallengeScoreboard from './components/challenge-scoreboard';
 import MissionScoreboard from './components/mission-scoreboard';
 import JobsList from './components/jobs-list';
+import Leaderboard from './components/leaderboard';
 
 
 const Scoreboard = ({ path }: any) => {
@@ -17,6 +18,7 @@ const Scoreboard = ({ path }: any) => {
         <ChallengeScoreboard />
         <MissionScoreboard />
         <JobsList />
+        <Leaderboard />
       </div>
     </div>
   )
