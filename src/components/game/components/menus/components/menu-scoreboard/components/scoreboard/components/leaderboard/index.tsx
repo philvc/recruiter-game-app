@@ -3,17 +3,20 @@ import * as React from 'react';
 // modules
 import { useQuery } from '@apollo/client';
 
+// components
+import FilterSelect from './components/filter-select';
+
 // styles
 import './styles.css'
 
 // apollo
 import { GET_LEADERBOARD_RESULTS_SERVER } from '../../../../../../../../../../graphql/queries/server/getLeaderboardResultsServer';
-import FilterSelect from './components/filter-select';
 
 const Leaderboard = () => {
 
   // state
-  const [tableData, setTableData] = React.useState([])
+  const [recruitersTableData, setRecruitersTableData] = React.useState([])
+  const [applicantsTableData, setApplicantsTableData] = React.useState([])
   const [filter, setFilter] = React.useState('acceptedJobsNumber')
 
   // queries
@@ -25,10 +28,18 @@ const Leaderboard = () => {
   React.useEffect(() => {
 
     if (data) {
-      const dataByFilter = data?.leaderboardResults.slice().sort((a: any, b: any) => {
+
+      // recruiters table
+      const recruitersByFilter = data?.leaderboardResults.recruiters.slice().sort((a: any, b: any) => {
         return b[filter] - a[filter]
       })
-      setTableData(dataByFilter)
+      setRecruitersTableData(recruitersByFilter)
+
+      // applicants table
+      const applicants = data?.leaderboardResults.applicants.slice().sort((a: any, b: any) => {
+        return b.appliedJobs - a.appliedJobs
+      })
+      setApplicantsTableData(applicants)
     }
   }, [data, filter])
 
@@ -52,11 +63,26 @@ const Leaderboard = () => {
             <th>Total jobs validated</th>
             <th>Total applicants</th>
           </tr>
-          {tableData.map((player: any) => (
+          {recruitersTableData.map((player: any) => (
             <tr key={`${player.email}-${player.playerName}`}>
               <td>{player.playerName ? player.playerName : player.email}</td>
               <td className='table-data-total'>{player.acceptedJobsNumber}</td>
               <td className='table-data-total'>{player.applicantsNumber}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <h5>Applicants</h5>
+      <table>
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <th>Applied Jobs</th>
+          </tr>
+          {applicantsTableData.map((player: any) => (
+            <tr key={`${player.email}-${player.playerName}`}>
+              <td>{player.playerName ? player.playerName : player.email}</td>
+              <td className='table-data-total'>{player.appliedJobs}</td>
             </tr>
           ))}
         </tbody>

@@ -184,6 +184,13 @@ const Screenshot = ({ openModal }: any) => {
         data: 'completed',
       }
     })
+    await updateMissionV2({
+      variables: {
+        id: mission.id,
+        field: 'selectedJob',
+        data: null,
+      }
+    })
 
   };
 
