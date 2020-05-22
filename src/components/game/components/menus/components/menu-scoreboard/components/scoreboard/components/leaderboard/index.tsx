@@ -7,7 +7,7 @@ import { useQuery } from '@apollo/client';
 import FilterSelect from './components/filter-select';
 import ApplicantsTable from './components/applicants-table';
 import RecruitersTable from './components/recruiters-table';
-import SearchBar from './components/searchbar';
+import SearchPlayerKpis from './components/search-player-kpis';
 
 // styles
 import './styles.css'
@@ -61,7 +61,7 @@ const Leaderboard = () => {
   return (
     <div>
       <h4>LEADERBOARD</h4>
-      <SearchBar />
+      <SearchPlayerKpis />
       <h5>Recruiters</h5>
       <FilterSelect handleSelectChange={handleSelectChange} />
       <RecruitersTable recruiters={recruitersTableData} />
