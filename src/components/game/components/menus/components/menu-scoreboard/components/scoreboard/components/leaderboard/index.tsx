@@ -6,13 +6,14 @@ import { useQuery } from '@apollo/client';
 // components
 import FilterSelect from './components/filter-select';
 import ApplicantsTable from './components/applicants-table';
+import RecruitersTable from './components/recruiters-table';
+import SearchBar from './components/searchbar';
 
 // styles
 import './styles.css'
 
 // apollo
 import { GET_LEADERBOARD_RESULTS_SERVER } from '../../../../../../../../../../graphql/queries/server/getLeaderboardResultsServer';
-import RecruitersTable from './components/recruiters-table';
 
 const Leaderboard = () => {
 
@@ -60,6 +61,7 @@ const Leaderboard = () => {
   return (
     <div>
       <h4>LEADERBOARD</h4>
+      <SearchBar />
       <h5>Recruiters</h5>
       <FilterSelect handleSelectChange={handleSelectChange} />
       <RecruitersTable recruiters={recruitersTableData} />
