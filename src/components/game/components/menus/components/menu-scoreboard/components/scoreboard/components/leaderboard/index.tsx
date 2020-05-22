@@ -31,10 +31,10 @@ const Leaderboard = () => {
 
     if (data) {
       // recruiters table
-      const recruitersByFilter = data?.leaderboardResults.recruiters.slice().sort((a: any, b: any) => {
-        return b[filter] - a[filter]
+      const recruitersByAcceptedJobsNumber = data?.leaderboardResults.recruiters.slice().sort((a: any, b: any) => {
+        return b.acceptedJobsNumber - a.acceptedJobsNumber
       })
-      setRecruitersTableData(recruitersByFilter)
+      setRecruitersTableData(recruitersByAcceptedJobsNumber)
 
       // applicants table
       const applicants = data?.leaderboardResults.applicants.slice().sort((a: any, b: any) => {
@@ -42,7 +42,7 @@ const Leaderboard = () => {
       })
       setApplicantsTableData(applicants)
     }
-  }, [data, filter])
+  }, [data])
 
   if (loading) return null;
   if (error) return null;
@@ -50,6 +50,10 @@ const Leaderboard = () => {
   function handleSelectChange(e: any) {
 
     setFilter(e.target.value)
+    const recruitersByFilter = recruitersTableData.slice().sort((a: any, b: any) => {
+      return b[e.target.value] - a[e.target.value]
+    })
+    setRecruitersTableData(recruitersByFilter)
 
   }
 
