@@ -15,7 +15,11 @@ const CompletedChallenge = () => {
   return (
     <div>
       <p>{mission.selectedJob.name}</p>
-      <img src={mission.selectedJob.applicationProofUrl} alt='application screenshot' />
+      {mission.score === 0 ?
+        (<p>Challenge failed but you can still select this job offer for a next challenge</p>)
+        :
+        (<img src={mission.selectedJob.applicationProofUrl} alt='application screenshot' />)
+      }
     </div>
   )
 }

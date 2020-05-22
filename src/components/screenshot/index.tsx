@@ -45,7 +45,6 @@ const Screenshot = ({ openModal }: any) => {
 
       localStorage.setItem('missions', JSON.stringify(missions))
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
-
       openModal()
       navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
     }
@@ -160,6 +159,7 @@ const Screenshot = ({ openModal }: any) => {
     }
 
     if (!isValid) {
+
       await updateJob({
         variables: {
           id: selectedJob.id,
@@ -167,28 +167,23 @@ const Screenshot = ({ openModal }: any) => {
           data: false,
         }
       })
+
+      await updateJob({
+        variables: {
+          id: selectedJob.id,
+          field: 'applicationProofRef',
+          data: '',
+        }
+      })
+
     }
 
-    await updateJob({
-      variables: {
-        id: selectedJob.id,
-        field: 'applicationProofRef',
-        data: '',
-      }
-    })
 
     await updateMissionV2({
       variables: {
         id: mission.id,
         field: 'status',
         data: 'completed',
-      }
-    })
-    await updateMissionV2({
-      variables: {
-        id: mission.id,
-        field: 'selectedJob',
-        data: null,
       }
     })
 

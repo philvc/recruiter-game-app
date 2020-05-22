@@ -30,7 +30,9 @@ const SearchPlayerKpis = () => {
   })
 
   // queries
-  const [getPlayerKpisBySearch, { loading, error, data }] = useLazyQuery(GET_PLAYER_KPIS_BY_SEARCH)
+  const [getPlayerKpisBySearch, { loading, error, data }] = useLazyQuery(GET_PLAYER_KPIS_BY_SEARCH, {
+    fetchPolicy: "no-cache",
+  })
 
   // effect
 
@@ -50,7 +52,7 @@ const SearchPlayerKpis = () => {
     getPlayerKpisBySearch({
       variables: {
         search,
-      }
+      },
     })
   }
 

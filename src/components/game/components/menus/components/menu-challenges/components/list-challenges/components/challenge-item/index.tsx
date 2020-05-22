@@ -20,7 +20,7 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
       )}
       {challenge.status === 'completed' && (
         <p>
-          {challenge.score === 1 ? `Challenge succeeded: ${challenge.score}/1` : `Challenge failed: ${challenge.score}/1`}
+          {challenge.score === 1 ? `Challenge succeeded: ${challenge.score}/1` : `Challenge failed: 0/1`}
         </p>
       )}
       <button onClick={() => handleClick(challenge)}>
