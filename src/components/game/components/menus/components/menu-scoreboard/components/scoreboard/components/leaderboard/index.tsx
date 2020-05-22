@@ -5,12 +5,14 @@ import { useQuery } from '@apollo/client';
 
 // components
 import FilterSelect from './components/filter-select';
+import ApplicantsTable from './components/applicants-table';
 
 // styles
 import './styles.css'
 
 // apollo
 import { GET_LEADERBOARD_RESULTS_SERVER } from '../../../../../../../../../../graphql/queries/server/getLeaderboardResultsServer';
+import RecruitersTable from './components/recruiters-table';
 
 const Leaderboard = () => {
 
@@ -28,7 +30,6 @@ const Leaderboard = () => {
   React.useEffect(() => {
 
     if (data) {
-
       // recruiters table
       const recruitersByFilter = data?.leaderboardResults.recruiters.slice().sort((a: any, b: any) => {
         return b[filter] - a[filter]
@@ -49,6 +50,7 @@ const Leaderboard = () => {
   function handleSelectChange(e: any) {
 
     setFilter(e.target.value)
+
   }
 
   return (
@@ -56,37 +58,8 @@ const Leaderboard = () => {
       <h4>LEADERBOARD</h4>
       <h5>Recruiters</h5>
       <FilterSelect handleSelectChange={handleSelectChange} />
-      <table>
-        <tbody>
-          <tr>
-            <th>Name</th>
-            <th>Total jobs validated</th>
-            <th>Total applicants</th>
-          </tr>
-          {recruitersTableData.map((player: any) => (
-            <tr key={`${player.email}-${player.playerName}`}>
-              <td>{player.playerName ? player.playerName : player.email}</td>
-              <td className='table-data-total'>{player.acceptedJobsNumber}</td>
-              <td className='table-data-total'>{player.applicantsNumber}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <h5>Applicants</h5>
-      <table>
-        <tbody>
-          <tr>
-            <th>Name</th>
-            <th>Applied Jobs</th>
-          </tr>
-          {applicantsTableData.map((player: any) => (
-            <tr key={`${player.email}-${player.playerName}`}>
-              <td>{player.playerName ? player.playerName : player.email}</td>
-              <td className='table-data-total'>{player.appliedJobs}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <RecruitersTable recruiters={recruitersTableData} />
+      <ApplicantsTable applicants={applicantsTableData} />
     </div>
   )
 };
