@@ -12,12 +12,6 @@ import Menus from './components/menus';
 const Game = ({ path }: any) => {
   return (
     <div>
-      {/* sidebar avec des liens */}
-      {/* page dashboard
-      page Mission
-      page mission 10 jobs
-      pages settings
-      ... */}
       <Router>
         <ListGames path='/' />
         <Menus path=':gameTitle/*' />

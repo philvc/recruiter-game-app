@@ -6,12 +6,15 @@ import { useApolloClient } from '@apollo/client';
 // components
 import NavBar from '../../../../../../../navbar';
 import ChallengeItem from './components/challenge-item';
+import Contact from '../../../../../../../contact';
+
+// styles
+import './styles.css';
 
 // apollo
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
-import Contact from '../../../../../../../contact';
 
 const ListChallenges = ({ path, navigate }: any) => {
 
@@ -35,10 +38,17 @@ const ListChallenges = ({ path, navigate }: any) => {
   }
 
   return (
-    <div>
+    <div className='list-challenges-container'>
       <NavBar />
-      <div>
-        <h3>Challenges</h3>
+      <div className='list-challenges-container-body'>
+        <h3>Menu Challenges</h3>
+        {challengesList.length === 0 && (
+          <div className="list-challenges-description-container">
+            <p>Welcome to the challenges menu !</p>
+            <p>Here you will find different challenges to give to your friend.</p>
+            <p>Currently, you have no challenge available, try to complete one mission and see what challenge you receive to give to your applicant !</p>
+          </div>
+        )}
         {challengesList.map((challenge: any) => (
           <ChallengeItem key={challenge.id} challenge={challenge} handleClick={handleClick} />
         ))}

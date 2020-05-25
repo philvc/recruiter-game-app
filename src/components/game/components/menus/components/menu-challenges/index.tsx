@@ -8,17 +8,20 @@ import NotFound from '../../../../../notFound';
 import ListChallenges from './components/list-challenges';
 import Challenge from './components/challenge';
 
-// graphql
+// styles
+import './styles.css';
 
 const MenuChallenges = ({ path }: any) => {
 
 
   return (
-    <Router>
-      <ListChallenges path='/' navigate />
-      <Challenge path='/:challengeId' />
-      <NotFound default />
-    </Router>
+    <div className="menu-challenges-router-container">
+      <Router>
+        <ListChallenges path='/' navigate />
+        <Challenge path='/:challengeId' />
+        <NotFound default />
+      </Router>
+    </div>
 
   )
 }

@@ -17,13 +17,15 @@ const Menus = ({ path }: any) => {
   return (
     <div className='menus-container'>
       <Sidebar />
-      <Router>
-        <MenuMissions path='missions/*' />
-        <MenuChallenges path='challenges/*' />
-        <MenuScoreboard path='scoreboard/*' />
-        <Settings path='settings/*' />
-        <Redirect from='/' to='missions' noThrow />
-      </Router>
+      <div className='menus-container-router'>
+        <Router>
+          <MenuMissions path='missions/*' />
+          <MenuChallenges path='challenges/*' />
+          <MenuScoreboard path='scoreboard/*' />
+          <Settings path='settings/*' />
+          <Redirect from='/' to='missions' noThrow />
+        </Router>
+      </div>
     </div>
   )
 }

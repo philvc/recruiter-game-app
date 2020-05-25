@@ -98,8 +98,8 @@ const LoginV2 = ({ path }: any) => {
             <div className='game-description-container'>
               <p>10 Jobs Challenge is a simple game where the goal is to help one of your friend to find his or her new job.</p>
               <p>Does it mean what I really think ? Yes ;)</p>
-              <p>In other words, you will be become like a personal recruiter for your friend, finding him new job offers and challenging him to apply to jobs who have been confirmed.</p>
-              <p>If you want to help a friend to find his or her new job, just <b>create</b> or <b>login</b> to your account with your email address and start the 10 Jobs Challenge ;)</p>
+              <p>In other words, you will be become like a personal recruiter for your friend, finding him new job offers and challenging him to apply to selected jobs.</p>
+              <p>If you want to help a friend to find a new job, just <b>create</b> or <b>login</b> to your account with your email address and start the 10 Jobs Challenge ;)</p>
             </div>
             <form onSubmit={handleSubmit} className='email-form'>
               <label>

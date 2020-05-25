@@ -4,6 +4,9 @@ import * as React from 'react';
 import { useApolloClient } from '@apollo/client';
 import { Link } from '@reach/router';
 
+// styles
+import './styles.css';
+
 const LogoutButton = () => {
 
   // client
@@ -17,7 +20,7 @@ const LogoutButton = () => {
 
 
   return (
-    <div>
+    <div className='logout-button-container'>
       <p>
         <Link to='/'>
           <button onClick={handleClick}>LOGOUT</button>

@@ -10,7 +10,7 @@ import Contact from '../../../../../../../contact';
 import ListProgress from './components/list-progress';
 
 // style
-import './style.css'
+import './styles.css'
 
 // grapqhql
 import { GET_MISSIONS_SERVER } from '../../../../../../../../graphql/queries/server/getMissionsServer';
@@ -43,7 +43,7 @@ const ListMissions = ({ path }: any) => {
           missions: [...missions]
         }
       })
-      console.log('missions dans list missions', missions)
+
       setStateMissions(missions.filter((mission: any) => mission.type === '10jobs'))
       localStorage.setItem('missions', JSON.stringify(missions))
     }
@@ -120,12 +120,21 @@ const ListMissions = ({ path }: any) => {
   if (loading) return null
   if (error) return null
   return (
-    <div>
+    <div className='list-missions-container'>
       <NavBar />
-      <div className='mission-list-container'>
+      <div className='list-missions-container-body'>
         <div>
           <h3>Menu Missions</h3>
         </div>
+        {data && stateMissions.length === 0 && (
+          <div className='list-missions-description-container'>
+            <p>Welcome !</p>
+            <p>Congrats for helping your friend finding a new job.</p>
+            <p>Your friend has been invited by email to join this game as job applicant.</p>
+            <p>One mission is already available: the 10 job offers mission.</p>
+            <p>Lets start one and prepare a good surprise for your friend!</p>
+          </div>
+        )}
         {data && stateMissions.map((mission: any) => (
           <div key={mission.id}>
             <Link to={`${mission.id}`} onClick={() => {
@@ -150,7 +159,9 @@ const ListMissions = ({ path }: any) => {
           </div>
         )
         )}
-        <button onClick={handleClick}>Start "List 10 job offers" mission</button>
+        <div className='start-mission-button'>
+          <button onClick={handleClick}>Start "10 job offers" mission</button>
+        </div>
       </div>
       <Contact />
     </div>

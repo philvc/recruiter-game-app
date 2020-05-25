@@ -119,7 +119,7 @@ const AddGameForm = ({ openModal }: any) => {
               name="email"
               value={state.email}
               type="text"
-              placeholder='email...'
+              placeholder='friend email...'
             />
           </label>
           <label>
@@ -129,7 +129,7 @@ const AddGameForm = ({ openModal }: any) => {
               name="name"
               value={state.name}
               type="text"
-              placeholder='name...'
+              placeholder='friend name...'
             />
           </label>
         </div>
