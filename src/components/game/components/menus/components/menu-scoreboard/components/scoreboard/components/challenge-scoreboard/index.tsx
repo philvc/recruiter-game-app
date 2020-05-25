@@ -3,6 +3,9 @@ import * as React from 'react';
 // modules
 import { useApolloClient } from '@apollo/client';
 
+// styles
+import './styles.css';
+
 // apollo
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_SERVER } from '../../../../../../../../../../graphql/queries/server/getMissionsServer';
@@ -18,11 +21,21 @@ const ChallengeScoreboard = () => {
   const totalSucceeded = challenges.filter((challenge: any) => challenge.score).length
   const totalFailed = challenges.filter((challenge: any) => !challenge.score).length
   return (
-    <div>
+    <>
       {/* <h5>Your challenges</h5> */}
-      <p>Challenge succeeded: {totalSucceeded}</p>
-      <p>Challenge failed: {totalFailed}</p>
-    </div>
+      <tr>
+        <th className='challenge-scoreboard-header'>Challenge succeeded</th>
+      </tr>
+      <tr>
+        <td className='challenge-scoreboard-data'>{totalSucceeded}</td>
+      </tr>
+      <tr>
+        <th className='challenge-scoreboard-header'>Challenge failed</th>
+      </tr>
+      <tr>
+        <td className='challenge-scoreboard-data'>{totalFailed}</td>
+      </tr>
+    </>
   )
 }
 

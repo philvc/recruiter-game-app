@@ -4,10 +4,14 @@
 
 .scoreboard-body-container{
     display: flex;
+    justify-content: space-evenly;
 }
 
 .scoreboard-body-containter-game{
-    width: 45%;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .scoreboard-body-containter-game-title{
@@ -15,5 +19,15 @@
 }
 
 .scoreboard-body-container-leaderboard{
-    width: 45%;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scoreboard-body-container-search{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

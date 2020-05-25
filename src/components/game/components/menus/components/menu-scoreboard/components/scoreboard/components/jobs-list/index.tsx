@@ -7,6 +7,9 @@ import { useApolloClient } from '@apollo/client';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
+// styles
+import './styles.css'
+
 const JobsList = () => {
 
   // client
@@ -18,18 +21,43 @@ const JobsList = () => {
   const acceptedJobs = getJobsByGameId.filter((job: any) => job.isAccepted === true)
   const ratio = appliedJobs.length / acceptedJobs.length * 100
   return (
-    <div>
-      {/* <h4>Jobs: </h4> */}
-      <p>Ratio applied/accepted jobs: {ratio ? `${Math.round(ratio)}%` : 0}</p>
-      <h6>Applied jobs</h6>
-      <ul>
-        {appliedJobs.map((job: any) => <li key={`applied+${job.id}`}>{job.name} url: {job.url}</li>)}
-      </ul>
-      <h6>Accepted jobs</h6>
-      <ul>
-        {acceptedJobs.map((job: any) => <li key={`accepted+${job.id}`}>{job.name} url: {job.url}</li>)}
-      </ul>
-    </div>
+    <>
+      <tr>
+        <th className='jobs-scoreboard-header'>Accepted jobs</th>
+      </tr>
+      {acceptedJobs.length > 0 ? acceptedJobs.map((job: any) => (
+        <tr key={job.id}>
+          <td className='jobs-scoreboard-data'>{job.name}</td>
+          <td className='jobs-scoreboard-data'>{job.url}</td>
+        </tr>
+      ))
+        :
+        <tr>
+          <td className='jobs-scoreboard-data'>0</td>
+        </tr>
+      }
+      <tr>
+        <th className='jobs-scoreboard-header'>Applied jobs</th>
+      </tr>
+
+      {appliedJobs.length > 0 ? appliedJobs.map((job: any) => (
+        <tr key={job.id}>
+          <td className='jobs-scoreboard-data'>{job.name}</td>
+          <td className='jobs-scoreboard-data'>{job.url}</td>
+        </tr>
+      ))
+        :
+        <tr>
+          <td className='jobs-scoreboard-data'>0</td>
+        </tr>
+      }
+      <tr>
+        <th className='jobs-scoreboard-header'>Applied / Accepted jobs</th>
+      </tr>
+      <tr>
+        <td className='jobs-scoreboard-data'>{ratio ? `${Math.round(ratio)}%` : 0}</td>
+      </tr>
+    </>
   )
 }
 

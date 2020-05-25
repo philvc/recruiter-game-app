@@ -9,6 +9,7 @@ import Leaderboard from './components/leaderboard';
 
 // styles
 import './styles.css';
+import SearchPlayerKpis from './components/leaderboard/components/search-player-kpis';
 
 const Scoreboard = ({ path }: any) => {
 
@@ -20,12 +21,19 @@ const Scoreboard = ({ path }: any) => {
         <div className='scoreboard-body-container'>
           <div className='scoreboard-body-containter-game'>
             <h4 className='scoreboard-body-containter-game-title'>Your game</h4>
-            <ChallengeScoreboard />
-            <MissionScoreboard />
-            <JobsList />
+            <table>
+              <tbody>
+                <MissionScoreboard />
+                <JobsList />
+                <ChallengeScoreboard />
+              </tbody>
+            </table>
           </div>
           <div className="scoreboard-body-container-leaderboard">
             <Leaderboard />
+          </div>
+          <div className='scoreboard-body-container-search'>
+            <SearchPlayerKpis />
           </div>
         </div>
       </div>

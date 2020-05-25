@@ -7,6 +7,9 @@ import { useApolloClient } from '@apollo/client';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_SERVER } from '../../../../../../../../../../graphql/queries/server/getMissionsServer';
 
+// styles
+import './styles.css'
+
 const MissionScoreboard = () => {
 
   // client
@@ -21,11 +24,21 @@ const MissionScoreboard = () => {
   const averageScore = recruiterMissions.map((mission: any) => mission.score).reduce((a: any, b: any) => a + b, 0) / total
 
   return (
-    <div>
+    <>
       {/* <h4>Missions</h4> */}
-      <p>Total: {total}</p>
-      <p>Average per mission: {averageScore ? `${averageScore}/10` : 0}</p>
-    </div>
+      <tr>
+        <th className='mission-scoreboard-header'>Number of missions '10 job offers'</th>
+      </tr>
+      <tr>
+        <td className='mission-scoreboard-data'>{total}</td>
+      </tr>
+      <tr>
+        <th className='mission-scoreboard-header'>Average score</th>
+      </tr>
+      <tr>
+        <td className='mission-scoreboard-data'>{averageScore ? `${averageScore}/10` : 0}</td>
+      </tr>
+    </>
   )
 }
 
