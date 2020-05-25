@@ -1,3 +1,43 @@
-.table-data-total{
+
+.search-player-kpis-containter{
+    
+}
+
+.leaderboard-table-header{
+    font-size: 16px;
+    font-weight: normal;
+    height: 50px;
+}
+
+.leaderboard-table-data{
+    font-size: 16px;
+    
+}
+
+.search-player-title{
     text-align: center;
+}
+
+.search-player-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-player-form-input{
+    width: 200px;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.search-player-form-button{
+    width: 100px;
+}
+
+.search-player-data-null{
+    text-align: center;
+}
+
+.search-player-result-details{
+    
 }

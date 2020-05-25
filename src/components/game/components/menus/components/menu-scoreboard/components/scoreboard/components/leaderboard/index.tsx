@@ -12,10 +12,10 @@ const Leaderboard = () => {
 
   return (
     <div>
-      <h4>LEADERBOARD</h4>
-      <SearchPlayerKpis />
+      <h4 className="leaderboard-title">General rankings</h4>
       <RecruitersTable />
       <ApplicantsTable />
+      <SearchPlayerKpis />
     </div>
   )
 };

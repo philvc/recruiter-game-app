@@ -19,7 +19,7 @@ const JobsList = () => {
   const ratio = appliedJobs.length / acceptedJobs.length * 100
   return (
     <div>
-      <h4>JOBS: </h4>
+      {/* <h4>Jobs: </h4> */}
       <p>Ratio applied/accepted jobs: {ratio ? `${Math.round(ratio)}%` : 0}</p>
       <h6>Applied jobs</h6>
       <ul>

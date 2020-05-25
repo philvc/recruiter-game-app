@@ -57,50 +57,34 @@ const SearchPlayerKpis = () => {
   }
 
 
-
+  console.log('playerInfos', playerInfos)
   return (
-    <div>
-      <h4>Search for a player</h4>
-      <input type='text' name='search' value={search} onChange={handleChange} placeholder='insert name or email...' />
-      <button onClick={handleClick}>Search</button>
-      <div>
-        {playerInfos?.recruiter?.playerName && (
-          <div>
-            <h5>recruiter</h5>
-            <table>
-              <tbody>
-                <tr>
-                  <th>Name</th>
-                  <th>Total applicants</th>
-                  <th>Total validated job offers</th>
-                </tr>
-                <tr>
-                  <td className='table-data-total'>{playerInfos.recruiter.playerName}</td>
-                  <td className='table-data-total'>{playerInfos.recruiter.acceptedJobsNumber}</td>
-                  <td className='table-data-total'>{playerInfos.recruiter.acceptedJobsNumber}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )
-        }
+    <div className='search-player-kpis-containter'>
+      <h4 className='search-player-title'>Search for a player</h4>
+      <div className='search-player-form'>
+        {/* <label>
+          Enter an email or a player userName
+        </label> */}
+        <input className='search-player-form-input' type='text' name='search' value={search} onChange={handleChange} placeholder='Insert name or email...' />
+        <button className='search-player-form-button' onClick={handleClick}>Search</button>
       </div>
       <div>
-        {playerInfos?.applicant?.playerName && (
+        {playerInfos === null && <p className='search-player-data-null'>No player found</p>}
+        {playerInfos?.recruiter?.playerName && (
           <div>
-            <h5>applicant</h5>
-            <table>
-              <tbody>
-                <tr>
-                  <th>Name</th>
-                  <th>Total applied jobs</th>
-                </tr>
-                <tr>
-                  <td className='table-data-total'>{playerInfos.applicant.playerName}</td>
-                  <td className='table-data-total'>{playerInfos.applicant.appliedJobs}</td>
-                </tr>
-              </tbody>
-            </table>
+            <h5>Result</h5>
+            <div>
+              {playerInfos.recruiter.playerName}
+              <div className='search-player-result-details'>
+                Total number of accepted job offers: {playerInfos.recruiter.acceptedJobsNumber}
+              </div>
+              <div className='search-player-result-details'>
+                Total number of applicants: {playerInfos.recruiter.applicantsNumber}
+              </div>
+              {playerInfos?.applicant?.playerName && <div className='search-player-result-details'>
+                Total number of applied jobs: {playerInfos.applicant.appliedJobs}
+              </div>}
+            </div>
           </div>
         )
         }

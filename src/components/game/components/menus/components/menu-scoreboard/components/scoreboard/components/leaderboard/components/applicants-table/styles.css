@@ -1,0 +1,16 @@
+.leaderboard-table-header{
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.leaderboard-table-data{
+    font-size: 16px;
+    height: 30px;
+}
+
+.leaderboard-player-details-total-applied-jobs{
+    font-size: 12px;
+    height: 30px;
+    display: table-cell;
+    vertical-align: middle;
+}

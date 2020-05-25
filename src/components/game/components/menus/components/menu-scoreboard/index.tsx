@@ -1,12 +1,21 @@
 import * as React from 'react';
-import Scoreboard from './components/scoreboard';
+
+// modules
 import { Router } from '@reach/router';
+
+// components
+import Scoreboard from './components/scoreboard';
+
+// styles
+import './styles.css';
 
 const MenuScoreboard = ({ path }: any) => {
   return (
-    <Router>
-      <Scoreboard path='/' />
-    </Router>
+    <div className='menu-scoreboard-router-container'>
+      <Router>
+        <Scoreboard path='/' />
+      </Router>
+    </div>
   )
 }
 

@@ -4,10 +4,13 @@ import * as React from 'react';
 import { useQuery } from '@apollo/client';
 
 // modules
-import FilterSelect from '../filter-select';
+import SortSelect from '../sort-select';
 
 // apollo
 import { GET_LEADERBOARD_RECRUITERS_SERVER } from '../../../../../../../../../../../../graphql/queries/server/getleaderboardRecruiters';
+
+// styles
+import './styles.css';
 
 const RecruitersTable = () => {
 
@@ -15,6 +18,7 @@ const RecruitersTable = () => {
   const [recruiters, setRecruiters] = React.useState([])
   const [after, setAfter] = React.useState(0)
   const [filter, setFilter] = React.useState('acceptedJobsNumber')
+  const [hoveredPlayerIndex, setHoveredPlayerIndex] = React.useState('')
 
   // queries
   const { loading, error, data, fetchMore } = useQuery(GET_LEADERBOARD_RECRUITERS_SERVER, {
@@ -69,23 +73,47 @@ const RecruitersTable = () => {
     }
   }
 
+  function handleHover(e: any, index: any) {
+    setHoveredPlayerIndex(index)
+  }
+
+  function handleBlur(e: any, index: any) {
+    setHoveredPlayerIndex('')
+  }
+
 
   return (
     <div>
-      <h5>Recruiters</h5>
-      <FilterSelect handleSelectChange={handleSelectChange} />
+      {/* <h5>Recruiters</h5> */}
+      <SortSelect handleSelectChange={handleSelectChange} />
       <table>
         <tbody>
           <tr>
-            <th>Name</th>
-            <th>Total jobs validated</th>
-            <th>Total applicants</th>
+            {/* <th className="leaderboard-table-header">Rank</th> */}
+            <th className="leaderboard-table-header">Recruiters</th>
+            {/* <th className="leaderboard-table-header">Total jobs validated</th>
+            <th className="leaderboard-table-header">Total applicants</th> */}
           </tr>
-          {recruiters.map((player: any) => (
+          {recruiters.map((player: any, index: any) => (
             <tr key={`${player.email}-${player.playerName}`}>
-              <td>{player.playerName ? player.playerName : player.email}</td>
-              <td className='table-data-total'>{player.acceptedJobsNumber}</td>
-              <td className='table-data-total'>{player.applicantsNumber}</td>
+              <td className='leaderboard-table-data'>{index + 1}</td>
+              <td
+                className='leaderboard-table-data'
+                onMouseEnter={(e: any) => handleHover(e, index)}
+                onMouseLeave={(e: any) => handleBlur(e, index)}
+              >
+                {player.playerName ? player.playerName : player.email}
+              </td>
+              {hoveredPlayerIndex === index && <div className='leaderboard-player-details'>
+                <div className='leaderboard-player-details-total'>
+                  total number of accepted jobs: {player.acceptedJobsNumber}
+                </div>
+                <div className='leaderboard-player-details-total'>
+                  total number of applicants: {player.applicantsNumber}
+                </div>
+              </div>}
+              {/* <td className='leaderboard-table-data'>{player.acceptedJobsNumber}</td>
+              <td className='leaderboard-table-data'>{player.applicantsNumber}</td> */}
             </tr>
           ))}
         </tbody>

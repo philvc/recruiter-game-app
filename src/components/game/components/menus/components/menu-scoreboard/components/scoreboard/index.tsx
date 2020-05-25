@@ -7,18 +7,27 @@ import MissionScoreboard from './components/mission-scoreboard';
 import JobsList from './components/jobs-list';
 import Leaderboard from './components/leaderboard';
 
+// styles
+import './styles.css';
 
 const Scoreboard = ({ path }: any) => {
 
   return (
-    <div>
+    <div className='scoreboard-container'>
       <NavBar />
       <div>
-        <h3>Scoreboard</h3>
-        <ChallengeScoreboard />
-        <MissionScoreboard />
-        <JobsList />
-        <Leaderboard />
+        <h3 className='scoreboard-body-title'>Scoreboard</h3>
+        <div className='scoreboard-body-container'>
+          <div className='scoreboard-body-containter-game'>
+            <h4 className='scoreboard-body-containter-game-title'>Your game</h4>
+            <ChallengeScoreboard />
+            <MissionScoreboard />
+            <JobsList />
+          </div>
+          <div className="scoreboard-body-container-leaderboard">
+            <Leaderboard />
+          </div>
+        </div>
       </div>
     </div>
   )

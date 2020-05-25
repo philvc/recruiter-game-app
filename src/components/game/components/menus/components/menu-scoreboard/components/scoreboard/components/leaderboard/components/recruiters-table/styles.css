@@ -1,0 +1,16 @@
+.leaderboard-table-header{
+    font-size: 16px;
+    font-weight: normal;
+    height: 50px;
+}
+
+.leaderboard-table-data{
+    font-size: 16px;
+    height: 30px;
+}
+
+.leaderboard-player-details{
+    position: relative;
+    font-size: 12px;
+    height: 20px;
+}

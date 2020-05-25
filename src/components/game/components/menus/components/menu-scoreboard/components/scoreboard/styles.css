@@ -1,0 +1,19 @@
+.scoreboard-body-title{
+    text-align: center;
+}
+
+.scoreboard-body-container{
+    display: flex;
+}
+
+.scoreboard-body-containter-game{
+    width: 45%;
+}
+
+.scoreboard-body-containter-game-title{
+    text-align: center;
+}
+
+.scoreboard-body-container-leaderboard{
+    width: 45%;
+}

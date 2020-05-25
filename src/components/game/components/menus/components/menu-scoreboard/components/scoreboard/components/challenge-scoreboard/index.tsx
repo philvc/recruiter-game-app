@@ -19,7 +19,7 @@ const ChallengeScoreboard = () => {
   const totalFailed = challenges.filter((challenge: any) => !challenge.score).length
   return (
     <div>
-      <h4>CHALLENGES</h4>
+      {/* <h5>Your challenges</h5> */}
       <p>Challenge succeeded: {totalSucceeded}</p>
       <p>Challenge failed: {totalFailed}</p>
     </div>
