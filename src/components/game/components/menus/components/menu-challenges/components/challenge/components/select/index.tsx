@@ -3,6 +3,9 @@ import * as React from 'react';
 // modules
 import { useApolloClient } from '@apollo/client';
 
+// styles
+import './styles.css'
+
 // apollo
 import { GET_GAME_CLIENT } from '../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
@@ -31,14 +34,14 @@ const Select = ({ setSelectedJob }: any) => {
 
   return (
     <div>
-      <select name='select' style={{ width: '100px' }} onChange={handleChange}>
+      <select className='select-job' name='select' onChange={handleChange}>
         <option></option>
         {jobList?.map((job: any, index: number) =>
           (<option
             value={index}
             key={job.id}
           >
-            {job.url} rank:{job.rank}
+            {job.name}  | rank:{job.rank}
           </option>
           ))}
       </select>

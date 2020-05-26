@@ -42,16 +42,20 @@ const ListChallenges = ({ path, navigate }: any) => {
       <NavBar />
       <div className='list-challenges-container-body'>
         <h3>Menu Challenges</h3>
-        {challengesList.length === 0 && (
-          <div className="list-challenges-description-container">
-            <p>Welcome to the challenges menu !</p>
-            <p>Here you will find different challenges to give to your friend.</p>
-            <p>Currently, you have no challenge available, try to complete one mission and see what challenge you receive to give to your applicant !</p>
-          </div>
-        )}
-        {challengesList.map((challenge: any) => (
-          <ChallengeItem key={challenge.id} challenge={challenge} handleClick={handleClick} />
-        ))}
+        <div className='list-challenges-container-body-list'>
+          {challengesList.length === 0 && (
+            <div className="list-challenges-description-container">
+              <p>Welcome to the challenges menu !</p>
+              <p>Here you will find different challenges to give to your friend.</p>
+              <p>Currently, you have no challenge available, try to complete one mission and see what challenge you receive to give to your applicant !</p>
+            </div>
+          )}
+          {challengesList.map((challenge: any) => (
+            <div className='list-challenges-item'>
+              <ChallengeItem key={challenge.id} challenge={challenge} handleClick={handleClick} />
+            </div>
+          ))}
+        </div>
       </div>
       <Contact />
     </div>

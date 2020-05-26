@@ -12,3 +12,13 @@
     align-items: center;
     justify-content: center;
 }
+
+.list-challenges-container-body-list{
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 100%;
+}
+
+.list-challenges-item{
+    margin: 20px;
+}

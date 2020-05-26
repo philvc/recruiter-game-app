@@ -7,6 +7,9 @@ import PendingChallenge from './components/pendingChallenge';
 import CompletedChallenge from './components/completedChallenge';
 import Contact from '../../../../../../../contact';
 
+// styles
+import './styles.css';
+
 // apollo
 import { useApolloClient, gql } from '@apollo/client';
 
@@ -44,9 +47,11 @@ const Challenge = ({ path }: any) => {
       <div>
         <NavBar />
       </div>
-      Challenge
-      {renderChallenge(mission?.status)}
-      <Contact />
+      <div className='challenge-applyForOneJob-body'>
+        <h3>Apply for 1 job</h3>
+        {renderChallenge(mission?.status)}
+        <Contact />
+      </div>
     </div>
   )
 }

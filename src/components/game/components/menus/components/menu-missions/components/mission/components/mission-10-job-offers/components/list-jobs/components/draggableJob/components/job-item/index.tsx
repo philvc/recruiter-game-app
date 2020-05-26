@@ -101,8 +101,8 @@ const JobItem = ({ job, index, setProgress }: any) => {
   return (
     <>
       <td className='job-item-rank'>{index + 1}</td>
-      <JobInputField name='url' value={job.url} jobId={job.id} dispatch={dispatch} />
       <JobInputField name='name' value={job.name} jobId={job.id} dispatch={dispatch} />
+      <JobInputField name='url' value={job.url} jobId={job.id} dispatch={dispatch} />
       {player.id === game.applicantId && <JobCheckboxInputField name='isAccepted' value={job.isAccepted} jobId={job.id} />}
     </>
   );

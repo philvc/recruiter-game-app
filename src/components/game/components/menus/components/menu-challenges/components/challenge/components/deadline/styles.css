@@ -1,0 +1,10 @@
+.deadline-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.deadline-container-radio{
+    margin-right: 10px;
+}

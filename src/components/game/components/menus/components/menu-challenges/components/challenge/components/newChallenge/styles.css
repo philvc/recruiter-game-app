@@ -1,0 +1,15 @@
+.newChallenge-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.newChallenge-container-step3{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.newChallenge-container-step3-message{
+    margin-bottom: 20px;
+}

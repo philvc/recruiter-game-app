@@ -10,7 +10,6 @@ const Message = ({ setMessage, message, context }: any) => {
   }
   return (
     <div className='message-container'>
-      <p className="message-context">{context}</p>
       <label>
         <textarea name='message' value={message} onChange={handleChange} />
       </label>

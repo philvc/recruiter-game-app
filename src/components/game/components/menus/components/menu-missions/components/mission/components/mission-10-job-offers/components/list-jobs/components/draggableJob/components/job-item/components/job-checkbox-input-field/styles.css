@@ -1,5 +1,7 @@
 .tenJobs-mission-checkbox{
     padding: 0 10px;
+    display: flex;
+    justify-content: center;
 }
 
 .tenJobs-mission-checkbox-input:hover{

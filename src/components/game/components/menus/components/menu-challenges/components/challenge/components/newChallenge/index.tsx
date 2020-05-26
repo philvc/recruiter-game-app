@@ -9,6 +9,9 @@ import Select from '../select';
 import Deadline from '../deadline';
 import Message from '../../../../../../../../../message';
 
+// styles
+import './styles.css'
+
 // apollo
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { START_JOB_APPLICATION } from '../../../../../../../../../../graphql/mutations/server/startJobApplication';
@@ -135,14 +138,20 @@ const NewChallenge = () => {
   }
 
   return (
-    <div>
-      <p>Step 1: select 1 job </p>
+    <div className='newChallenge-container'>
+      <p>Step 1:</p>
+      <div>Select 1 job</div>
       <Select setSelectedJob={setSelectedJob} />
-      <p>{selectedJob?.url}</p>
       {selectedJob?.url && (
         <div>
           <Deadline setSelectedDate={setSelectedDate} />
-          <Message setMessage={setMessage} message={message} context='Send a message' />
+        </div>
+      )}
+      {selectedJob?.url && selectedDate !== 0 && (
+        <div className='newChallenge-container-step3'>
+          <p>Step 3:</p>
+          <div className='newChallenge-container-step3-message'>Send an message to your friend</div>
+          <Message setMessage={setMessage} message={message} />
         </div>
       )}
       {message && <p><button onClick={handleClick}>Send challenge</button></p>}

@@ -25,12 +25,10 @@ const JobsList = () => {
       <tr>
         <th className='jobs-scoreboard-header'>Accepted jobs</th>
       </tr>
-      {acceptedJobs.length > 0 ? acceptedJobs.map((job: any) => (
-        <tr key={job.id}>
-          <td className='jobs-scoreboard-data'>{job.name}</td>
-          <td className='jobs-scoreboard-data'>{job.url}</td>
+      {acceptedJobs.length > 0 ?
+        <tr>
+          <td className='jobs-scoreboard-data'>{acceptedJobs.length}</td>
         </tr>
-      ))
         :
         <tr>
           <td className='jobs-scoreboard-data'>0</td>
@@ -40,12 +38,10 @@ const JobsList = () => {
         <th className='jobs-scoreboard-header'>Applied jobs</th>
       </tr>
 
-      {appliedJobs.length > 0 ? appliedJobs.map((job: any) => (
-        <tr key={job.id}>
-          <td className='jobs-scoreboard-data'>{job.name}</td>
-          <td className='jobs-scoreboard-data'>{job.url}</td>
+      {appliedJobs.length > 0 ?
+        <tr>
+          <td className='jobs-scoreboard-data'>{appliedJobs.length}</td>
         </tr>
-      ))
         :
         <tr>
           <td className='jobs-scoreboard-data'>0</td>

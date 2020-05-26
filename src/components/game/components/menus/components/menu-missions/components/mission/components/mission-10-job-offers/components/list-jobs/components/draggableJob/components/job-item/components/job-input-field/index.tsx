@@ -2,8 +2,11 @@ import * as React from 'react';
 
 import { actions } from '../../reducer'
 
+// components
+import MessageHub from '../../../../../../../../../../../../../../../../../message-hub';
+
 // styles
-import './styles.css';
+import { StyledTenJobsInput } from './styles';
 
 // apollo
 import { useMutation, useApolloClient, gql } from '@apollo/client';
@@ -11,6 +14,7 @@ import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../../
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_PLAYER_CLIENT } from '../../../../../../../../../../../../../../../../../../graphql/queries/client/getPlayerClient';
 
 const JobInputField = ({ name, value, jobId, dispatch }: any) => {
 
@@ -18,9 +22,12 @@ const JobInputField = ({ name, value, jobId, dispatch }: any) => {
   const client = useApolloClient()
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   // state
   const [state, setState] = React.useState(value)
+
+  const ref = React.useRef((arg: any) => '')
 
   // mutation
   const [updateJob] = useMutation(UPDATE_JOB_SERVER, {
@@ -61,11 +68,27 @@ const JobInputField = ({ name, value, jobId, dispatch }: any) => {
     dispatch({ type: e.target.name === 'name' ? actions.isNameComplete : actions.isUrlComplete, payload: e.target.value })
   }
 
+  function handleClick(e: any) {
+    if (player.id === game.applicant.id) {
+      navigator.clipboard.writeText(e.target.value)
+      ref.current('copied to your clibboard')
+    }
+  }
+
   return (
     <td>
       <label>
-        <input className='tenJobs-mission-input' type={name} name={name} value={state} onChange={handleChange} disabled={mission?.isReviewed} />
+        <StyledTenJobsInput
+          type={name}
+          name={name}
+          value={mission?.isReviewed ? value : state}
+          onClick={handleClick}
+          onChange={handleChange}
+          // disabled={mission?.isReviewed}
+          isApplicant={player.id === game.applicant.id}
+        />
       </label>
+      <MessageHub children={(add: any) => ref.current = add} />
     </td>
   )
 }

@@ -59,6 +59,7 @@ const List = ({ setProgress }: any) => {
               <th>Rank</th>
               <th>Name</th>
               <th>Url</th>
+              <th>Save</th>
             </tr>
             {
               jobs

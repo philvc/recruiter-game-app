@@ -73,7 +73,8 @@ const ReviewButton = () => {
 
   return (
     <div className='review-container'>
-      <Message message={message} setMessage={setMessage} context='Nice you have completed the table ! Now, lets ask your applicant to score your mission: ' />
+      <p className="review-button-context">Nice you have completed the table ! Now, lets ask your applicant to score your mission: </p>
+      <Message message={message} setMessage={setMessage} />
       <button className='review-button' onClick={handleClick}>Send</button>
     </div>
   )

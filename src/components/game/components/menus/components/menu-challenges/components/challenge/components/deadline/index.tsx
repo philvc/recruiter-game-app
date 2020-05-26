@@ -1,16 +1,21 @@
 import * as React from 'react';
 
+// styles
+import './styles.css'
+
 const Deadline = ({ setSelectedDate }: any) => {
 
+  // handlers
   function handleClick(e: any) {
     setSelectedDate(e.target.value)
   };
 
   return (
-    <div>
-      <p>Step 2: Choose a deadline, deadline are fun !</p>
-      <div>
-        <label>
+    <div className='deadline-container'>
+      <p>Step 2:</p>
+      <div>Choose a deadline</div>
+      <p>
+        <label className='deadline-container-radio'>
           <input type='radio' name='date' value={new Date().setDate(new Date().getDate() + 1)} onClick={handleClick} />24H
               </label>
         <label>
@@ -19,7 +24,7 @@ const Deadline = ({ setSelectedDate }: any) => {
         <label>
           <input type='radio' name='date' value={new Date().setDate(new Date().getDate() + 3)} onClick={handleClick} />72H
               </label>
-      </div>
+      </p>
     </div>
   )
 };
