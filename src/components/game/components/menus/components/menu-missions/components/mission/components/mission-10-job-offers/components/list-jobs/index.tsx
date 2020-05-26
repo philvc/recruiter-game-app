@@ -4,15 +4,15 @@ import * as React from 'react';
 import { useApolloClient } from '@apollo/client';
 import update from 'immutability-helper'
 
+// styles
+import './styles.css';
 
 // components
 import DraggableJob from './components/draggableJob';
-import SaveResultButton from './components/save-result-button';
 
 // graphql
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getGameClient';
-import { GET_PLAYER_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getPlayerClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 
 const List = ({ setProgress }: any) => {
@@ -21,7 +21,6 @@ const List = ({ setProgress }: any) => {
   const client = useApolloClient();
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
-  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
   const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
 
   // filter jobs for missionId
@@ -53,21 +52,29 @@ const List = ({ setProgress }: any) => {
 
   return (
     <>
-      <div>
-        {
-          jobs
-            .map((job: any, index: number) => (
-              <DraggableJob
-                key={job.id}
-                id={job.id}
-                index={index}
-                moveJob={moveJob}
-                job={job}
-                setProgress={setProgress}
-              />
-            )
-            )}
-        {player.id === game.recruiterId && <SaveResultButton />}
+      <div className="tenJobs-mission-list-container">
+        <table>
+          <tbody>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Url</th>
+            </tr>
+            {
+              jobs
+                .map((job: any, index: number) => (
+                  <DraggableJob
+                    key={job.id}
+                    id={job.id}
+                    index={index}
+                    moveJob={moveJob}
+                    job={job}
+                    setProgress={setProgress}
+                  />
+                )
+                )}
+          </tbody>
+        </table>
       </div>
     </>
   )

@@ -135,30 +135,32 @@ const ListMissions = ({ path }: any) => {
             <p>Lets start one and prepare a good surprise for your friend!</p>
           </div>
         )}
-        {data && stateMissions.map((mission: any) => (
-          <div key={mission.id}>
-            <Link to={`${mission.id}`} onClick={() => {
-              client.writeQuery({
-                query: GET_MISSION_CLIENT,
-                data: {
-                  mission,
-                }
-              })
-              localStorage.setItem('mission', JSON.stringify(mission))
-            }}>
-              <p>{mission.type}</p>
-            </Link>
-            <ListProgress mission={mission} />
-            {mission.isReviewed && mission.status !== 'completed' && <p>Under review</p>}
-            {mission.status === 'completed' && (
-              <div>
-                <p>Mission completed</p>
-                <p>Score: {mission.score}</p>
-              </div>
-            )}
-          </div>
-        )
-        )}
+        <div className='list-missions-body'>
+          {data && stateMissions.map((mission: any) => (
+            <div key={mission.id} className='list-missions-item'>
+              <Link to={`${mission.id}`} onClick={() => {
+                client.writeQuery({
+                  query: GET_MISSION_CLIENT,
+                  data: {
+                    mission,
+                  }
+                })
+                localStorage.setItem('mission', JSON.stringify(mission))
+              }}>
+                <p>{mission.type}</p>
+              </Link>
+              <ListProgress mission={mission} />
+              {mission.isReviewed && mission.status !== 'completed' && <p>Under review</p>}
+              {mission.status === 'completed' && (
+                <div>
+                  <p>Mission completed</p>
+                  <p>Score: {mission.score}</p>
+                </div>
+              )}
+            </div>
+          )
+          )}
+        </div>
         <div className='start-mission-button'>
           <button onClick={handleClick}>Start "10 job offers" mission</button>
         </div>

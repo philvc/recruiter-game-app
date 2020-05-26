@@ -7,7 +7,11 @@ import { useApolloClient, useMutation, gql } from '@apollo/client';
 import JobInputField from './components/job-input-field';
 import JobCheckboxInputField from './components/job-checkbox-input-field';
 
+// reducer
 import { reducer } from './reducer';
+
+// styles
+import './styles.css'
 
 // apollo
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
@@ -95,13 +99,12 @@ const JobItem = ({ job, index, setProgress }: any) => {
   }, [updateJob, job.id, state])
 
   return (
-    <div>
-      <span>{index + 1}</span>
-      <span>{job.id}</span>
+    <>
+      <td className='job-item-rank'>{index + 1}</td>
       <JobInputField name='url' value={job.url} jobId={job.id} dispatch={dispatch} />
       <JobInputField name='name' value={job.name} jobId={job.id} dispatch={dispatch} />
       {player.id === game.applicantId && <JobCheckboxInputField name='isAccepted' value={job.isAccepted} jobId={job.id} />}
-    </div>
+    </>
   );
 }
 

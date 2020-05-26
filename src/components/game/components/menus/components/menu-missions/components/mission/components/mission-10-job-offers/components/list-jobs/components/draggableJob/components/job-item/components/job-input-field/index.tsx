@@ -2,6 +2,9 @@ import * as React from 'react';
 
 import { actions } from '../../reducer'
 
+// styles
+import './styles.css';
+
 // apollo
 import { useMutation, useApolloClient, gql } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
@@ -59,9 +62,11 @@ const JobInputField = ({ name, value, jobId, dispatch }: any) => {
   }
 
   return (
-    <label>
-      <input type={name} name={name} value={state} onChange={handleChange} disabled={mission?.isReviewed} />
-    </label>
+    <td>
+      <label>
+        <input className='tenJobs-mission-input' type={name} name={name} value={state} onChange={handleChange} disabled={mission?.isReviewed} />
+      </label>
+    </td>
   )
 }
 

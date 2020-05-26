@@ -18,7 +18,7 @@ export const Container = styled('div')`
   }
 `
 
-export const Message = styled(animated.div)`
+export const StyledMessage = styled(animated.div)`
   height: 40px;
   @media (max-width: 680px) {
     width: 100%;

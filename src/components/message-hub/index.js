@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useTransition } from 'react-spring'
 
 // styles
-import { Container, Message, Button, Content, Life } from './styles.js'
+import { Container, StyledMessage, Button, Content, Life } from './styles.js'
 
 let id = 0
 
@@ -40,7 +40,7 @@ const MessageHub = ({ config = { tension: 125, friction: 20, precision: 0.1 }, t
   return (
     <Container>
       {transitions.map(({ key, item, props: { life, ...style } }) => (
-        <Message key={key} style={style}>
+        <StyledMessage key={key} style={style}>
           <Content ref={(ref) => ref && refMap.set(item, ref)}>
             {/* <Life style={{ right: life }} /> */}
             <p>{item.msg}</p>
@@ -52,7 +52,7 @@ const MessageHub = ({ config = { tension: 125, friction: 20, precision: 0.1 }, t
               X
             </Button> */}
           </Content>
-        </Message>
+        </StyledMessage>
       ))}
     </Container>
   )

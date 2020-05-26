@@ -7,6 +7,9 @@ import { useMutation, useApolloClient } from '@apollo/client';
 // components
 import Message from '../message';
 
+// styles
+import './styles.css';
+
 // apollo
 import { GET_MISSION_CLIENT } from '../../graphql/queries/client/getMissionClient';
 import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
@@ -38,7 +41,6 @@ const ReviewButton = () => {
       })
 
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
-      console.log('missions dans onCompleted updateMission review button', missions)
 
       localStorage.setItem('missions', JSON.stringify(missions))
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
@@ -70,9 +72,9 @@ const ReviewButton = () => {
   }
 
   return (
-    <div>
-      <Message message={message} setMessage={setMessage} label='Send message' />
-      <button onClick={handleClick}>Push for review</button>
+    <div className='review-container'>
+      <Message message={message} setMessage={setMessage} context='Nice you have completed the table ! Now, lets ask your applicant to score your mission: ' />
+      <button className='review-button' onClick={handleClick}>Send</button>
     </div>
   )
 };

@@ -1,0 +1,7 @@
+.job-item-rank:hover{
+    cursor: grab;
+}
+
+.job-item-rank{
+    text-align: center;
+}

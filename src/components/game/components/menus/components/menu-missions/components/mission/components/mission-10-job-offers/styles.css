@@ -1,0 +1,13 @@
+.tenJobs-mission-title{
+    text-align: center;
+}
+
+.tenJobs-mission-progress{
+    text-align: center;
+}
+
+.tenJobs-mission-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

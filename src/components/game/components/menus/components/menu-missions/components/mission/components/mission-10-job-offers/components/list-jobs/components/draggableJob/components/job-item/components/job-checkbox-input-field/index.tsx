@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+// styles
+import './styles.css'
+
 // apollo
 import { useMutation, useApolloClient, gql } from '@apollo/client';
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../../../../../graphql/mutations/server/updateJobServer';
@@ -50,9 +53,11 @@ const JobCheckboxInputField = ({ name, value, jobId }: any) => {
   }
 
   return (
-    <label>
-      <input type='checkbox' name={name} checked={state} onChange={handleChange} />
-    </label>
+    <td className='tenJobs-mission-checkbox'>
+      <label>
+        <input className='tenJobs-mission-checkbox-input' type='checkbox' name={name} checked={state} onChange={handleChange} />
+      </label>
+    </td>
   )
 }
 

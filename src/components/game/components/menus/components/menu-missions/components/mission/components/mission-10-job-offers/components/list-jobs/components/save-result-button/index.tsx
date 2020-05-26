@@ -22,18 +22,6 @@ const SaveResultButton = () => {
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
 
-      // client.writeFragment({
-      //   id: `Mission:${mission.id}`,
-      //   fragment: gql`
-      //     fragment Status on Mission {
-      //       status
-      //     }
-      //   `,
-      //   data: {
-      //     status: 'completed'
-      //   }
-      // })
-
       client.writeQuery({
         query: GET_MISSION_CLIENT,
         data: {
@@ -43,7 +31,6 @@ const SaveResultButton = () => {
 
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
 
-      console.log('missions dans onCompleted updateMission save button result', missions)
       // update storage
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
       localStorage.setItem('missions', JSON.stringify(missions))

@@ -19,3 +19,13 @@
 .start-mission-button {
     margin-top: 20px;
 }
+
+.list-missions-body{
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 100%;
+}
+
+.list-missions-item{
+    margin: 20px;
+}

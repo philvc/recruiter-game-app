@@ -15,7 +15,7 @@ import { UPDATE_JOB_SERVER } from '../../../../../../../../../../../../../../gra
 
 const DraggableJob = ({ id, index, moveJob, job, setProgress }: any) => {
 
-  const ref = React.useRef() as React.MutableRefObject<HTMLInputElement>
+  const ref = React.useRef() as React.MutableRefObject<HTMLTableRowElement>
 
 
   // mutations
@@ -84,9 +84,9 @@ const DraggableJob = ({ id, index, moveJob, job, setProgress }: any) => {
   drag(drop(ref));
 
   return (
-    <div ref={ref} style={{ opacity, margin: "30px" }}>
+    <tr ref={ref} style={{ opacity, margin: "30px" }}>
       <JobItem index={index} job={job} setProgress={setProgress} />
-    </div>
+    </tr>
   )
 }
 
