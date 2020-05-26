@@ -9,8 +9,38 @@
     height: 30px;
 }
 
-.leaderboard-player-details{
-    position: relative;
+.leaderboard-recruiter-details{
+    position: absolute;
     font-size: 12px;
-    height: 20px;
+    display: flex;
+    margin-left: 10px;
+}
+
+.leaderboard-recruiter-details-kpis{
+    display: flex;
+    flex-direction: column;
+}
+
+.leaderboard-recruiter-details-button-close{
+    -webkit-appearance: button;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    box-sizing: border-box;
+    margin-left: 15px;
+    font: 400 11px system-ui;
+    padding: 1px 7px 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(216, 216, 216);
+    height: 16px;
+    border-radius: 4px;
+    font-size: 9px;
 }

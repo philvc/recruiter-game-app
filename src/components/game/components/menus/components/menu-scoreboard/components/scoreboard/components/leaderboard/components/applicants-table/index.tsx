@@ -77,9 +77,7 @@ const ApplicantsTable = () => {
       <table>
         <tbody>
           <tr>
-            {/* <th className='leaderboard-table-header'>Rank</th> */}
             <th className='leaderboard-table-header'>Applicants</th>
-            {/* <th className='leaderboard-table-header'>Applied Jobs</th> */}
           </tr>
           {applicants.map((player: any, index: any) => (
             <tr key={`${player.email}-${player.playerName}`}>
@@ -87,16 +85,16 @@ const ApplicantsTable = () => {
               <td
                 className='leaderboard-table-data'
                 onMouseEnter={(e: any) => handleHover(e, index)}
-                onMouseLeave={(e: any) => handleBlur(e, index)}
               >
                 {player.playerName ? player.playerName : player.email}
               </td>
-              {hoveredPlayerIndex === index &&
+              {hoveredPlayerIndex === index && <div className='leaderboard-applicant-details'>
                 <div className='leaderboard-player-details-total-applied-jobs'>
                   total number applied jobs: {player.appliedJobs}
                 </div>
+                <div className='leaderboard-player-details-close' onClick={(e: any) => handleBlur(e, index)}>X</div>
+              </div>
               }
-              {/* <td className='leaderboard-table-data'>{player.appliedJobs}</td> */}
             </tr>
           ))}
         </tbody>

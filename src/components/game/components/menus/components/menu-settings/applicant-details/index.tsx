@@ -41,7 +41,9 @@ const ApplicantDetails = () => {
       <h5>Applicant</h5>
       <p>Player name: {applicant.playerName}</p>
       <p>Email: {applicant.email}</p>
-      <button onClick={handleClick}>Resend invitation</button>
+      <p>
+        <button onClick={handleClick}>Resend invitation</button>
+      </p>
       <MessageHub children={(add: any) => ref.current = add} />
     </div>
   )

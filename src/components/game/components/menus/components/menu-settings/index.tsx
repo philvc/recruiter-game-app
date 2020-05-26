@@ -6,6 +6,7 @@ import * as React from 'react';
 import NavBar from '../../../../../navbar';
 import Profile from './profile';
 import ApplicantDetails from './applicant-details';
+import Contact from '../../../../../contact';
 
 // styles
 import './styles.css'
@@ -21,6 +22,7 @@ const Settings = ({ path }: any) => {
       <NavBar />
       <Profile />
       <ApplicantDetails />
+      <Contact />
     </div>
   )
 }

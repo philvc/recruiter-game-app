@@ -73,15 +73,21 @@ const Profile = () => {
     <div>
       <div className='edit-information-container'>
         <h5>My Profile</h5>
-        <label>
-          Email
-        <input type='email' name='email' value={email} onChange={handleChange} />
-        </label>
-        <label>
-          Player name
-          <input type='text' name='playerName' value={playerName} onChange={handleChange} />
-        </label>
-        <button onClick={handleClick}>UPDATE</button>
+        <p>
+          <label>
+            Email
+        <input className='edit-information-input' type='email' name='email' value={email} onChange={handleChange} />
+          </label>
+        </p>
+        <p>
+          <label>
+            Player name
+          <input className='edit-information-input' type='text' name='playerName' value={playerName} onChange={handleChange} />
+          </label>
+        </p>
+        <p>
+          <button className='edit-information-button-update' onClick={handleClick}>UPDATE</button>
+        </p>
         <MessageHub children={(add: any) => ref.current = add} />
       </div>
     </div>

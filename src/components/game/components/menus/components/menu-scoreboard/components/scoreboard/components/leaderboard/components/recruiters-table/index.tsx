@@ -84,15 +84,11 @@ const RecruitersTable = () => {
 
   return (
     <div>
-      {/* <h5>Recruiters</h5> */}
       <SortSelect handleSelectChange={handleSelectChange} />
       <table>
         <tbody>
           <tr>
-            {/* <th className="leaderboard-table-header">Rank</th> */}
             <th className="leaderboard-table-header">Recruiters</th>
-            {/* <th className="leaderboard-table-header">Total jobs validated</th>
-            <th className="leaderboard-table-header">Total applicants</th> */}
           </tr>
           {recruiters.map((player: any, index: any) => (
             <tr key={`${player.email}-${player.playerName}`}>
@@ -100,20 +96,21 @@ const RecruitersTable = () => {
               <td
                 className='leaderboard-table-data'
                 onMouseEnter={(e: any) => handleHover(e, index)}
-                onMouseLeave={(e: any) => handleBlur(e, index)}
+              // onMouseLeave={(e: any) => handleBlur(e, index)}
               >
                 {player.playerName ? player.playerName : player.email}
               </td>
-              {hoveredPlayerIndex === index && <div className='leaderboard-player-details'>
-                <div className='leaderboard-player-details-total'>
-                  total number of accepted jobs: {player.acceptedJobsNumber}
+              {hoveredPlayerIndex === index && <div className='leaderboard-recruiter-details'>
+                <div className='leaderboard-recruiter-details-kpis'>
+                  <div className='leaderboard-recruiter-details-total'>
+                    total number of accepted jobs: {player.acceptedJobsNumber}
+                  </div>
+                  <div className='leaderboard-recruiter-details-total'>
+                    total number of applicants: {player.applicantsNumber}
+                  </div>
                 </div>
-                <div className='leaderboard-player-details-total'>
-                  total number of applicants: {player.applicantsNumber}
-                </div>
+                <div className='leaderboard-recruiter-details-button-close' onClick={(e: any) => handleBlur(e, index)}>X</div>
               </div>}
-              {/* <td className='leaderboard-table-data'>{player.acceptedJobsNumber}</td>
-              <td className='leaderboard-table-data'>{player.applicantsNumber}</td> */}
             </tr>
           ))}
         </tbody>
