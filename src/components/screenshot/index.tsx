@@ -8,6 +8,9 @@ import { navigate } from '@reach/router';
 // components
 import DropZone from '../dropzone';
 
+// styles
+import './styles.css';
+
 // apollo
 import { CREATE_SIGNED_PUT_URL } from '../../graphql/mutations/server/createSignedPutUrl';
 import { UPDATE_JOB_SERVER } from '../../graphql/mutations/server/updateJobServer';
@@ -102,7 +105,6 @@ const Screenshot = ({ openModal }: any) => {
       }
     }).then(data => {
       const { updateJob } = data.data
-      console.log('data updateJob saveDocument getSignedUrl :', updateJob)
     })
 
     await updateMissionV2({
@@ -192,16 +194,15 @@ const Screenshot = ({ openModal }: any) => {
 
 
   return (
-    <div>
-      <img style={isLoaded ? {} : { display: 'none' }} src={imageSource} alt='no uploaded document' onLoad={() => setIsLoaded(true)} />
+    <div className='screenshot-container'>
+      <img className='screenshot-img' style={isLoaded ? {} : { display: 'none' }} src={imageSource} alt='no uploaded document' onLoad={() => setIsLoaded(true)} />
       {!isLoaded && selectedJob.applicationProofUrl && <p>Loading Image ...</p>}
       <DropZone
         handleCreateSignedPutUrl={handleCreateSignedPutUrl}
       />
       {file.name && (
-        <p>{file.name}</p>
+        <p style={{ color: 'white' }}>{file.name}</p>
       )}
-      <button id='go-back-button' onClick={openModal} disabled={loading}>Go Back</button>
       {mission.status === 'pending' &&
         player.id === game.applicantId &&
         data?.createSignedPutUrl.signedGetUrl &&
@@ -209,12 +210,13 @@ const Screenshot = ({ openModal }: any) => {
       }
       {mission.isReviewed === true && player.id === game.recruiterId &&
         (
-          <div>
+          <div className='screenshot-button-valide-decline'>
             <button onClick={handleAcceptOrDeclineDocument} value='validate'>Validate</button>
             <button onClick={handleAcceptOrDeclineDocument} value='decline'>Decline</button>
           </div>
         )
       }
+      <button className='screenshot-container-button-back' id='go-back-button' onClick={openModal} disabled={loading}>Go Back</button>
     </div>
   )
 }

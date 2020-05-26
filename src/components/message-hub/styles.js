@@ -26,8 +26,7 @@ export const StyledMessage = styled(animated.div)`
 `
 
 export const Content = styled('div')`
-  color: white;
-  background-color: black;
+  color: back;
   text-align: center;
   vertical-align: top;
   opacity: 0.85;

@@ -56,7 +56,6 @@ const RecruitersTable = () => {
         // update cache avec updateQuery
         updateQuery: (prev: any, { fetchMoreResult, ...rest }: any) => {
           if (!fetchMoreResult) return prev;
-          console.log('fetchMoreResult', fetchMoreResult)
           return {
             ...fetchMoreResult,
             leaderboardRecruiters: {

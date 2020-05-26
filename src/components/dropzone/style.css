@@ -1,5 +1,22 @@
 .dropzone-container {
     background-color: white;
     width: 300px;
-    height: 300px;
+    height: 100px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropzone-container-body{
+    width: 200px;
+    outline: none;
+}
+
+.dropzone-container-body-p{
+    text-align: center;
+}
+
+.dropzone-container-body-input:focus{
+    outline-width: 0;
 }

@@ -51,7 +51,7 @@ const ListChallenges = ({ path, navigate }: any) => {
             </div>
           )}
           {challengesList.map((challenge: any) => (
-            <div className='list-challenges-item'>
+            <div className='list-challenges-item' key={challenge.id}>
               <ChallengeItem key={challenge.id} challenge={challenge} handleClick={handleClick} />
             </div>
           ))}

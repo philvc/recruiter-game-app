@@ -21,12 +21,12 @@ const DropZone = ({ handleCreateSignedPutUrl }: any) => {
 
   return (
     <div className='dropzone-container'>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
+      <div className='dropzone-container-body'{...getRootProps()}>
+        <input className='dropzone-container-body-input'{...getInputProps()} />
         {
           isDragActive ?
-            <p>Drop the files here ...</p> :
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <p className='dropzone-container-body-p'>Drop the files here ...</p> :
+            <p className='dropzone-container-body-p'>Drag 'n' drop some files here, or click to select files</p>
         }
       </div>
     </div>

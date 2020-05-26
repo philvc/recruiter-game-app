@@ -135,18 +135,32 @@ const ListMissions = ({ path }: any) => {
             <p>Lets start one and prepare a good surprise for your friend!</p>
           </div>
         )}
+        <div className='start-mission-button'>
+          <button onClick={handleClick}>Start "10 job offers" mission</button>
+        </div>
         <div className='list-missions-body'>
           {data && stateMissions.map((mission: any) => (
             <div key={mission.id} className='list-missions-item'>
-              <Link to={`${mission.id}`} onClick={() => {
-                client.writeQuery({
-                  query: GET_MISSION_CLIENT,
-                  data: {
-                    mission,
-                  }
-                })
-                localStorage.setItem('mission', JSON.stringify(mission))
-              }}>
+              <Link
+                to={`${mission.id}`}
+                onClick={() => {
+                  client.writeQuery({
+                    query: GET_MISSION_CLIENT,
+                    data: {
+                      mission,
+                    }
+                  })
+                  localStorage.setItem('mission', JSON.stringify(mission))
+                }}
+                getProps={() => {
+                  return {
+                    style: {
+                      color: "#0000EE",
+                      textDecoration: "none",
+                    }
+                  };
+                }}
+              >
                 <p>{mission.type}</p>
               </Link>
               <ListProgress mission={mission} />
@@ -160,9 +174,6 @@ const ListMissions = ({ path }: any) => {
             </div>
           )
           )}
-        </div>
-        <div className='start-mission-button'>
-          <button onClick={handleClick}>Start "10 job offers" mission</button>
         </div>
       </div>
       <Contact />

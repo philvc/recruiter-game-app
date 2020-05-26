@@ -3,6 +3,8 @@ import * as React from 'react';
 // components
 import Countdown from '../../../challenge/components/countdown';
 
+// styles
+import './styles.css'
 
 const ChallengeItem = ({ challenge, handleClick }: any) => {
 
@@ -14,7 +16,9 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
         <div>
           <p>
             Progress:
-            <Countdown mission={challenge} />
+            <div className='challengeItem-countdown'>
+              <Countdown mission={challenge} />
+            </div>
           </p>
         </div>
       )}

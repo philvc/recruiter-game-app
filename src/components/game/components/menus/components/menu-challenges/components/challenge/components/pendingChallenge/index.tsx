@@ -5,6 +5,9 @@ import Countdown from '../countdown';
 import Modal from '../../../../../../../../../modal';
 import Screenshot from '../../../../../../../../../screenshot';
 
+// styles
+import './styles.css';
+
 // apollo
 import { useApolloClient } from '@apollo/client';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../graphql/queries/client/getMissionClient';
@@ -16,16 +19,18 @@ const PendingChallenge = () => {
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
 
   return (
-    <div>
-      <p><a href={mission.selectedJob?.url}>{mission.selectedJob?.url}</a></p>
+    <div className='pendingChallenge-container'>
+      <p><a style={{ color: '#0000EE', textDecoration: 'none' }} href={mission.selectedJob?.url} target="_blank">{mission.selectedJob?.name}</a></p>
       <p>
         <Countdown mission={mission} />
       </p>
-      <Modal
-        title='Job Application Screenshot'
-        button={mission.selectedJob?.applicationProofUrl ? 'View' : 'Upload'}
-        WrappedComponent={Screenshot}
-      />
+      <p>
+        <Modal
+          title='Job Application Screenshot'
+          button={mission.selectedJob?.applicationProofUrl ? 'View the application proof' : 'Upload a proof of your application'}
+          WrappedComponent={Screenshot}
+        />
+      </p>
     </div>
   )
 }

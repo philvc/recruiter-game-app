@@ -10,7 +10,6 @@ const NavBar = (props: any) => {
 
   const location = useLocation()
   const splitLocation = location.pathname.split('/').slice(1)
-  console.log('splitLocation', splitLocation)
   let navigation = ''
 
   const navbar = splitLocation.map((navItem: any, index: number) => {
