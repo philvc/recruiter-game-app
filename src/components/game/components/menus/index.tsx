@@ -12,6 +12,7 @@ import MenuChallenges from './components/menu-challenges';
 // style
 import './styles.css';
 import MenuScoreboard from './components/menu-scoreboard';
+import MenuNotification from './components/menu-notifications';
 
 const Menus = ({ path }: any) => {
   return (
@@ -26,6 +27,7 @@ const Menus = ({ path }: any) => {
           <Redirect from='/' to='missions' noThrow />
         </Router>
       </div>
+      <MenuNotification />
     </div>
   )
 }

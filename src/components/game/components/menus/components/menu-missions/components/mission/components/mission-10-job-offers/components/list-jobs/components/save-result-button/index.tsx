@@ -4,7 +4,7 @@ import * as React from 'react';
 import { navigate } from '@reach/router';
 
 // apollo
-import { useMutation, useApolloClient, gql } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
@@ -54,6 +54,7 @@ const SaveResultButton = () => {
 
   // handlers
   function handleClick(e: any) {
+
     updateMissionV2({
       variables: {
         id: mission.id,
@@ -61,6 +62,7 @@ const SaveResultButton = () => {
         data: 'completed',
       }
     })
+
 
     // add 1 job-application mission
     createMission({
