@@ -2,8 +2,9 @@ import * as React from 'react';
 
 // modules
 import { Router, Redirect } from '@reach/router';
-import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, } from '@apollo/client';
-
+import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, split } from '@apollo/client';
+import { WebSocketLink } from '@apollo/link-ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 // components
 import LoginV2 from './components/loginv2';
@@ -27,9 +28,31 @@ import { GET_GAME_CLIENT } from './graphql/queries/client/getGameClient';
 const cache = new InMemoryCache({
   dataIdFromObject: (object): any => object.__typename + ":" + object.id,
 });
-const link = new HttpLink({
-  uri: "http://localhost:5001"
+
+// Apollo Links
+
+const httpLink = new HttpLink({
+  uri: "http://localhost:4000/"
 })
+
+const wsLink = new WebSocketLink({
+  uri: "ws://localhost:4000/graphql",
+  options: {
+    reconnect: true
+  }
+});
+
+const link = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink,
+);
 // GraphqlClient
 const client = new ApolloClient<NormalizedCacheObject>({
   link,
@@ -122,7 +145,6 @@ if (localStorage.hasOwnProperty('missions') && localStorage.hasOwnProperty('game
     }
   })
 }
-
 
 function App() {
 

@@ -8,6 +8,7 @@ export const PUSH_NOTIFICATION = gql`
       gameId
       isRead
       createdAt
+      recipientId
     }
   }
 `

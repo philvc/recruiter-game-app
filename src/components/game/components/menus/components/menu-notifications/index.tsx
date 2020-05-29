@@ -1,23 +1,27 @@
 import * as React from 'react';
 
 // modules
-import { useApolloClient, useQuery, useMutation } from '@apollo/client';
+import { useApolloClient, useQuery, useMutation, useSubscription } from '@apollo/client';
 // import throttle from 'lodash/throttle';
 
 // styles
 import './styles.css';
 import { StyledNotification } from './styles';
+import MessageHub from '../../../../../message-hub';
 
 // apollo
 import { GET_NOTIFICATIONS_SERVER } from '../../../../../../graphql/queries/server/getNotifications';
 import { GET_GAME_CLIENT } from '../../../../../../graphql/queries/client/getGameClient';
 import { UPDATE_NOTIFICATIONS } from '../../../../../../graphql/mutations/server/updateNotifications';
+import { NEW_NOTIFICATION_SUBSCRIPTION } from '../../../../../../graphql/subscriptions/newNotification';
+import { GET_PLAYER_CLIENT } from '../../../../../../graphql/queries/client/getPlayerClient';
 
 const MenuNotification = () => {
 
   // client
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT });
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   // state
   const [isOpen, setIsOpen] = React.useState(false)
@@ -26,8 +30,11 @@ const MenuNotification = () => {
   const [after, setAfter] = React.useState(0)
   const [hasMore, setHasMore] = React.useState(false)
 
+  // ref
+  const ref = React.useRef((arg: any) => '')
+
   // queries
-  const { loading, error, data, fetchMore }: any = useQuery(GET_NOTIFICATIONS_SERVER, {
+  const { loading, error, data, fetchMore, subscribeToMore }: any = useQuery(GET_NOTIFICATIONS_SERVER, {
     variables: {
       gameId: game.id,
       recipientId: game.recruiter.id,
@@ -35,6 +42,14 @@ const MenuNotification = () => {
       after: 0,
     }
   })
+
+  // subscription
+  const { loading: subLoading, error: subError, data: subData } = useSubscription(NEW_NOTIFICATION_SUBSCRIPTION,
+    {
+      variables: {
+        clientId: player.id
+      }
+    })
 
   // mutations
   const [updateNotifications] = useMutation(UPDATE_NOTIFICATIONS)
@@ -45,8 +60,32 @@ const MenuNotification = () => {
       setNotifications(data.notifications.notifications)
       setAfter(data.notifications.cursor)
       setHasMore(data.notifications.hasMore)
+      subscribeToMore({
+        document: NEW_NOTIFICATION_SUBSCRIPTION,
+        variables: { clientId: player.id },
+        updateQuery: (prev: any, { subscriptionData }: any) => {
+          if (!subscriptionData.data) return prev;
+          console.log('newNotifSubMore', subscriptionData.data.newNotification)
+          console.log('prev', prev)
+          return Object.assign({}, prev, {
+            notifications: {
+              ...prev.notifications,
+              notifications: [...prev.notifications.notifications, subscriptionData.data.newNotification]
+            }
+          });
+        },
+
+      }
+      )
     }
-  }, [data])
+  }, [data, subscribeToMore, player.id])
+
+
+  React.useEffect(() => {
+    if (subData) {
+      ref.current(subData.newNotification.label)
+    }
+  }, [subData])
 
   // handlers
   function handleOpenList() {
@@ -150,6 +189,7 @@ const MenuNotification = () => {
         </div>
       )
       }
+      <MessageHub children={(add: any) => ref.current = add} />
     </div>
   )
 }

@@ -20,6 +20,7 @@ import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/
 import { CREATE_MISSION } from '../../../../../../../../graphql/mutations/server/createMissionServer';
 import { CREATE_JOBS } from '../../../../../../../../graphql/mutations/server/createJobsServer';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
+import { PUSH_NOTIFICATION } from '../../../../../../../../graphql/mutations/server/pushNotification';
 
 
 const ListMissions = ({ path }: any) => {
@@ -102,6 +103,8 @@ const ListMissions = ({ path }: any) => {
     }
   })
 
+  const [pushNotification] = useMutation(PUSH_NOTIFICATION)
+
   // effects
   React.useEffect(() => {
 
@@ -115,6 +118,16 @@ const ListMissions = ({ path }: any) => {
   function handleClick() {
     createMission({ variables: { type: '10jobs', gameId: game.id, quantity: 1 } })
 
+  }
+
+  function handlePushNotification() {
+    pushNotification({
+      variables: {
+        recipientId: game.recruiter.id,
+        label: 'new push notif',
+        gameId: game.id,
+      }
+    })
   }
 
   if (loading) return null
@@ -176,6 +189,7 @@ const ListMissions = ({ path }: any) => {
           )}
         </div>
       </div>
+      <button onClick={handlePushNotification}>push notif</button>
       <Contact />
     </div>
   )
