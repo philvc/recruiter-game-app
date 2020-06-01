@@ -38,7 +38,7 @@ const MenuNotification = () => {
     variables: {
       gameId: game.id,
       recipientId: game.recruiter.id,
-      pageSize: 10,
+      pageSize: 2,
       after: 0,
     }
   })
@@ -60,25 +60,28 @@ const MenuNotification = () => {
       setNotifications(data.notifications.notifications)
       setAfter(data.notifications.cursor)
       setHasMore(data.notifications.hasMore)
-      subscribeToMore({
-        document: NEW_NOTIFICATION_SUBSCRIPTION,
-        variables: { clientId: player.id },
-        updateQuery: (prev: any, { subscriptionData }: any) => {
-          if (!subscriptionData.data) return prev;
-          console.log('newNotifSubMore', subscriptionData.data.newNotification)
-          console.log('prev', prev)
-          return Object.assign({}, prev, {
-            notifications: {
-              ...prev.notifications,
-              notifications: [...prev.notifications.notifications, subscriptionData.data.newNotification]
-            }
-          });
-        },
-
-      }
-      )
     }
-  }, [data, subscribeToMore, player.id])
+  }, [data])
+
+  React.useEffect(() => {
+    subscribeToMore({
+      document: NEW_NOTIFICATION_SUBSCRIPTION,
+      variables: { clientId: player.id },
+      updateQuery: (prev: any, { subscriptionData }: any) => {
+        if (!subscriptionData.data) return prev;
+        console.log('newNotifSubMore', subscriptionData.data.newNotification)
+        console.log('prev', prev)
+        return Object.assign({}, prev, {
+          notifications: {
+            ...prev.notifications,
+            notifications: [...prev.notifications.notifications, subscriptionData.data.newNotification]
+          }
+        });
+      },
+
+    }
+    )
+  }, [subscribeToMore, player.id])
 
 
   React.useEffect(() => {

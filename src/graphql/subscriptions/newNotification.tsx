@@ -1,14 +1,13 @@
 import gql from 'graphql-tag';
 
+// fragment
+import { NOTIFICATION_DATA_FRAGMENT } from '../fragments/notificationDataFragment';
+
 export const NEW_NOTIFICATION_SUBSCRIPTION = gql`
   subscription onNewNotification($clientId: String){
     newNotification(input: {clientId: $clientId}){
-      id
-      gameId
-      label
-      isRead
-      createdAt
-      recipientId
+      ...NotificationData
     }
   }
+  ${NOTIFICATION_DATA_FRAGMENT}
 `
