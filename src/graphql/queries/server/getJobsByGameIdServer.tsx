@@ -1,21 +1,13 @@
 import gql from 'graphql-tag';
 
+// fragment
+import { JOB_DATA_FRAGMENT } from '../../fragments/jobDataFragment';
+
 export const GET_JOBS_BY_GAME_ID_SERVER = gql`
   query getJobsByGameId($gameId: String){
     getJobsByGameId(input: {gameId: $gameId}){
-      id
-      name
-      url
-      missionId
-      rank
-      applicationProofUrl
-      isComplete
-      isAccepted
-      gameId
-      isApplied
-      isSelected
-      mission10JobsId
-      missionJobApplicationId
+      ...JobData
     }
   }
+  ${JOB_DATA_FRAGMENT}
 `

@@ -1,5 +1,8 @@
 import gql from 'graphql-tag';
 
+// fragment
+import { JOB_DATA_FRAGMENT } from '../../fragments/jobDataFragment';
+
 export const UPDATE_JOB_SERVER = gql`
   mutation updateJob(
     $id: String,
@@ -13,17 +16,8 @@ export const UPDATE_JOB_SERVER = gql`
         data: $data
     })
       {
-        id
-        url
-        missionId
-        isAccepted
-        rank
-        name
-        applicationProofUrl
-        isComplete
-        gameId
-        isApplied
-        isSelected
+        ...JobData
     }
   }
+  ${JOB_DATA_FRAGMENT}
 `
