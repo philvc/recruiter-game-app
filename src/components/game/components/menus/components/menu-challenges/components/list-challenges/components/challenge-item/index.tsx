@@ -10,7 +10,7 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
 
 
   return (
-    <div key={challenge.id}>
+    <div className="challenge-item-container" key={challenge.id}>
       <p>Apply for 1 job</p>
       {challenge.status === 'pending' && (
         <div>

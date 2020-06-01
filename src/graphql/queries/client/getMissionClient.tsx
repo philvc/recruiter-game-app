@@ -1,32 +1,13 @@
 import gql from 'graphql-tag';
 
+// fragment 
+import { MISSION_DATA_FRAGMENT } from '../../fragments/missionDataFragment';
+
 export const GET_MISSION_CLIENT = gql`
   {
     mission @client{
-      id
-      type
-      progress
-      isReviewed
-      isRecruiter
-      isLocked
-      gameId
-      status
-      isEvaluated
-      score
-      selectedJob {
-        id
-        url
-        missionId
-        isAccepted
-        rank
-        name
-        applicationProofUrl
-        isComplete
-        gameId
-        isApplied
-        isSelected
-      }
-      time
+      ...MissionData
     }
   }
+  ${MISSION_DATA_FRAGMENT}
 `

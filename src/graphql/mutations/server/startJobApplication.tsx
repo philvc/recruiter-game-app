@@ -1,5 +1,8 @@
 import gql from 'graphql-tag';
 
+// fragment 
+import { MISSION_DATA_FRAGMENT } from '../../fragments/missionDataFragment';
+
 export const START_JOB_APPLICATION = gql`
   mutation startJobApplication($missionId: String, $jobId: String,  $gameId: String, $time: String){
     startJobApplication(input: {
@@ -8,31 +11,8 @@ export const START_JOB_APPLICATION = gql`
       gameId: $gameId,
       time: $time
     }){
-      id
-      type
-      progress
-      gameId
-      isReviewed
-      isRecruiter
-      isLocked
-      status
-      score
-      isEvaluated
-      score
-      selectedJob {
-        id
-        url
-        missionId
-        isAccepted
-        rank
-        name
-        applicationProofUrl
-        isComplete
-        gameId
-        isSelected
-        isApplied
-      }
-      time
+      ...MissionData
     }
   }
+  ${MISSION_DATA_FRAGMENT}
 `
