@@ -17,8 +17,8 @@ const JobsList = () => {
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
   const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
 
-  const appliedJobs = getJobsByGameId.filter((job: any) => job.isApplied === true)
-  const acceptedJobs = getJobsByGameId.filter((job: any) => job.isAccepted === true)
+  const appliedJobs = getJobsByGameId ? getJobsByGameId.filter((job: any) => job.isApplied === true) : []
+  const acceptedJobs = getJobsByGameId ? getJobsByGameId.filter((job: any) => job.isAccepted === true) : []
   const ratio = appliedJobs.length / acceptedJobs.length * 100
   return (
     <>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useMutation, useQuery, useApolloClient } from '@apollo/client';
+import { useMutation, useQuery, useApolloClient, useSubscription } from '@apollo/client';
 import { Link } from '@reach/router';
 
 // components
@@ -21,6 +21,8 @@ import { CREATE_MISSION } from '../../../../../../../../graphql/mutations/server
 import { CREATE_JOBS } from '../../../../../../../../graphql/mutations/server/createJobsServer';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 import { PUSH_NOTIFICATION } from '../../../../../../../../graphql/mutations/server/pushNotification';
+import { NEW_MISSION_SUBSCRIPTION } from '../../../../../../../../graphql/subscriptions/newMission';
+import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
 
 
 const ListMissions = ({ path }: any) => {
@@ -28,12 +30,13 @@ const ListMissions = ({ path }: any) => {
   // client
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   // state
   const [stateMissions, setStateMissions] = React.useState([])
 
   // queries
-  const { loading, error, data } = useQuery(GET_MISSIONS_SERVER, {
+  const { loading, error, data, subscribeToMore } = useQuery(GET_MISSIONS_SERVER, {
     variables: { gameId: game.id },
     onCompleted(data) {
       const { missions } = data;
@@ -51,6 +54,7 @@ const ListMissions = ({ path }: any) => {
 
   }
   )
+
 
   // mutations
   const [createJobs] = useMutation(CREATE_JOBS, {
@@ -113,22 +117,37 @@ const ListMissions = ({ path }: any) => {
     }
   }, [data])
 
+  React.useEffect(() => {
+    if (game.applicant.id === player.id) {
+      subscribeToMore({
+        document: NEW_MISSION_SUBSCRIPTION,
+        variables: { gameId: game.id },
+        updateQuery: (prev: any, { subscriptionData }: any) => {
+          if (!subscriptionData) return prev;
+          console.log('new missionSubMore', subscriptionData)
+          console.log('prev', prev)
+          return Object.assign({}, prev, {
+            missions: [...prev.missions, subscriptionData.data.newMission]
+          })
+        }
+      })
+    }
+  }, [subscribeToMore, game.id, game.applicant.id, player.id])
 
   // handlers
   function handleClick() {
     createMission({ variables: { type: '10jobs', gameId: game.id, quantity: 1 } })
-
-  }
-
-  function handlePushNotification() {
     pushNotification({
       variables: {
-        recipientId: game.recruiter.id,
-        label: 'new push notif',
+        recipientId: game.applicant.id,
+        label: 'Your recruiter has started a new "10 job offers" mission ;)',
         gameId: game.id,
       }
     })
+
   }
+
+
 
   if (loading) return null
   if (error) return null
@@ -189,7 +208,6 @@ const ListMissions = ({ path }: any) => {
           )}
         </div>
       </div>
-      <button onClick={handlePushNotification}>push notif</button>
       <Contact />
     </div>
   )

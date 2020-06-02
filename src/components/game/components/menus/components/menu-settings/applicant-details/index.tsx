@@ -1,14 +1,22 @@
 import * as React from 'react';
+
+// modules
 import { useApolloClient, useMutation } from '@apollo/client';
+
+// components
+import MessageHub from '../../../../../../message-hub';
+
+// apollo
 import { GET_GAME_CLIENT } from '../../../../../../../graphql/queries/client/getGameClient';
 import { SEND_MESSAGE } from '../../../../../../../graphql/mutations/server/sendMessage';
-import MessageHub from '../../../../../../message-hub';
+import { GET_PLAYER_CLIENT } from '../../../../../../../graphql/queries/client/getPlayerClient';
 
 const ApplicantDetails = () => {
 
   // client
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   const { applicant, recruiter } = game;
 
@@ -39,11 +47,19 @@ const ApplicantDetails = () => {
   return (
     <div>
       <h5>Applicant</h5>
-      <p>Player name: {applicant.playerName}</p>
-      <p>Email: {applicant.email}</p>
-      <p>
-        <button onClick={handleClick}>Resend invitation</button>
-      </p>
+      {player.id !== applicant.id ? (
+        <div>
+          <p>Player name: {applicant.playerName}</p>
+          <p>Email: {applicant.email}</p>
+          <p>
+            <button onClick={handleClick}>Resend invitation</button>
+          </p>
+        </div>
+      )
+        : <p>Me</p>
+
+      }
+
       <MessageHub children={(add: any) => ref.current = add} />
     </div>
   )

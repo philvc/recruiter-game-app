@@ -71,7 +71,7 @@ const JobInputField = ({ name, value, jobId, dispatch }: any) => {
   function handleClick(e: any) {
     if (player.id === game.applicant.id) {
       navigator.clipboard.writeText(e.target.value)
-      ref.current('copied to your clibboard')
+      ref.current('copied to your clipboard')
     }
   }
 

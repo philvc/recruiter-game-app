@@ -10,6 +10,7 @@ import Contact from '../../../../../contact';
 
 // styles
 import './styles.css'
+import RecruiterDetails from './recruiter-details';
 
 // apollo
 
@@ -22,6 +23,7 @@ const Settings = ({ path }: any) => {
       <NavBar />
       <Profile />
       <ApplicantDetails />
+      <RecruiterDetails />
       <Contact />
     </div>
   )
