@@ -8,7 +8,7 @@ export const MISSION_DATA_FRAGMENT = gql`
     id
       type
       progress
-      isReviewed
+      isUnderReview
       isRecruiter
       isLocked
       gameId

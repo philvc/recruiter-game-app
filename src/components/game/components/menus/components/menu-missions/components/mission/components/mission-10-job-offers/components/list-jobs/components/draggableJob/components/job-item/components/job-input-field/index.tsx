@@ -81,10 +81,10 @@ const JobInputField = ({ name, value, jobId, dispatch }: any) => {
         <StyledTenJobsInput
           type={name}
           name={name}
-          value={mission?.isReviewed ? value : state}
+          value={mission?.isUnderReview ? value : state}
           onClick={handleClick}
           onChange={handleChange}
-          // disabled={mission?.isReviewed}
+          // disabled={mission?.isUnderReview}
           isApplicant={player.id === game.applicant.id}
         />
       </label>

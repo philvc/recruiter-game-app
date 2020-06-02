@@ -110,7 +110,7 @@ const Screenshot = ({ openModal }: any) => {
     await updateMissionV2({
       variables: {
         id: mission.id,
-        field: 'isReviewed',
+        field: 'isUnderReview',
         data: true,
       }
     })
@@ -208,7 +208,7 @@ const Screenshot = ({ openModal }: any) => {
         data?.createSignedPutUrl.signedGetUrl &&
         (<button onClick={handleSaveDocument} disabled={loading}>Save</button>)
       }
-      {mission.isReviewed === true && player.id === game.recruiterId &&
+      {mission.isUnderReview === true && player.id === game.recruiterId &&
         (
           <div className='screenshot-button-valide-decline'>
             <button onClick={handleAcceptOrDeclineDocument} value='validate'>Validate</button>

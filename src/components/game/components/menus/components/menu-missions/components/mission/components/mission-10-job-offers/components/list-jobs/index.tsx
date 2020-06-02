@@ -14,6 +14,7 @@ import DraggableJob from './components/draggableJob';
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
+import { GET_PLAYER_CLIENT } from '../../../../../../../../../../../../graphql/queries/client/getPlayerClient';
 
 const List = ({ setProgress }: any) => {
 
@@ -21,6 +22,7 @@ const List = ({ setProgress }: any) => {
   const client = useApolloClient();
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
   const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
 
   // filter jobs for missionId
@@ -59,7 +61,7 @@ const List = ({ setProgress }: any) => {
               <th>Rank</th>
               <th>Name</th>
               <th>Url</th>
-              <th>Save</th>
+              {player.id === game.applicant.id && mission.isUnderReview && <th> Save</th>}
             </tr>
             {
               jobs

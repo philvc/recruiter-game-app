@@ -196,7 +196,7 @@ const ListMissions = ({ path }: any) => {
                 <p>{mission.type}</p>
               </Link>
               <ListProgress mission={mission} />
-              {mission.isReviewed && mission.status !== 'completed' && <p>Under review</p>}
+              {mission.isUnderReview && mission.status !== 'completed' && <p>Under review</p>}
               {mission.status === 'completed' && (
                 <div>
                   <p>Mission completed</p>

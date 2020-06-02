@@ -35,9 +35,9 @@ const Mission10JobOffers = () => {
       <h3 className='tenJobs-mission-title'>10 Job Offers</h3>
       <DndProvider backend={Backend}>
         <div className='tenJobs-mission-progress'>Progress: {progress}/10</div>
-        {progress === 10 && !mission.isReviewed && <ReviewButton />}
+        {progress === 10 && !mission.isUnderReview && <ReviewButton />}
         <List setProgress={setProgress} />
-        {player.id === game.recruiterId && <SaveResultButton />}
+        {player.id === game.applicantId && mission.isUnderReview && <SaveResultButton />}
       </DndProvider>
     </div>
   )

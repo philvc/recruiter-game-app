@@ -12,20 +12,35 @@ import GameDetails from './game-details';
 
 // styles
 import './styles.css'
+import { useApolloClient } from '@apollo/client';
+import { GET_GAME_CLIENT } from '../../../../../../graphql/queries/client/getGameClient';
+import { GET_PLAYER_CLIENT } from '../../../../../../graphql/queries/client/getPlayerClient';
 
 // apollo
 
 
 const Settings = ({ path }: any) => {
 
+  // client
+  const client = useApolloClient()
+  const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
+  const { applicant } = game;
   return (
     <div>
       <NavBar />
       <Profile />
       <GameDetails />
-      <ApplicantDetails />
-      <RecruiterDetails />
+      {player.id === applicant.id ? (
+
+        <RecruiterDetails />
+      )
+        :
+        (
+          <ApplicantDetails />
+        )
+      }
       <Contact />
     </div>
   )

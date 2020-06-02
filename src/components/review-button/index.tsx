@@ -55,7 +55,7 @@ const ReviewButton = () => {
     updateMissionV2({
       variables: {
         id: mission.id,
-        field: 'isReviewed',
+        field: 'isUnderReview',
         data: true
       }
     })
