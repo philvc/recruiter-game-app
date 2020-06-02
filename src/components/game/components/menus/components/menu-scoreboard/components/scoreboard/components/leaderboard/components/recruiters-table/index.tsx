@@ -24,7 +24,7 @@ const RecruitersTable = () => {
   const { loading, error, data, fetchMore } = useQuery(GET_LEADERBOARD_RECRUITERS_SERVER, {
     variables: {
       rankFilter: filter,
-      pageSize: 2,
+      pageSize: 10,
       after: 0,
     },
   })

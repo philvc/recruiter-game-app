@@ -27,7 +27,7 @@ const PendingChallenge = () => {
       <p>
         <Modal
           title='Job Application Screenshot'
-          button={mission.selectedJob?.applicationProofUrl ? 'View the application proof' : 'Upload a proof of your application'}
+          button={mission.selectedJob?.applicationProofUrl ? 'Review the application proof' : 'Upload a proof of your application'}
           WrappedComponent={Screenshot}
         />
       </p>

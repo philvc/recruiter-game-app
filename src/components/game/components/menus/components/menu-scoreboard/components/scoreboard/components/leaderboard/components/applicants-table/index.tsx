@@ -20,7 +20,7 @@ const ApplicantsTable = () => {
   // queries
   const { loading, error, data, fetchMore } = useQuery(GET_LEADERBOARD_APPLICANTS_SERVER, {
     variables: {
-      pageSize: 2,
+      pageSize: 10,
       rankFilter: 'appliedJobs',
       after: 0,
     }

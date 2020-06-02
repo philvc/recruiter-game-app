@@ -31,10 +31,13 @@ const ChallengeItem = ({ challenge, handleClick }: any) => {
         {challenge.status === 'new' ?
           'Start'
           :
-          challenge.status === 'pending' ?
-            'Resume'
-            :
+          challenge.status === 'completed' ?
             'View result'
+            :
+            challenge.status === 'pending' && challenge.isUnderReview ?
+              'Review'
+              :
+              'Resume'
         }
       </button>
     </div>
