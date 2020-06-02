@@ -1,25 +1,22 @@
 import gql from 'graphql-tag';
 
+// fragment
+import { PLAYER_DATA_FRAGMENT } from '../../fragments/playerDataFragment';
+
 export const GET_ACCOUNT = gql`
   query getAccount($email: String){
     account(input: {email: $email}){
       player{
-        id
-        email
-        playerName
+        ...PlayerData
       } 
       games{
         id
         title
         applicant {
-          id
-          email
-          playerName
+          ...PlayerData
         }
         recruiter {
-          id
-          email
-          playerName
+          ...PlayerData
         }
         recruiterId
         applicantId
@@ -28,4 +25,5 @@ export const GET_ACCOUNT = gql`
       }
     }
   }
+  ${PLAYER_DATA_FRAGMENT}
 `
