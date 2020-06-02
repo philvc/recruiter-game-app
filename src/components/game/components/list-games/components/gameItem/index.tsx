@@ -53,8 +53,8 @@ const GameItem = ({ game }: any) => {
           {title.charAt(0).toUpperCase() + title.slice(1)}
         </div>
       </Link>
-      <p>{`recruiter: ${recruiter.playerName || recruiter.email}`}</p>
-      <p>{`job seeker: ${applicant.playerName || applicant.email}`}</p>
+      <p>{`recruiter: ${player.id === recruiter.id ? "Me" : recruiter.playerName || recruiter.email}`}</p>
+      <p>{`job seeker: ${player.id === applicant.id ? "Me" : applicant.playerName || applicant.email}`}</p>
       <p>{`started: ${format(new Date(createdAt), 'dd/MM/yyyy')}`}</p>
     </div>
   )

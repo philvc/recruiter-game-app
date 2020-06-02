@@ -86,7 +86,7 @@ const Profile = () => {
           </label>
         </p>
         <p>
-          <button className='edit-information-button-update' onClick={handleClick}>UPDATE</button>
+          <button className='edit-information-button-update' onClick={handleClick}>Update</button>
         </p>
         <MessageHub children={(add: any) => ref.current = add} />
       </div>
