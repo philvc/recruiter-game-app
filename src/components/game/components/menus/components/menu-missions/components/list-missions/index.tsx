@@ -94,22 +94,6 @@ const ListMissions = ({ path }: any) => {
     }
   }, [missionsData])
 
-  // React.useEffect(() => {
-  //   console.log('subscription')
-  //   subscribeToMore({
-  //     document: NEW_MISSION_SUBSCRIPTION,
-  //     variables: { gameId: game.id },
-  //     updateQuery: (prev: any, { subscriptionData }: any) => {
-  //       if (!subscriptionData) return prev;
-  //       console.log('new missionSubMore', subscriptionData)
-  //       console.log('prev', prev)
-  //       return Object.assign({}, prev, {
-  //         missions: prev.missions.concat(subscriptionData.data.newMission)
-  //       })
-  //     }
-  //   })
-  // }, [subscribeToMore, game.id, game.applicant.id, player.id])
-
 
   // handlers
   function handleClick() {

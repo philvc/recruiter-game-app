@@ -43,8 +43,6 @@ const MenuNotification = () => {
     }
   })
 
-  // console.log('data query notifications', data)
-
   // subscription
   const { loading: subLoading, error: subError, data: subData } = useSubscription(NEW_NOTIFICATION_SUBSCRIPTION,
     {
@@ -71,8 +69,6 @@ const MenuNotification = () => {
       variables: { clientId: player.id },
       updateQuery: (prev: any, { subscriptionData }: any) => {
         if (!subscriptionData.data) return prev;
-        // console.log('newNotifSubMore', subscriptionData.data.newNotification)
-        // console.log('prev', prev)
         return Object.assign({}, prev, {
           notifications: {
             ...prev.notifications,
@@ -118,7 +114,6 @@ const MenuNotification = () => {
       },
       updateQuery: (prev: any, { fetchMoreResult, ...rest }: any) => {
         if (!fetchMoreResult) return prev;
-        // console.log('fetchmore', fetchMoreResult)
         return {
           ...fetchMoreResult,
           notifications: {
