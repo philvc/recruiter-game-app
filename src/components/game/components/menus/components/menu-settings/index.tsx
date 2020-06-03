@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 // modules
+import { useApolloClient } from '@apollo/client';
 
 // components
 import NavBar from '../../../../../navbar';
@@ -12,7 +13,6 @@ import GameDetails from './game-details';
 
 // styles
 import './styles.css'
-import { useApolloClient } from '@apollo/client';
 import { GET_GAME_CLIENT } from '../../../../../../graphql/queries/client/getGameClient';
 import { GET_PLAYER_CLIENT } from '../../../../../../graphql/queries/client/getPlayerClient';
 

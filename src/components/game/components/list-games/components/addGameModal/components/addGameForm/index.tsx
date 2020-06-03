@@ -68,7 +68,7 @@ const AddGameForm = ({ openModal }: any) => {
         query: GET_MISSIONS_CLIENT,
         variables: { gameId: addGame.id },
         data: {
-          missions: null
+          missions: []
         }
       })
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useMutation, useApolloClient } from '@apollo/client';
+import { useMutation, useApolloClient, useQuery } from '@apollo/client';
 import { Link } from '@reach/router';
 
 // components
@@ -30,12 +30,14 @@ const ListMissions = ({ path }: any) => {
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
   const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
-  const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
-
-  const filteredMissions = missions !== null ? missions.filter((mission: any) => mission.type === '10jobs') : []
 
   // state
-  const [stateMissions, setStateMissions] = React.useState(filteredMissions)
+  const [stateMissions, setStateMissions] = React.useState([])
+
+  // query
+  const { loading: missionsLoading, error: missionsError, data: missionsData } = useQuery(GET_MISSIONS_CLIENT, {
+    variables: { gameId: game.id }
+  })
 
   // mutations
   const [createJobs] = useMutation(CREATE_JOBS, {
@@ -83,6 +85,14 @@ const ListMissions = ({ path }: any) => {
   })
 
   const [pushNotification] = useMutation(PUSH_NOTIFICATION)
+
+  // effects
+  React.useEffect(() => {
+    if (missionsData) {
+      const filteredMissions = missionsData.missions !== null ? missionsData.missions.filter((mission: any) => mission.type === '10jobs') : []
+      setStateMissions(filteredMissions)
+    }
+  }, [missionsData])
 
   // React.useEffect(() => {
   //   console.log('subscription')

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // modules
 import { Router, Redirect } from '@reach/router';
-import { useSubscription } from '@apollo/client';
+import { useSubscription, useApolloClient } from '@apollo/client';
 
 // components
 import MenuMissions from './components/menu-missions';
@@ -12,19 +12,41 @@ import MenuChallenges from './components/menu-challenges';
 import MenuScoreboard from './components/menu-scoreboard';
 import MenuNotification from './components/menu-notifications';
 
-// apollo
-import { NEW_MISSION_SUBSCRIPTION } from '../../../../graphql/subscriptions/newMission';
-
 // style
 import './styles.css';
 
+// apollo
+import { NEW_MISSION_SUBSCRIPTION } from '../../../../graphql/subscriptions/newMission';
+import { GET_GAME_CLIENT } from '../../../../graphql/queries/client/getGameClient';
+import { GET_MISSIONS_CLIENT } from '../../../../graphql/queries/client/getMissionsClient';
+
 const Menus = ({ path }: any) => {
 
-  const { loading, error, data: newMissionSubscriptionData } = useSubscription(NEW_MISSION_SUBSCRIPTION, { variables: { gameId: "5ed64fb262fd396fbb4380b6" } })
+  const client = useApolloClient();
+  const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+
+  const { loading, error, data: newMissionSubscriptionData } = useSubscription(NEW_MISSION_SUBSCRIPTION, { variables: { gameId: game.id } })
 
   React.useEffect(() => {
-    console.log('data Dans useeffect', newMissionSubscriptionData)
-  }, [newMissionSubscriptionData])
+    if (newMissionSubscriptionData) {
+      const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+      if (missions.length > 0) {
+        const index = missions.findIndex((mission: any) => mission.id === newMissionSubscriptionData.newMission[0].id)
+        if (index === -1) {
+          const newMissions = missions.concat(newMissionSubscriptionData.newMission)
+          client.writeQuery({
+            query: GET_MISSIONS_CLIENT,
+            variables: { gameId: game.id },
+            data: {
+              missions: newMissions
+            }
+          })
+
+          localStorage.setItem('missions', JSON.stringify(newMissions))
+        }
+      }
+    }
+  }, [newMissionSubscriptionData, client, game.id])
 
   return (
     <div className='menus-container'>
