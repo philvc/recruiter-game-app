@@ -84,7 +84,7 @@ const JobInputField = ({ name, value, jobId, dispatch }: any) => {
           value={mission?.isUnderReview ? value : state}
           onClick={handleClick}
           onChange={handleChange}
-          // disabled={mission?.isUnderReview}
+          disabled={game.applicant.id === player.id && !mission?.isUnderReview}
           isApplicant={player.id === game.applicant.id}
         />
       </label>

@@ -16,6 +16,7 @@ import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
 import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV2';
 import { SEND_MESSAGE } from '../../graphql/mutations/server/sendMessage';
 import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
+import { PUSH_NOTIFICATION } from '../../graphql/mutations/server/pushNotification';
 
 
 const ReviewButton = () => {
@@ -49,6 +50,8 @@ const ReviewButton = () => {
   })
   const [sendMessage] = useMutation(SEND_MESSAGE)
 
+  const [pushNotification] = useMutation(PUSH_NOTIFICATION)
+
   // handlers
   function handleClick(e: any) {
     // update mission
@@ -59,6 +62,15 @@ const ReviewButton = () => {
         data: true
       }
     })
+    // push notif
+    pushNotification({
+      variables: {
+        label: 'Your recruiter has completed a mission and he needs your review !',
+        recipientId: game.applicant.id,
+        gameId: game.id,
+      }
+    })
+
     // send message to applicant
     sendMessage({
       variables: {

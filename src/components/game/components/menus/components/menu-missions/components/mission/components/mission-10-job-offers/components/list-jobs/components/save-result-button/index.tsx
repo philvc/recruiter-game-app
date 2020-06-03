@@ -10,6 +10,7 @@ import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../gr
 import { GET_GAME_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../../../../../graphql/queries/client/getMissionsClient';
 import { CREATE_MISSION } from '../../../../../../../../../../../../../../graphql/mutations/server/createMissionServer';
+import { PUSH_NOTIFICATION } from '../../../../../../../../../../../../../../graphql/mutations/server/pushNotification';
 
 const SaveResultButton = () => {
 
@@ -52,6 +53,8 @@ const SaveResultButton = () => {
     }
   })
 
+  const [pushNotification] = useMutation(PUSH_NOTIFICATION)
+
   // handlers
   function handleClick(e: any) {
 
@@ -63,6 +66,20 @@ const SaveResultButton = () => {
       }
     })
 
+    pushNotification({
+      variables: {
+        recipientId: game.recruiter.id,
+        label: '10 job offers mission has been scored !',
+        gameId: game.id,
+      }
+    })
+    pushNotification({
+      variables: {
+        recipientId: game.recruiter.id,
+        label: 'Congrats you have unlocked a new challenge !',
+        gameId: game.id,
+      }
+    })
 
     // add 1 job-application mission
     createMission({

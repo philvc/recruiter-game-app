@@ -23,6 +23,7 @@ import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/quer
 import { PUSH_NOTIFICATION } from '../../../../../../../../graphql/mutations/server/pushNotification';
 import { NEW_MISSION_SUBSCRIPTION } from '../../../../../../../../graphql/subscriptions/newMission';
 import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
+import { UPDATED_MISSION_SUBSCRIPTION } from '../../../../../../../../graphql/subscriptions/updatedMission';
 
 
 const ListMissions = ({ path }: any) => {
@@ -34,6 +35,12 @@ const ListMissions = ({ path }: any) => {
 
   // state
   const [stateMissions, setStateMissions] = React.useState([])
+
+  // subscription
+  const { loading: subLoading, error: subError, data: subData } = useSubscription(UPDATED_MISSION_SUBSCRIPTION,
+    {
+      variables: { gameId: game.id }
+    })
 
   // queries
   const { loading, error, data, subscribeToMore } = useQuery(GET_MISSIONS_SERVER, {
@@ -60,7 +67,6 @@ const ListMissions = ({ path }: any) => {
   const [createJobs] = useMutation(CREATE_JOBS, {
     onCompleted({ createJobs }) {
 
-      // update client
       const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
 
       const newJobsList = getJobsByGameId !== null ? getJobsByGameId.concat(createJobs) : createJobs
@@ -75,7 +81,6 @@ const ListMissions = ({ path }: any) => {
         }
       })
 
-      // update storage
       localStorage.setItem('jobs', JSON.stringify(newJobsList))
     }
   })
@@ -87,8 +92,6 @@ const ListMissions = ({ path }: any) => {
       // create 10 job offers
       createJobs({ variables: { gameId: game.id, missionType: 'mission10JobsId', missionId: createMission[0].id, quantity: 10 } })
 
-      // update client
-
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId: game.id } })
       const newMissions = missions.concat(createMission)
       client.writeQuery({
@@ -99,10 +102,8 @@ const ListMissions = ({ path }: any) => {
         }
       })
 
-      // update state
       setStateMissions(newMissions.filter((mission: any) => mission.type === '10jobs'))
 
-      // update storage
       localStorage.setItem('missions', JSON.stringify(newMissions))
     }
   })
@@ -118,21 +119,22 @@ const ListMissions = ({ path }: any) => {
   }, [data])
 
   React.useEffect(() => {
-    if (game.applicant.id === player.id) {
-      subscribeToMore({
-        document: NEW_MISSION_SUBSCRIPTION,
-        variables: { gameId: game.id },
-        updateQuery: (prev: any, { subscriptionData }: any) => {
-          if (!subscriptionData) return prev;
-          console.log('new missionSubMore', subscriptionData)
-          console.log('prev', prev)
-          return Object.assign({}, prev, {
-            missions: [...prev.missions, subscriptionData.data.newMission]
-          })
-        }
-      })
-    }
+    console.log('subscription')
+    subscribeToMore({
+      document: NEW_MISSION_SUBSCRIPTION,
+      variables: { gameId: game.id },
+      updateQuery: (prev: any, { subscriptionData }: any) => {
+        if (!subscriptionData) return prev;
+        console.log('new missionSubMore', subscriptionData)
+        console.log('prev', prev)
+        return Object.assign({}, prev, {
+          missions: prev.missions.concat(subscriptionData.data.newMission)
+        })
+      }
+    })
   }, [subscribeToMore, game.id, game.applicant.id, player.id])
+
+  console.log('subData', subData)
 
   // handlers
   function handleClick() {
@@ -167,9 +169,9 @@ const ListMissions = ({ path }: any) => {
             <p>Lets start one and prepare a good surprise for your friend!</p>
           </div>
         )}
-        <div className='start-mission-button'>
+        {player.id === game.recruiter.id && <div className='start-mission-button'>
           <button onClick={handleClick}>Start "10 job offers" mission</button>
-        </div>
+        </div>}
         <div className='list-missions-body'>
           {data && stateMissions.map((mission: any) => (
             <div key={mission.id} className='list-missions-item'>
