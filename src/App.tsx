@@ -36,7 +36,7 @@ const httpLink = new HttpLink({
 })
 
 const wsLink = new WebSocketLink({
-  uri: "ws://tenjobschallenge-staging.herokuapp.com/graphql",
+  uri: "wss://tenjobschallenge-staging.herokuapp.com/graphql",
   options: {
     reconnect: true
   }
