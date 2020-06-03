@@ -32,11 +32,11 @@ const cache = new InMemoryCache({
 // Apollo Links
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/"
+  uri: "https://tenjobschallenge-staging.herokuapp.com/"
 })
 
 const wsLink = new WebSocketLink({
-  uri: "ws://localhost:4000/graphql",
+  uri: "ws://tenjobschallenge-staging.herokuapp.com/graphql",
   options: {
     reconnect: true
   }
