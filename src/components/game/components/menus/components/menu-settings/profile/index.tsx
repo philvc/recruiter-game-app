@@ -84,8 +84,6 @@ const Profile = () => {
             Player name
           <input className='edit-information-input' type='text' name='playerName' value={playerName} onChange={handleChange} />
           </label>
-        </p>
-        <p>
           <button className='edit-information-button-update' onClick={handleClick}>Update</button>
         </p>
         <MessageHub children={(add: any) => ref.current = add} />

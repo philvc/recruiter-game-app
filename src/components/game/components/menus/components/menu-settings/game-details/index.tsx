@@ -46,9 +46,7 @@ const GameDetails = () => {
           Title:<span> </span>
           <input type='text' name='title' value={title} onChange={handleChange} />
         </label>
-      </p>
-      <p>
-        <button onClick={handleClick}>Update</button>
+        <button style={{ marginLeft: "10px" }} onClick={handleClick}>Update</button>
       </p>
     </div>
   )

@@ -12,6 +12,8 @@ import './style.css';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_JOBS_BY_GAME_ID_SERVER } from '../../../../../../graphql/queries/server/getJobsByGameIdServer';
 import { GET_GAME_CLIENT } from '../../../../../../graphql/queries/client/getGameClient';
+import { GET_MISSIONS_SERVER } from '../../../../../../graphql/queries/server/getMissionsServer';
+import { GET_MISSIONS_CLIENT } from '../../../../../../graphql/queries/client/getMissionsClient';
 
 const GameItem = ({ game }: any) => {
 
@@ -20,7 +22,7 @@ const GameItem = ({ game }: any) => {
   const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
 
   // query
-  const { loading, error, data } = useQuery(GET_JOBS_BY_GAME_ID_SERVER, {
+  const { loading: jobsLoading, error: jobsError, data: jobsData } = useQuery(GET_JOBS_BY_GAME_ID_SERVER, {
     variables: { gameId: game.id },
     onCompleted({ getJobsByGameId }) {
       const jobs = JSON.parse(localStorage.getItem('jobs') || '[]')
@@ -28,8 +30,27 @@ const GameItem = ({ game }: any) => {
     }
   })
 
-  if (loading) return null
-  if (error) return null
+  // queries
+  const { loading: missionsLoading, error: missionsError, data: missionsData } = useQuery(GET_MISSIONS_SERVER, {
+    variables: { gameId: game.id },
+    onCompleted(data) {
+      const { missions } = data;
+      client.writeQuery({
+        query: GET_MISSIONS_CLIENT,
+        variables: { gameId: game.id },
+        data: {
+          missions: [...missions]
+        }
+      })
+
+      localStorage.setItem('missions', JSON.stringify(missions))
+    }
+
+  }
+  )
+
+  if (jobsLoading || missionsLoading) return null
+  if (jobsError || jobsError) return null
 
   const { recruiter, applicant, createdAt, title } = game;
   return (

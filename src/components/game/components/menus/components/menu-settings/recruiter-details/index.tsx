@@ -18,7 +18,7 @@ const RecruiterDetails = () => {
       <h5>Recruiter</h5>
       {player.id !== recruiter.id ? (
         <div>
-          <p>Player name: {recruiter.playerName}</p>
+          <p>Player name: {recruiter.playerName || 'not completed'}</p>
           <p>Email: {recruiter.email}</p>
         </div>
       )

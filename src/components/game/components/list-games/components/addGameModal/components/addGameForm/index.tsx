@@ -2,6 +2,7 @@ import * as React from 'react';
 
 // packages
 import { navigate } from '@reach/router';
+import { useMutation, useApolloClient, } from '@apollo/client';
 
 
 // style
@@ -13,12 +14,12 @@ import './style.css';
 import { formReducer, initialState, actions } from './reducer';
 
 // grapqhql
-import { useMutation, useApolloClient, } from '@apollo/client';
 import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server/addGameServer';
 import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
 import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
+import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 
 
 const AddGameForm = ({ openModal }: any) => {
@@ -60,6 +61,14 @@ const AddGameForm = ({ openModal }: any) => {
         variables: { gameId: addGame.id },
         data: {
           getJobsByGameId: null
+        }
+      })
+
+      client.writeQuery({
+        query: GET_MISSIONS_CLIENT,
+        variables: { gameId: addGame.id },
+        data: {
+          missions: null
         }
       })
 

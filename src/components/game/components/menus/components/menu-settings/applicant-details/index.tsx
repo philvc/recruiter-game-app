@@ -49,10 +49,10 @@ const ApplicantDetails = () => {
       <h5>Applicant</h5>
       {player.id !== applicant.id ? (
         <div>
-          <p>Player name: {applicant.playerName}</p>
-          <p>Email: {applicant.email}</p>
+          <p>Player name: {applicant.playerName || 'not completed'}</p>
           <p>
-            <button onClick={handleClick}>Resend invitation</button>
+            Email: {applicant.email}
+            <button style={{ marginLeft: "10px" }} onClick={handleClick}>Resend invitation</button>
           </p>
         </div>
       )

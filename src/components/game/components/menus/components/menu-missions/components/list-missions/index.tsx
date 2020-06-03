@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useMutation, useQuery, useApolloClient, useSubscription } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { Link } from '@reach/router';
 
 // components
@@ -21,9 +21,7 @@ import { CREATE_MISSION } from '../../../../../../../../graphql/mutations/server
 import { CREATE_JOBS } from '../../../../../../../../graphql/mutations/server/createJobsServer';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 import { PUSH_NOTIFICATION } from '../../../../../../../../graphql/mutations/server/pushNotification';
-import { NEW_MISSION_SUBSCRIPTION } from '../../../../../../../../graphql/subscriptions/newMission';
 import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
-import { UPDATED_MISSION_SUBSCRIPTION } from '../../../../../../../../graphql/subscriptions/updatedMission';
 
 
 const ListMissions = ({ path }: any) => {
@@ -32,36 +30,12 @@ const ListMissions = ({ path }: any) => {
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
   const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
+  const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+
+  const filteredMissions = missions !== null ? missions.filter((mission: any) => mission.type === '10jobs') : []
 
   // state
-  const [stateMissions, setStateMissions] = React.useState([])
-
-  // subscription
-  const { loading: subLoading, error: subError, data: subData } = useSubscription(UPDATED_MISSION_SUBSCRIPTION,
-    {
-      variables: { gameId: game.id }
-    })
-
-  // queries
-  const { loading, error, data, subscribeToMore } = useQuery(GET_MISSIONS_SERVER, {
-    variables: { gameId: game.id },
-    onCompleted(data) {
-      const { missions } = data;
-      client.writeQuery({
-        query: GET_MISSIONS_CLIENT,
-        variables: { gameId: game.id },
-        data: {
-          missions: [...missions]
-        }
-      })
-
-      setStateMissions(missions.filter((mission: any) => mission.type === '10jobs'))
-      localStorage.setItem('missions', JSON.stringify(missions))
-    }
-
-  }
-  )
-
+  const [stateMissions, setStateMissions] = React.useState(filteredMissions)
 
   // mutations
   const [createJobs] = useMutation(CREATE_JOBS, {
@@ -110,31 +84,22 @@ const ListMissions = ({ path }: any) => {
 
   const [pushNotification] = useMutation(PUSH_NOTIFICATION)
 
-  // effects
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   console.log('subscription')
+  //   subscribeToMore({
+  //     document: NEW_MISSION_SUBSCRIPTION,
+  //     variables: { gameId: game.id },
+  //     updateQuery: (prev: any, { subscriptionData }: any) => {
+  //       if (!subscriptionData) return prev;
+  //       console.log('new missionSubMore', subscriptionData)
+  //       console.log('prev', prev)
+  //       return Object.assign({}, prev, {
+  //         missions: prev.missions.concat(subscriptionData.data.newMission)
+  //       })
+  //     }
+  //   })
+  // }, [subscribeToMore, game.id, game.applicant.id, player.id])
 
-    if (data?.missions) {
-      setStateMissions(data.missions.filter((mission: any) => mission.type === '10jobs'))
-    }
-  }, [data])
-
-  React.useEffect(() => {
-    console.log('subscription')
-    subscribeToMore({
-      document: NEW_MISSION_SUBSCRIPTION,
-      variables: { gameId: game.id },
-      updateQuery: (prev: any, { subscriptionData }: any) => {
-        if (!subscriptionData) return prev;
-        console.log('new missionSubMore', subscriptionData)
-        console.log('prev', prev)
-        return Object.assign({}, prev, {
-          missions: prev.missions.concat(subscriptionData.data.newMission)
-        })
-      }
-    })
-  }, [subscribeToMore, game.id, game.applicant.id, player.id])
-
-  console.log('subData', subData)
 
   // handlers
   function handleClick() {
@@ -149,10 +114,6 @@ const ListMissions = ({ path }: any) => {
 
   }
 
-
-
-  if (loading) return null
-  if (error) return null
   return (
     <div className='list-missions-container'>
       <NavBar />
@@ -160,7 +121,7 @@ const ListMissions = ({ path }: any) => {
         <div>
           <h3>Menu Missions</h3>
         </div>
-        {data && stateMissions.length === 0 && (
+        {stateMissions.length === 0 && (
           <div className='list-missions-description-container'>
             <p>Welcome !</p>
             <p>Congrats for helping your friend finding a new job.</p>
@@ -173,7 +134,7 @@ const ListMissions = ({ path }: any) => {
           <button onClick={handleClick}>Start "10 job offers" mission</button>
         </div>}
         <div className='list-missions-body'>
-          {data && stateMissions.map((mission: any) => (
+          {stateMissions.map((mission: any) => (
             <div key={mission.id} className='list-missions-item'>
               <Link
                 to={`${mission.id}`}

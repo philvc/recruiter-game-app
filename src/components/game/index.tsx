@@ -8,8 +8,9 @@ import ListGames from './components/list-games';
 import NotFound from '../notFound';
 import Menus from './components/menus';
 
-
 const Game = ({ path }: any) => {
+
+
   return (
     <div>
       <Router>
