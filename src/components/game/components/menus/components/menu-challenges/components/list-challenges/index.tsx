@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // modules
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 
 // components
 import NavBar from '../../../../../../../navbar';
@@ -21,9 +21,21 @@ const ListChallenges = ({ path, navigate }: any) => {
   // client
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
-  const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
 
-  const challengesList = missions.filter((mission: any) => mission.type === 'jobapplication')
+  // state 
+  const [challengesList, setChallengesList] = React.useState([])
+
+
+  // queries
+  const { loading: missionsLoading, error: missionsError, data: missionsData } = useQuery(GET_MISSIONS_CLIENT, { variables: { gameId: game.id } });
+
+  // effects
+  React.useEffect(() => {
+    if (missionsData) {
+      const challenges = missionsData.missions !== null ? missionsData.missions.filter((mission: any) => mission.type === 'jobapplication') : []
+      setChallengesList(challenges)
+    }
+  }, [missionsData])
 
   // handlers
   function handleClick(challenge: any) {
@@ -37,13 +49,16 @@ const ListChallenges = ({ path, navigate }: any) => {
     navigate(`${challenge.id}`)
   }
 
+  if (missionsLoading) return null;
+  if (missionsError) return null;
+
   return (
     <div className='list-challenges-container'>
       <NavBar />
       <div className='list-challenges-container-body'>
         <h3>Menu Challenges</h3>
         <div className='list-challenges-container-body-list'>
-          {challengesList.length === 0 && (
+          {missionsData.missions.length === 0 && challengesList.length === 0 && (
             <div className="list-challenges-description-container">
               <p>Welcome to the challenges menu !</p>
               <p>Here you will find different challenges to give to your friend.</p>

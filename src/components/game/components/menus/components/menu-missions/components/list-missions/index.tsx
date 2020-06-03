@@ -108,6 +108,9 @@ const ListMissions = ({ path }: any) => {
 
   }
 
+  if (missionsLoading) return null;
+  if (missionsError) return null;
+
   return (
     <div className='list-missions-container'>
       <NavBar />
@@ -115,7 +118,7 @@ const ListMissions = ({ path }: any) => {
         <div>
           <h3>Menu Missions</h3>
         </div>
-        {stateMissions.length === 0 && (
+        {missionsData.missions.length === 0 && stateMissions.length === 0 && (
           <div className='list-missions-description-container'>
             <p>Welcome !</p>
             <p>Congrats for helping your friend finding a new job.</p>
