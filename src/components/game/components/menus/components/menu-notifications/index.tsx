@@ -2,7 +2,8 @@ import * as React from 'react';
 
 // modules
 import { useApolloClient, useQuery, useMutation, useSubscription } from '@apollo/client';
-// import throttle from 'lodash/throttle';
+//import throttle from 'lodash/throttle';
+
 
 // styles
 import './styles.css';
