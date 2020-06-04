@@ -151,7 +151,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App">
-        {/* <Router>
+        <Router>
           {player === undefined ?
             (<LoginV2 path='/' />)
             :
@@ -159,8 +159,7 @@ function App() {
           }
           <Game path='/games/*' />
           <NotFound default />
-        </Router> */}
-        Hello
+        </Router>
       </div>
     </ApolloProvider>
   );
