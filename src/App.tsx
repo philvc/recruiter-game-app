@@ -30,13 +30,13 @@ const cache = new InMemoryCache({
 });
 
 // Apollo Links
-console.log('http link', process.env.HTTP_SERVER_LINK)
+console.log('http link', process.env.REACT_APP_API_URL)
 const httpLink = new HttpLink({
-  uri: process.env.HTTP_SERVER_LINK || "https://tenjobschallenge-server.herokuapp.com/" || "http://localhost:4000/"
+  uri: process.env.REACT_APP_API_URL || "https://tenjobschallenge-server.herokuapp.com/" || "http://localhost:4000/"
 })
 
 const wsLink = new WebSocketLink({
-  uri: process.env.WS_SERVER_LINK || "ws://localhost:4000/graphql",
+  uri: process.env.REACT_APP_WS_URL || "ws://localhost:4000/graphql",
   options: {
     reconnect: true
   }
