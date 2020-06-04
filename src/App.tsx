@@ -30,7 +30,7 @@ const cache = new InMemoryCache({
 });
 
 // Apollo Links
-
+console.log('http link', process.env.HTTP_SERVER_LINK)
 const httpLink = new HttpLink({
   uri: process.env.HTTP_SERVER_LINK || "http://localhost:4000/"
 })
