@@ -10,6 +10,7 @@ import './styles.css';
 import { StyledNotification } from './styles';
 import MessageHub from '../../../../../message-hub';
 
+
 // apollo
 import { GET_NOTIFICATIONS_SERVER } from '../../../../../../graphql/queries/server/getNotifications';
 import { GET_GAME_CLIENT } from '../../../../../../graphql/queries/client/getGameClient';
