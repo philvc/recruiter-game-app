@@ -31,7 +31,7 @@ const cache = new InMemoryCache({
 
 // Apollo Links
 const httpLink = new HttpLink({
-  uri: process.env.REACT_APP_API_URL || "https://tenjobschallenge-server.herokuapp.com/" || "http://localhost:4000/",
+  uri: process.env.REACT_APP_API_URL || "http://localhost:4000/",
   credentials: 'omit',
 })
 
@@ -41,7 +41,7 @@ const wsLink = new WebSocketLink({
     reconnect: true
   }
 });
-
+console.log('uril', process.env.REACT_APP_API_URL || "http://localhost:4000/")
 const link = split(
   ({ query }) => {
     const definition = getMainDefinition(query);

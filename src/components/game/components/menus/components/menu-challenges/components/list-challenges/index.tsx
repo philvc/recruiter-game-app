@@ -52,13 +52,14 @@ const ListChallenges = ({ path, navigate }: any) => {
   if (missionsLoading) return null;
   if (missionsError) return null;
 
+  console.log('length missions data, challenges list', missionsData.missions.length, challengesList.length)
   return (
     <div className='list-challenges-container'>
       <NavBar />
       <div className='list-challenges-container-body'>
         <h3>Menu Challenges</h3>
         <div className='list-challenges-container-body-list'>
-          {missionsData.missions.length === 0 && challengesList.length === 0 && (
+          {(missionsData.missions.length === 0 || challengesList.length === 0) && (
             <div className="list-challenges-description-container">
               <p>Welcome to the challenges menu !</p>
               <p>Here you will find different challenges to give to your friend.</p>
