@@ -2,12 +2,15 @@ import * as React from 'react';
 
 // modules
 import { useMutation, useApolloClient, useQuery } from '@apollo/client';
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 
 // components
 import NavBar from '../../../../../../../navbar';
 import Contact from '../../../../../../../contact';
 import ListProgress from './components/list-progress';
+
+// types
+import MissionInterface from '../../../../../../../../types/mission';
 
 // style
 import './styles.css'
@@ -33,6 +36,9 @@ const ListMissions = ({ path }: any) => {
 
   // state
   const [stateMissions, setStateMissions] = React.useState([])
+  const [newMission, setNewMission] = React.useState<MissionInterface | undefined>(undefined)
+
+  console.log('newMission state', newMission)
 
   // query
   const { loading: missionsLoading, error: missionsError, data: missionsData } = useQuery(GET_MISSIONS_CLIENT, {
@@ -58,6 +64,8 @@ const ListMissions = ({ path }: any) => {
       })
 
       localStorage.setItem('jobs', JSON.stringify(newJobsList))
+
+      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions/${newMission?.id}`)
     }
   })
 
@@ -70,6 +78,8 @@ const ListMissions = ({ path }: any) => {
 
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_SERVER, variables: { gameId: game.id } })
       const newMissions = missions.concat(createMission)
+
+      // update missions
       client.writeQuery({
         query: GET_MISSIONS_SERVER,
         variables: { gameId: game.id },
@@ -81,6 +91,18 @@ const ListMissions = ({ path }: any) => {
       setStateMissions(newMissions.filter((mission: any) => mission.type === '10jobs'))
 
       localStorage.setItem('missions', JSON.stringify(newMissions))
+
+      // update mission
+      client.writeQuery({
+        query: GET_MISSION_CLIENT,
+        data: {
+          mission: createMission[0]
+        }
+      })
+
+      setNewMission(createMission[0])
+
+      localStorage.setItem('mission', JSON.stringify(createMission[0]))
     }
   })
 
