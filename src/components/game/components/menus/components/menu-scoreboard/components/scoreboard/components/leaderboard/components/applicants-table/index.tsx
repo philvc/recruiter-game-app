@@ -85,6 +85,7 @@ const ApplicantsTable = () => {
               <td
                 className='leaderboard-table-data'
                 onMouseEnter={(e: any) => handleHover(e, index)}
+                onMouseLeave={(e: any) => handleBlur(e, index)}
               >
                 {player.playerName ? player.playerName : player.email}
               </td>

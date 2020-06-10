@@ -56,7 +56,6 @@ const SearchPlayerKpis = () => {
     })
   }
 
-  console.log('playerInfos', playerInfos)
   return (
     <div className='search-player-kpis-containter'>
       <h4 className='search-player-title'>Search for a player</h4>

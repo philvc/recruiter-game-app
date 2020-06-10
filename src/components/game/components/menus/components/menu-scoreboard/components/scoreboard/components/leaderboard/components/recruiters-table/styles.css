@@ -14,6 +14,7 @@
     font-size: 12px;
     display: flex;
     margin-left: 10px;
+    max-width: 60px;
 }
 
 .leaderboard-recruiter-details-kpis{
