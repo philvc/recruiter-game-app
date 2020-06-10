@@ -38,7 +38,7 @@ const ApplicantDetails = () => {
       variables: {
         recipientId: applicant.id,
         subject: `${recruiter.email} invites you to his 10 Jobs Challenge !`,
-        message: `${recruiter.playerName} wants to help you finding a new job, join him to play the 10 Jobs Challenge`
+        message: `<p>${recruiter.playerName} wants to help you finding a new job, join him to play the 10 Jobs Challenge</p>`
       }
     })
   };
