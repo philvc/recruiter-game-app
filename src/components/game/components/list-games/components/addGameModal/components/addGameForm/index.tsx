@@ -20,6 +20,7 @@ import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queri
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
+import { SEND_MESSAGE } from '../../../../../../../../graphql/mutations/server/sendMessage';
 
 
 const AddGameForm = ({ openModal }: any) => {
@@ -35,6 +36,7 @@ const AddGameForm = ({ openModal }: any) => {
   const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT });
 
   // mutations
+  const [sendMessage] = useMutation(SEND_MESSAGE)
   const [addGameMutation] = useMutation(ADDGAME_SERVER, {
 
     update(cache, { data: { addGame } }) {
@@ -77,6 +79,14 @@ const AddGameForm = ({ openModal }: any) => {
       localStorage.setItem('game', JSON.stringify(addGame))
     },
     onCompleted({ addGame }) {
+      // send email
+      sendMessage({
+        variables: {
+          recipientId: addGame.applicant.id,
+          subject: 'Invitation to 10 Jobs Challenge',
+          message: `<p>Visit this link <a href=${process.env.CLIENT_URL || "http://localhost:3000"}>10 Jobs Challenge</a></p>`,
+        }
+      })
       navigate(`/games/${addGame.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`)
     }
   })
