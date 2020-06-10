@@ -56,6 +56,7 @@ const SearchPlayerKpis = () => {
     })
   }
 
+  console.log('playerInfos', playerInfos)
   return (
     <div className='search-player-kpis-containter'>
       <h4 className='search-player-title'>Search for a player</h4>
@@ -63,16 +64,18 @@ const SearchPlayerKpis = () => {
         {/* <label>
           Enter an email or a player userName
         </label> */}
-        <input className='search-player-form-input' type='text' name='search' value={search} onChange={handleChange} placeholder='Insert name or email...' />
+        <input className='search-player-form-input' type='text' name='search' value={search} onChange={handleChange} placeholder='Insert email...' />
         <button className='search-player-form-button' onClick={handleClick}>Search</button>
       </div>
       <div>
+        {loading && <p>Loading...</p>}
         {playerInfos === null && <p className='search-player-data-null'>No player found</p>}
-        {playerInfos?.recruiter?.playerName && (
+        {playerInfos?.recruiter?.email && (
           <div>
             <h5>Result</h5>
             <div>
-              {playerInfos.recruiter.playerName}
+              {playerInfos.recruiter.email}
+              {playerInfos.recruiter.playerName && <div>{playerInfos.recruiter.playerName}</div>}
               <div className='search-player-result-details'>
                 Total number of accepted job offers: {playerInfos.recruiter.acceptedJobsNumber}
               </div>

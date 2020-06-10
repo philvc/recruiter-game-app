@@ -38,8 +38,6 @@ const ListMissions = ({ path }: any) => {
   const [stateMissions, setStateMissions] = React.useState([])
   const [newMission, setNewMission] = React.useState<MissionInterface | undefined>(undefined)
 
-  console.log('newMission state', newMission)
-
   // query
   const { loading: missionsLoading, error: missionsError, data: missionsData } = useQuery(GET_MISSIONS_CLIENT, {
     variables: { gameId: game.id }
