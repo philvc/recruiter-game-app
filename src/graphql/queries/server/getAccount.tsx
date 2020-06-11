@@ -6,6 +6,7 @@ import { PLAYER_DATA_FRAGMENT } from '../../fragments/playerDataFragment';
 export const GET_ACCOUNT = gql`
   query getAccount($email: String){
     account(input: {email: $email}){
+      id
       player{
         ...PlayerData
       } 

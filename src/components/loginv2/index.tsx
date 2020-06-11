@@ -8,11 +8,12 @@ import { navigate } from '@reach/router';
 import { formReducer, actions } from './reducer';
 
 // graphql
-import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_ACCOUNT } from '../../graphql/queries/server/getAccount';
 
 // style
 import './style.css'
+import { GET_PLAYER_CLIENT } from '../../graphql/queries/client/getPlayerClient';
+import { GET_GAMES_CLIENT } from '../../graphql/queries/client/getGamesClient';
 
 const initialState = {
   email: '',
@@ -40,14 +41,18 @@ const LoginV2 = ({ path }: any) => {
 
         // update client
         client.writeQuery({
-          query: GET_PLAYERANDGAMES_CLIENT,
+          query: GET_PLAYER_CLIENT,
           data: {
-            player: {
-              id: player.id,
-              email: player.email,
-              playerName: player.playerName,
-              __typename: 'Player'
-            },
+            player,
+          }
+        })
+
+        client.writeQuery({
+          query: GET_GAMES_CLIENT,
+          variables: {
+            playerId: player.id
+          },
+          data: {
             games: [...games]
           }
         })

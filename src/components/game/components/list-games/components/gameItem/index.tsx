@@ -9,17 +9,17 @@ import { format } from 'date-fns'
 import './style.css';
 
 // apollo
-import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_JOBS_BY_GAME_ID_SERVER } from '../../../../../../graphql/queries/server/getJobsByGameIdServer';
 import { GET_GAME_CLIENT } from '../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_SERVER } from '../../../../../../graphql/queries/server/getMissionsServer';
 import { GET_MISSIONS_CLIENT } from '../../../../../../graphql/queries/client/getMissionsClient';
+import { GET_PLAYER_CLIENT } from '../../../../../../graphql/queries/client/getPlayerClient';
 
 const GameItem = ({ game }: any) => {
 
   // client
   const client = useApolloClient();
-  const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   // query
   const { loading: jobsLoading, error: jobsError, data: jobsData } = useQuery(GET_JOBS_BY_GAME_ID_SERVER, {

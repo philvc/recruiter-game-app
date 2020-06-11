@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // modules
 import axios from 'axios';
-import { useMutation, useApolloClient, gql } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { navigate } from '@reach/router';
 
 // components
@@ -19,8 +19,8 @@ import { SEND_MESSAGE } from '../../graphql/mutations/server/sendMessage';
 import { GET_GAME_CLIENT } from '../../graphql/queries/client/getGameClient';
 import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
-import { GET_PLAYERANDGAMES_CLIENT } from '../../graphql/queries/client/getPlayerAndGamesClient';
 import { CREATE_MISSION } from '../../graphql/mutations/server/createMissionServer';
+import { GET_PLAYER_CLIENT } from '../../graphql/queries/client/getPlayerClient';
 
 
 const Screenshot = ({ openModal }: any) => {
@@ -30,7 +30,7 @@ const Screenshot = ({ openModal }: any) => {
   const { mission }: any = client.readQuery({ query: GET_MISSION_CLIENT })
   const { selectedJob } = mission
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
-  const { player }: any = client.readQuery({ query: GET_PLAYERANDGAMES_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   // state
   const [imageSource, setImageSource] = React.useState(selectedJob.applicationProofUrl)

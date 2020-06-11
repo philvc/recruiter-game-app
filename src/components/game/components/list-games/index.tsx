@@ -1,18 +1,20 @@
 import * as React from 'react';
 
 // modules
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useSubscription } from '@apollo/client';
 
 // components
 import AddGameModal from './components/addGameModal';
 import GameItem from './components/gameItem';
 import Contact from '../../../contact';
 
-// apollo
-import { GET_PLAYERANDGAMES_CLIENT } from '../../../../graphql/queries/client/getPlayerAndGamesClient';
-
 // style
 import './style.css';
+
+// apollo
+import { GET_PLAYER_CLIENT } from '../../../../graphql/queries/client/getPlayerClient';
+import { NEW_GAME_SUBSCRIPTION } from '../../../../graphql/subscriptions/newGame';
+import { GET_GAMES_CLIENT } from '../../../../graphql/queries/client/getGamesClient';
 
 
 
@@ -20,12 +22,26 @@ const ListGames = ({ path }: any) => {
 
   // client
   const client = useApolloClient()
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
   const { games }: any = client.readQuery({
-    query: GET_PLAYERANDGAMES_CLIENT,
+    query: GET_GAMES_CLIENT,
+    variables: {
+      playerId: player.id
+    }
   })
 
   // state
   const [gamesList, setGamesList] = React.useState(games)
+
+  // subscription
+  const { loading: subLoading, error: subError, data: subData } = useSubscription(NEW_GAME_SUBSCRIPTION, { variables: { playerId: player.id } })
+
+  // effects
+  React.useEffect(() => {
+    if (subData) {
+      console.log('subData', subData)
+    }
+  }, [subData])
 
   return (
     <div>

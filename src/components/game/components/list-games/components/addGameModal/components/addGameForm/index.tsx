@@ -16,11 +16,11 @@ import { formReducer, initialState, actions } from './reducer';
 // grapqhql
 import { ADDGAME_SERVER } from '../../../../../../../../graphql/mutations/server/addGameServer';
 import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
-import { GET_PLAYERANDGAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerAndGamesClient';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 import { SEND_MESSAGE } from '../../../../../../../../graphql/mutations/server/sendMessage';
+import { GET_GAMES_CLIENT } from '../../../../../../../../graphql/queries/client/getGamesClient';
 
 
 const AddGameForm = ({ openModal }: any) => {
@@ -42,10 +42,13 @@ const AddGameForm = ({ openModal }: any) => {
     update(cache, { data: { addGame } }) {
 
       // update client
-      const { games }: any = cache.readQuery({ query: GET_PLAYERANDGAMES_CLIENT });
+      const { games }: any = cache.readQuery({ query: GET_GAMES_CLIENT, variables: { playerId: player.id } });
       const newGames = games.concat([addGame])
       cache.writeQuery({
-        query: GET_PLAYERANDGAMES_CLIENT,
+        query: GET_GAMES_CLIENT,
+        variables: {
+          playerId: player.id,
+        },
         data: {
           games: newGames,
         }

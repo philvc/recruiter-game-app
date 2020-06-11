@@ -17,11 +17,12 @@ import './App.css';
 // apollo
 import { resolvers } from './graphql/resolvers';
 import { typeDefs } from './graphql/schemas';
-import { GET_PLAYERANDGAMES_CLIENT } from './graphql/queries/client/getPlayerAndGamesClient';
 import { GET_MISSIONS_SERVER } from './graphql/queries/server/getMissionsServer';
 import { GET_MISSION_CLIENT } from './graphql/queries/client/getMissionClient';
 import { GET_JOBS_BY_GAME_ID_SERVER } from './graphql/queries/server/getJobsByGameIdServer';
 import { GET_GAME_CLIENT } from './graphql/queries/client/getGameClient';
+import { GET_PLAYER_CLIENT } from './graphql/queries/client/getPlayerClient';
+import { GET_GAMES_CLIENT } from './graphql/queries/client/getGamesClient';
 
 
 // Graphql default state
@@ -41,7 +42,7 @@ const wsLink = new WebSocketLink({
     reconnect: true
   }
 });
-console.log('uril', process.env.REACT_APP_API_URL || "http://localhost:4000/")
+
 const link = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
@@ -68,33 +69,30 @@ let game: any;
 
 if (localStorage.hasOwnProperty('player')) {
   player = JSON.parse(localStorage.getItem('player') || '')
+  client.writeQuery({
+    query: GET_PLAYER_CLIENT,
+    data: {
+      player
+    }
+  })
 }
 if (localStorage.hasOwnProperty('game')) {
   game = JSON.parse(localStorage.getItem('game') || '')
 }
 
 
-client.writeQuery({
-  query: GET_PLAYERANDGAMES_CLIENT,
-  variables: {
-    email: player ? player.email : ''
-  },
-  data: player ?
-    {
-      player: {
-        id: player.id,
-        email: player.email,
-        playerName: player.playerName,
-        __typename: 'Player'
-      },
+if (localStorage.hasOwnProperty('games')) {
+  client.writeQuery({
+    query: GET_GAMES_CLIENT,
+    variables: {
+      playerId: player.id
+    },
+    data: {
       games: JSON.parse(localStorage.getItem('games') || '[]'),
     }
-    :
-    {
-      player: null,
-      games: [],
-    }
-})
+  })
+}
+
 
 if (localStorage.hasOwnProperty('game')) {
   const game = JSON.parse(localStorage.getItem('game') || '{}')
