@@ -66,11 +66,11 @@ const ListGames = ({ path }: any) => {
     <div>
       <div className='list-games-container'>
         <div className='list-games-title'>
-          <h3>Games</h3>
+          <h3>Challenges</h3>
           {gamesList.length === 0 && (
             <div className='games-description-container'>
               <p>Nice your account has been created!</p>
-              <p>Let's create a game where you will invite your friend to apply to jobs selected for him.</p>
+              <p>Let's start a new '10 jobs challenge' where you will invite your friend to apply to jobs selected for him.</p>
               <p>Good luck !</p>
             </div>
           )

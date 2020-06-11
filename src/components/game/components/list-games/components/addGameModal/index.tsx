@@ -20,7 +20,7 @@ const AddGameModal = () => {
 
   return (
     <div>
-      <button onClick={openModal}>Start new game</button>
+      <button onClick={openModal}>Start a new '10 jobs challenge'</button>
       {isModalOpen && (
         <AriaModal
           titleText='New Game'

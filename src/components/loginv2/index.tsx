@@ -62,7 +62,7 @@ const LoginV2 = ({ path }: any) => {
         localStorage.setItem('games', JSON.stringify(games))
 
         // navigate
-        navigate(`games`)
+        navigate(`challenges`)
       }
     })
 

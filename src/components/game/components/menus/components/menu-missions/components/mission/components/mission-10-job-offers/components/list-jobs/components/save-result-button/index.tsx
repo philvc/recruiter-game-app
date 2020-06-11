@@ -35,7 +35,7 @@ const SaveResultButton = () => {
       // update storage
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
       localStorage.setItem('missions', JSON.stringify(missions))
-      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`)
+      navigate(`/challenges/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/lists`)
     }
   })
 

@@ -14,7 +14,7 @@ const Sidebar = () => {
   return (
     <div className='sidebar-container'>
       <Link
-        to='missions/'
+        to='lists/'
         getProps={() => {
           return {
             style: {
@@ -25,10 +25,10 @@ const Sidebar = () => {
           };
         }}
       >
-        Missions
+        Job lists
       </Link>
       <Link
-        to='challenges/'
+        to='applications/'
         getProps={() => {
           return {
             style: {
@@ -39,7 +39,7 @@ const Sidebar = () => {
           };
         }}
       >
-        Challenges
+        Job applications
       </Link>
       <Link
         to='scoreboard/'

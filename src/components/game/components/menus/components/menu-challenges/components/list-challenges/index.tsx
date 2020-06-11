@@ -15,12 +15,14 @@ import './styles.css';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_GAME_CLIENT } from '../../../../../../../../graphql/queries/client/getGameClient';
 import { GET_MISSION_CLIENT } from '../../../../../../../../graphql/queries/client/getMissionClient';
+import { GET_PLAYER_CLIENT } from '../../../../../../../../graphql/queries/client/getPlayerClient';
 
 const ListChallenges = ({ path, navigate }: any) => {
 
   // client
   const client = useApolloClient()
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   // state 
   const [challengesList, setChallengesList] = React.useState([])
@@ -56,13 +58,23 @@ const ListChallenges = ({ path, navigate }: any) => {
     <div className='list-challenges-container'>
       <NavBar />
       <div className='list-challenges-container-body'>
-        <h3>Menu Challenges</h3>
+        <h3>Job applications</h3>
         <div className='list-challenges-container-body-list'>
           {(missionsData.missions.length === 0 || challengesList.length === 0) && (
             <div className="list-challenges-description-container">
-              <p>Welcome to the challenges menu !</p>
-              <p>Here you will find different challenges to give to your friend.</p>
-              <p>Currently, you have no challenge available, try to complete one mission and see what challenge you receive to give to your applicant !</p>
+              <p>Welcome to the job applications menu !</p>
+              {game.applicant.id === player.id ? (
+                <div>
+                  <p>Here you will find the job offers your friend asked you to apply to</p>
+                  <p>Currently, you have no job offers to apply to.</p>
+                </div>
+              ) : (
+                  <div>
+                    <p>Here you will be able to select a job offer from a completed list and ask your friend to apply to it !</p>
+                    <p>You have no job application available, complete a job list and come back to this menu when it's finished.</p>
+                  </div>
+                )
+              }
             </div>
           )}
           {challengesList.map((challenge: any) => (

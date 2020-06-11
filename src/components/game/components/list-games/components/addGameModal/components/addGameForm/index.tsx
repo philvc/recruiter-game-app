@@ -90,7 +90,7 @@ const AddGameForm = ({ openModal }: any) => {
           message: `<p>Visit this link <a href=${"https://admiring-haibt-ce287e.netlify.app/"}>10 Jobs Challenge</a></p>`,
         }
       })
-      navigate(`/games/${addGame.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions`)
+      navigate(`/challenges/${addGame.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/lists`)
     }
   })
 
@@ -119,7 +119,7 @@ const AddGameForm = ({ openModal }: any) => {
   return (
     <div className='add-game-form-container'>
       <form style={{ width: '300px' }} onSubmit={handleSubmit} className='add-game-form-body'>
-        <h4 className='add-game-form-title'>New Game</h4>
+        <h4 className='add-game-form-title'>New 10 Jobs Challenge</h4>
         <label>
           <input
             style={inputStyle(state.titleError)}

@@ -107,11 +107,11 @@ const Menus = ({ path }: any) => {
       <Sidebar />
       <div className='menus-container-router'>
         <Router>
-          <MenuMissions path='missions/*' />
-          <MenuChallenges path='challenges/*' />
+          <MenuMissions path='lists/*' />
+          <MenuChallenges path='applications/*' />
           <MenuScoreboard path='scoreboard/*' />
           <Settings path='settings/*' />
-          <Redirect from='/' to='missions' noThrow />
+          <Redirect from='/' to='lists' noThrow />
         </Router>
       </div>
       <MenuNotification />

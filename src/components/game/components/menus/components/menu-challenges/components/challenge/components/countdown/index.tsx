@@ -26,7 +26,7 @@ const Countdown = ({ mission }: any) => {
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
       // navigate problem
-      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
+      navigate(`/challenges/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/applications`)
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
     }
   })

@@ -153,9 +153,9 @@ function App() {
           {player === undefined ?
             (<LoginV2 path='/' />)
             :
-            (<Redirect from='/' to={`games`} noThrow />)
+            (<Redirect from='/' to={`challenges`} noThrow />)
           }
-          <Game path='/games/*' />
+          <Game path='/challenges/*' />
           <NotFound default />
         </Router>
       </div>

@@ -63,7 +63,7 @@ const ListMissions = ({ path }: any) => {
 
       localStorage.setItem('jobs', JSON.stringify(newJobsList))
 
-      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/missions/${newMission?.id}`)
+      navigate(`/challenges/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/lists/${newMission?.id}`)
     }
   })
 
@@ -136,19 +136,18 @@ const ListMissions = ({ path }: any) => {
       <NavBar />
       <div className='list-missions-container-body'>
         <div>
-          <h3>Menu Missions</h3>
+          <h3>Job Lists</h3>
         </div>
         {missionsData.missions.length === 0 && stateMissions.length === 0 && (
           <div className='list-missions-description-container'>
             <p>Welcome !</p>
             <p>Congrats for helping your friend finding a new job.</p>
             <p>Your friend has been invited by email to join this game as job applicant.</p>
-            <p>One mission is already available: the 10 job offers mission.</p>
             <p>Lets start one and prepare a good surprise for your friend!</p>
           </div>
         )}
         {player.id === game.recruiter.id && <div className='start-mission-button'>
-          <button onClick={handleClick}>Start "10 job offers" mission</button>
+          <button onClick={handleClick}>Start a new job list</button>
         </div>}
         <div className='list-missions-body'>
           {stateMissions.map((mission: any) => (

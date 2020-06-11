@@ -66,7 +66,7 @@ const NewChallenge = () => {
 
       // redirect
       // navigate problem
-      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
+      navigate(`/challenges/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/applications`)
     }
   })
 

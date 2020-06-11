@@ -49,7 +49,7 @@ const Screenshot = ({ openModal }: any) => {
       localStorage.setItem('missions', JSON.stringify(missions))
       localStorage.setItem('mission', JSON.stringify(updateMissionV2))
       openModal()
-      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
+      navigate(`/challenges/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/applications`)
     }
   })
   const [createMission] = useMutation(CREATE_MISSION, {
@@ -64,7 +64,7 @@ const Screenshot = ({ openModal }: any) => {
 
       localStorage.setItem('missions', JSON.stringify(newMissions))
       openModal()
-      navigate(`/games/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/challenges`)
+      navigate(`/challenges/${game.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/applications`)
     }
   })
 
