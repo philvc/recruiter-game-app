@@ -37,7 +37,9 @@ const Menus = ({ path }: any) => {
   React.useEffect(() => {
     if (newMissionSubscriptionData) {
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+
       if (missions.length > 0) {
+        // if the mission is already in the cache it souldn't update
         const index = missions.findIndex((mission: any) => mission.id === newMissionSubscriptionData.newMission[0].id)
         if (index === -1) {
           const newMissions = missions.concat(newMissionSubscriptionData.newMission)
@@ -51,6 +53,19 @@ const Menus = ({ path }: any) => {
 
           localStorage.setItem('missions', JSON.stringify(newMissions))
         }
+      }
+
+      if (missions.length === 0) {
+        const newMissions = missions.concat(newMissionSubscriptionData.newMission)
+        client.writeQuery({
+          query: GET_MISSIONS_CLIENT,
+          variables: { gameId: game.id },
+          data: {
+            missions: newMissions
+          }
+        })
+
+        localStorage.setItem('missions', JSON.stringify(newMissions))
       }
     }
   }, [newMissionSubscriptionData, client, game.id])

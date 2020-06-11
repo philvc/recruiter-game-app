@@ -52,7 +52,6 @@ const ListChallenges = ({ path, navigate }: any) => {
   if (missionsLoading) return null;
   if (missionsError) return null;
 
-  console.log('length missions data, challenges list', missionsData.missions.length, challengesList.length)
   return (
     <div className='list-challenges-container'>
       <NavBar />
