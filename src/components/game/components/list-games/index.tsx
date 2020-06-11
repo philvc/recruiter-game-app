@@ -34,14 +34,33 @@ const ListGames = ({ path }: any) => {
   const [gamesList, setGamesList] = React.useState(games)
 
   // subscription
+
   const { loading: subLoading, error: subError, data: subData } = useSubscription(NEW_GAME_SUBSCRIPTION, { variables: { playerId: player.id } })
+
 
   // effects
   React.useEffect(() => {
     if (subData) {
-      console.log('subData', subData)
+
+      const { games }: any = client.readQuery({ query: GET_GAMES_CLIENT, variables: { playerId: player.id } })
+      const newGames = games.concat([subData.newGame])
+
+      // update client 
+      client.writeQuery({
+        query: GET_GAMES_CLIENT,
+        variables: {
+          playerId: player.id,
+        },
+        data: newGames
+      })
+
+      // update state
+      setGamesList(newGames)
+
+      // update storage
+      localStorage.setItem('games', JSON.stringify(newGames))
     }
-  }, [subData])
+  }, [subData, client, player.id])
 
   return (
     <div>
