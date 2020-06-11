@@ -61,7 +61,7 @@ const List = ({ setProgress }: any) => {
               <th>Rank</th>
               <th>Name</th>
               <th>Url</th>
-              {player.id === game.applicant.id && mission.isUnderReview && <th> Save</th>}
+              {player.id === game.applicant.id && mission.isUnderReview && <th>Check</th>}
             </tr>
             {
               jobs

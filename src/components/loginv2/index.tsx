@@ -4,6 +4,8 @@ import * as React from 'react';
 import { useLazyQuery, useApolloClient } from '@apollo/client';
 import { navigate } from '@reach/router';
 
+// components
+import Contact from '../contact';
 // reducer
 import { formReducer, actions } from './reducer';
 
@@ -100,12 +102,6 @@ const LoginV2 = ({ path }: any) => {
         (
           <div className='body-container'>
             <h1>10 Jobs Challenge</h1>
-            <div className='game-description-container'>
-              <p>10 Jobs Challenge is a simple game where the goal is to help one of your friend to find his or her new job.</p>
-              <p>Does it mean what I really think ? Yes ;)</p>
-              <p>In other words, you will be become like a personal recruiter for your friend, finding him new job offers and challenging him to apply to selected jobs.</p>
-              <p>If you want to help a friend to find a new job, just <b>create</b> or <b>login</b> to your account with your email address and start the 10 Jobs Challenge ;)</p>
-            </div>
             <form onSubmit={handleSubmit} className='email-form'>
               <label>
                 <input
@@ -121,11 +117,41 @@ const LoginV2 = ({ path }: any) => {
               <button className='start-button' type="submit">START</button>
               <p>{state.submitMessage}</p>
             </form>
+            <div className='game-description-container'>
+              <div className='game-description-section'>
+                <p className='game-description-header'><b>What ?</b></p>
+                <p className='game-description-content'>‘10 jobs challenge’ is a game where you can help your friend to apply for jobs.</p>
+              </div>
+              <div className='game-description-section'>
+                <p className='game-description-header'><b>How ?</b></p>
+                <p className='game-description-content'>Find job offers for your friend and ask him to apply ;)</p>
+              </div>
+              <div className='game-description-demo'>
+                <p className='game-description-demo-title'><b>The game in 5 steps</b></p>
+                <p>1. Start a new ‘10 jobs challenge’ and invite your job-seeking friend to participate</p>
+                <img className='game-description-demo-picture' src={require('./assets/startChallenge.png')} alt='startChallenge' />
+                <p>2. Start a new job list and find 10 job offers for your friend</p>
+                <img className='game-description-demo-picture' src={require('./assets/startList.png')} alt='jobList' />
+                <img className='game-description-demo-picture' src={require('./assets/list.png')} alt='jobList-table' />
+                <p>3. Ask your friend to score your list and to save the job offers that interests him or her</p>
+                <img className='game-description-demo-picture' src={require('./assets/listScore.png')} alt='jobList-score' />
+                <p>4. Ask your friend to apply for selected job offers </p>
+                <img className='game-description-demo-picture' src={require('./assets/applyOneJob.png')} alt='jobApplication' />
+                <p>5. Finally, review your friend’s job application and validate its result</p>
+                <img className='game-description-demo-picture' src={require('./assets/applicationProof.png')} alt='applicationProof' />
+              </div>
+              <div>
+                <p>And that’s it !!</p>
+                <p>Finally you can check the Scoreboard menu to compare yourself with other recruiters or job-seekers.</p>
+                <p>Dont hesitate to share your feedback via the messaging box on your bottom right.</p>
+              </div>
           </div>
-        )
-      }
-    </div>
+                  <Contact />
+           </div>
   )
+      }  
+    </div>
+  )                            
 }
 
 export default LoginV2;
