@@ -126,6 +126,10 @@ const LoginV2 = ({ path }: any) => {
                 <p className='game-description-header'><b>How ?</b></p>
                 <p className='game-description-content'>Find job offers for your friend and ask him to apply ;)</p>
               </div>
+              <div className='game-description-benchmark'>
+                <p className='game-description-header-benchmark'><b>What is the difference whit an excel, google sheet or trello ?</b></p>
+                <p className='game-description-content-benchmark'>None ;) The idea is just to add some gamification artifacts to make finding job funnier and a more cooperative experience.</p>
+              </div>
               <div className='game-description-demo'>
                 <p className='game-description-demo-title'><b>The game in 5 steps</b></p>
                 <p>1. Start a new ‘10 jobs challenge’ and invite your job-seeking friend to participate</p>
