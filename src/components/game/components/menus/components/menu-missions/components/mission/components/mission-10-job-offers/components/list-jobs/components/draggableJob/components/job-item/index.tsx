@@ -21,6 +21,7 @@ import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../../../
 import { GET_MISSION_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getMissionClient';
 import { UPDATE_MISSION_V2 } from '../../../../../../../../../../../../../../../../graphql/mutations/server/updateMissionV2';
 import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../../../../../../../graphql/queries/client/getMissionsClient';
+import { PUSH_NOTIFICATION } from '../../../../../../../../../../../../../../../../graphql/mutations/server/pushNotification';
 
 const JobItem = ({ job, index, setProgress }: any) => {
 
@@ -40,6 +41,7 @@ const JobItem = ({ job, index, setProgress }: any) => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
 
   // mutation
+  const [pushNotification] = useMutation(PUSH_NOTIFICATION)
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
     onCompleted({ updateMissionV2 }) {
       setProgress(updateMissionV2.progress)
@@ -74,13 +76,25 @@ const JobItem = ({ job, index, setProgress }: any) => {
         .filter((job: any) => job.mission10JobsId === mission.id)
         .filter((job: any) => job.isComplete === true)
 
-      updateMissionV2({
-        variables: {
-          id: mission.id,
-          field: 'progress',
-          data: completedJobs.length
-        }
-      })
+      if (mission.progress !== completedJobs.length) {
+        updateMissionV2({
+          variables: {
+            id: mission.id,
+            field: 'progress',
+            data: completedJobs.length
+          }
+        })
+
+        // push notif list progress
+        const message = mission.progress < completedJobs.length ? 'Your friend added a job offer' : 'Your friend removed a job offer'
+        pushNotification({
+          variables: {
+            label: message,
+            gameId: game.id,
+            recipientId: game.applicant.id,
+          }
+        })
+      }
 
       // update storage
       localStorage.setItem('jobs', JSON.stringify(getJobsByGameId))
