@@ -61,7 +61,7 @@ const Menus = ({ path }: any) => {
 
         })
         client.writeQuery({
-          query: GET_MISSIONS_CLIENT,
+          query: GET_JOBS_BY_GAME_ID_CLIENT,
           variables: { gameId: game.id },
           data: {
             missions: newJobs,
