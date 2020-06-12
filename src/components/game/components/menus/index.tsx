@@ -22,6 +22,8 @@ import { GET_GAME_CLIENT } from '../../../../graphql/queries/client/getGameClien
 import { GET_MISSIONS_CLIENT } from '../../../../graphql/queries/client/getMissionsClient';
 import { UPDATED_MISSION_SUBSCRIPTION } from '../../../../graphql/subscriptions/updatedMission';
 import { GET_PLAYER_CLIENT } from '../../../../graphql/queries/client/getPlayerClient';
+import { NEW_JOBS_SUBSCRIPTION } from '../../../../graphql/subscriptions/newJobs';
+import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../graphql/queries/client/getJobsByGameIdClient';
 
 const Menus = ({ path }: any) => {
 
@@ -35,7 +37,25 @@ const Menus = ({ path }: any) => {
 
   const { loading: updatedMissionSubscriptionLoading, error: updatedMissionSubscriptionError, data: updatedMissionSubscriptionData } = useSubscription(UPDATED_MISSION_SUBSCRIPTION, { variables: { gameId: game.id } })
 
+  const { data: newJobsSubscriptionData } = useSubscription(NEW_JOBS_SUBSCRIPTION, { variables: { playerId: player.id } })
+
   // effects
+  React.useEffect(() => {
+    if (newJobsSubscriptionData) {
+      const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
+      const newJobs = getJobsByGameId.concat(newJobsSubscriptionData.newJobs)
+      client.writeQuery({
+        query: GET_JOBS_BY_GAME_ID_CLIENT,
+        variables: { gameId: game.id },
+        data: {
+          getJobsByGameId: newJobs
+        }
+      })
+      localStorage.setItem('jobs', JSON.stringify(newJobs))
+    }
+  }, [newJobsSubscriptionData, game.id, client])
+
+
   React.useEffect(() => {
     if (newMissionSubscriptionData) {
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
