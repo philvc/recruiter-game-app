@@ -24,6 +24,7 @@ import { UPDATED_MISSION_SUBSCRIPTION } from '../../../../graphql/subscriptions/
 import { GET_PLAYER_CLIENT } from '../../../../graphql/queries/client/getPlayerClient';
 import { NEW_JOBS_SUBSCRIPTION } from '../../../../graphql/subscriptions/newJobs';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../graphql/queries/client/getJobsByGameIdClient';
+import { UPDATED_JOB_SUBSCRIPTION } from '../../../../graphql/subscriptions/updatedJob';
 
 const Menus = ({ path }: any) => {
 
@@ -39,7 +40,39 @@ const Menus = ({ path }: any) => {
 
   const { data: newJobsSubscriptionData } = useSubscription(NEW_JOBS_SUBSCRIPTION, { variables: { playerId: player.id } })
 
+  const { data: updatedJobSubscriptionData } = useSubscription(UPDATED_JOB_SUBSCRIPTION, { variables: { gameId: game.id } })
+
   // effects
+  React.useEffect(() => {
+    if (updatedJobSubscriptionData) {
+      const { updatedJob } = updatedJobSubscriptionData;
+      const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
+      const index = getJobsByGameId.findIndex((job: any) => job.id === updatedJob.id);
+      const isMissionEqual = isEqual(getJobsByGameId[index], updatedJob);
+
+      if (!isMissionEqual) {
+
+        const newJobs = getJobsByGameId.map((job: any) => {
+          if (job.id === updatedJob.id) {
+            return updatedJob
+          } else {
+            return job
+          }
+
+        })
+        client.writeQuery({
+          query: GET_MISSIONS_CLIENT,
+          variables: { gameId: game.id },
+          data: {
+            missions: newJobs,
+          }
+        })
+        localStorage.setItem('jobs', JSON.stringify(newJobs))
+
+      }
+    }
+  }, [updatedJobSubscriptionData, game.id, client])
+
   React.useEffect(() => {
     if (newJobsSubscriptionData) {
       const { getJobsByGameId }: any = client.readQuery({ query: GET_JOBS_BY_GAME_ID_CLIENT, variables: { gameId: game.id } })
