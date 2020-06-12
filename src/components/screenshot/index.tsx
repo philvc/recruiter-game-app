@@ -196,10 +196,10 @@ const Screenshot = ({ openModal }: any) => {
   return (
     <div className='screenshot-container'>
       <img className='screenshot-img' style={isLoaded ? {} : { display: 'none' }} src={imageSource} alt='no uploaded document' onLoad={() => setIsLoaded(true)} />
-      {!isLoaded && selectedJob.applicationProofUrl && <p>Loading Image ...</p>}
-      <DropZone
+      {!isLoaded && selectedJob.applicationProofUrl && <p style={{ color: 'white' }}>Loading Image ...</p>}
+      {player.id === game.applicant.id && <DropZone
         handleCreateSignedPutUrl={handleCreateSignedPutUrl}
-      />
+      />}
       {file.name && (
         <p style={{ color: 'white' }}>{file.name}</p>
       )}

@@ -21,15 +21,17 @@ import { NEW_MISSION_SUBSCRIPTION } from '../../../../graphql/subscriptions/newM
 import { GET_GAME_CLIENT } from '../../../../graphql/queries/client/getGameClient';
 import { GET_MISSIONS_CLIENT } from '../../../../graphql/queries/client/getMissionsClient';
 import { UPDATED_MISSION_SUBSCRIPTION } from '../../../../graphql/subscriptions/updatedMission';
+import { GET_PLAYER_CLIENT } from '../../../../graphql/queries/client/getPlayerClient';
 
 const Menus = ({ path }: any) => {
 
   // client
   const client = useApolloClient();
   const { game }: any = client.readQuery({ query: GET_GAME_CLIENT })
+  const { player }: any = client.readQuery({ query: GET_PLAYER_CLIENT })
 
   // subscriptions
-  const { loading: newMissionSubscriptionLoading, error: newMissionSubscriptionError, data: newMissionSubscriptionData } = useSubscription(NEW_MISSION_SUBSCRIPTION, { variables: { gameId: game.id } })
+  const { loading: newMissionSubscriptionLoading, error: newMissionSubscriptionError, data: newMissionSubscriptionData } = useSubscription(NEW_MISSION_SUBSCRIPTION, { variables: { gameId: game.id, playerId: player.id } })
 
   const { loading: updatedMissionSubscriptionLoading, error: updatedMissionSubscriptionError, data: updatedMissionSubscriptionData } = useSubscription(UPDATED_MISSION_SUBSCRIPTION, { variables: { gameId: game.id } })
 
@@ -37,21 +39,16 @@ const Menus = ({ path }: any) => {
   React.useEffect(() => {
     if (newMissionSubscriptionData) {
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } })
+      const newMissions = missions.concat(newMissionSubscriptionData.newMission)
+      client.writeQuery({
+        query: GET_MISSIONS_CLIENT,
+        variables: { gameId: game.id },
+        data: {
+          missions: newMissions
+        }
+      })
 
-      // if the mission is already in the cache it souldn't update
-      const index = missions.findIndex((mission: any) => mission.id === newMissionSubscriptionData.newMission[0].id)
-      if (index === -1) {
-        const newMissions = missions.concat(newMissionSubscriptionData.newMission)
-        client.writeQuery({
-          query: GET_MISSIONS_CLIENT,
-          variables: { gameId: game.id },
-          data: {
-            missions: newMissions
-          }
-        })
-
-        localStorage.setItem('missions', JSON.stringify(newMissions))
-      }
+      localStorage.setItem('missions', JSON.stringify(newMissions))
     }
   }, [newMissionSubscriptionData, client, game.id])
 
