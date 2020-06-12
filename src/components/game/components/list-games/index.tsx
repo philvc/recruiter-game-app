@@ -51,7 +51,9 @@ const ListGames = ({ path }: any) => {
         variables: {
           playerId: player.id,
         },
-        data: newGames
+        data: {
+          games: newGames
+        }
       })
 
       // update state

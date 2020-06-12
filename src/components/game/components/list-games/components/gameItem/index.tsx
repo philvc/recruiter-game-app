@@ -2,7 +2,7 @@ import * as React from 'react';
 
 // modules
 import { Link } from '@reach/router';
-import { useApolloClient, useQuery } from '@apollo/client';
+import { useApolloClient, useQuery, useSubscription } from '@apollo/client';
 import { format } from 'date-fns'
 
 // style
@@ -14,6 +14,7 @@ import { GET_GAME_CLIENT } from '../../../../../../graphql/queries/client/getGam
 import { GET_MISSIONS_SERVER } from '../../../../../../graphql/queries/server/getMissionsServer';
 import { GET_MISSIONS_CLIENT } from '../../../../../../graphql/queries/client/getMissionsClient';
 import { GET_PLAYER_CLIENT } from '../../../../../../graphql/queries/client/getPlayerClient';
+import { NEW_MISSION_SUBSCRIPTION } from '../../../../../../graphql/subscriptions/newMission';
 
 const GameItem = ({ game }: any) => {
 
@@ -31,7 +32,7 @@ const GameItem = ({ game }: any) => {
   })
 
   // queries
-  const { loading: missionsLoading, error: missionsError, data: missionsData } = useQuery(GET_MISSIONS_SERVER, {
+  const { loading: missionsLoading, error: missionsError, data: missionsData, subscribeToMore } = useQuery(GET_MISSIONS_SERVER, {
     variables: { gameId: game.id },
     onCompleted(data) {
       const { missions } = data;
@@ -48,6 +49,22 @@ const GameItem = ({ game }: any) => {
 
   }
   )
+
+  // effects
+  React.useEffect(() => {
+    subscribeToMore({
+      document: NEW_MISSION_SUBSCRIPTION,
+      variables: { gameId: game.id, playerId: player.id },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        const newMissionItems = subscriptionData.data.newMission;
+        return Object.assign({}, prev, {
+          missions: [...prev.missions, ...newMissionItems]
+        })
+      }
+    })
+  }, [subscribeToMore, player.id, game.id])
+
 
   if (jobsLoading || missionsLoading) return null
   if (jobsError || jobsError) return null
