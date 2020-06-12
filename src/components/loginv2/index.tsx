@@ -149,21 +149,6 @@ const LoginV2 = ({ path }: any) => {
                 <p>Finally you can check the Scoreboard menu to compare yourself with other recruiters or job-seekers.</p>
                 <p>Dont hesitate to share your feedback via the messaging box on your bottom right.</p>
               </div>
-              <form onSubmit={handleSubmit} className='email-form'>
-                <label>
-                  <input
-                    style={inputStyle(state.emailError)}
-                    onChange={handleChange}
-                    name="email"
-                    value={state.email}
-                    type="text"
-                    placeholder="Your email..."
-                  />
-                  <span>{state.submitAttempted && state.emailError}</span>
-                </label>
-                <button className='start-button' type="submit">START</button>
-                <p>{state.submitMessage}</p>
-              </form>
             </div>
             <Contact />
           </div>
