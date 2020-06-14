@@ -112,7 +112,6 @@ const Menus = ({ path }: any) => {
       const { missions }: any = client.readQuery({ query: GET_MISSIONS_CLIENT, variables: { gameId: game.id } });
       const index = missions.findIndex((mission: any) => mission.id === updatedMissionSubscriptionData.updatedMission.id);
       const isMissionEqual = isEqual(missions[index], updatedMissionSubscriptionData.updatedMission);
-
       if (!isMissionEqual) {
 
         const newMissions = missions.map((mission: any) => {

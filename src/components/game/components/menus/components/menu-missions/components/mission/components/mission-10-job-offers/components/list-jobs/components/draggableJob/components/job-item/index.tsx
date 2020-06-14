@@ -86,14 +86,14 @@ const JobItem = ({ job, index, setProgress }: any) => {
         })
 
         // push notif list progress
-        const message = mission.progress < completedJobs.length ? 'Your friend added a job offer' : 'Your friend removed a job offer'
-        pushNotification({
-          variables: {
-            label: message,
-            gameId: game.id,
-            recipientId: game.applicant.id,
-          }
-        })
+        // const message = mission.progress < completedJobs.length ? 'Your friend added a job offer' : 'Your friend removed a job offer'
+        // pushNotification({
+        //   variables: {
+        //     label: message,
+        //     gameId: game.id,
+        //     recipientId: game.applicant.id,
+        //   }
+        // })
       }
 
       // update storage
