@@ -21,6 +21,7 @@ import { UPDATE_MISSION_V2 } from '../../graphql/mutations/server/updateMissionV
 import { GET_MISSIONS_CLIENT } from '../../graphql/queries/client/getMissionsClient';
 import { CREATE_MISSION } from '../../graphql/mutations/server/createMissionServer';
 import { GET_PLAYER_CLIENT } from '../../graphql/queries/client/getPlayerClient';
+import { PUSH_NOTIFICATION } from '../../graphql/mutations/server/pushNotification';
 
 
 const Screenshot = ({ openModal }: any) => {
@@ -39,6 +40,7 @@ const Screenshot = ({ openModal }: any) => {
 
   // mutations
   const [createSignedPutUrl, { loading, error, data }] = useMutation(CREATE_SIGNED_PUT_URL)
+  const [pushNotification] = useMutation(PUSH_NOTIFICATION)
   const [updateJob] = useMutation(UPDATE_JOB_SERVER)
   const [sendMessage] = useMutation(SEND_MESSAGE)
   const [updateMissionV2] = useMutation(UPDATE_MISSION_V2, {
@@ -124,6 +126,14 @@ const Screenshot = ({ openModal }: any) => {
       }
     })
 
+    pushNotification({
+      variables: {
+        recipientId: game.recruiterId,
+        gameId: game.id,
+        label: 'Your friend has upload a screenshot of its job application, lets check it out !',
+      }
+    })
+
   }
 
   async function handleAcceptOrDeclineDocument(e: any) {
@@ -186,6 +196,14 @@ const Screenshot = ({ openModal }: any) => {
         id: mission.id,
         field: 'status',
         data: 'completed',
+      }
+    })
+
+    pushNotification({
+      variables: {
+        gameId: game.id,
+        recipientId: game.applicantId,
+        label: isValid ? 'Your job application has been validated, congrats !' : 'Your job application has been declined, you can contacth your friend :('
       }
     })
 

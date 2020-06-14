@@ -76,7 +76,7 @@ const SaveResultButton = () => {
     pushNotification({
       variables: {
         recipientId: game.recruiter.id,
-        label: 'Congrats you have unlocked a new challenge !',
+        label: 'Congrats you have unlocked a job application !',
         gameId: game.id,
       }
     })

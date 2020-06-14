@@ -20,6 +20,7 @@ import { GET_MISSIONS_CLIENT } from '../../../../../../../../../../graphql/queri
 import { UPDATE_JOB_SERVER } from '../../../../../../../../../../graphql/mutations/server/updateJobServer';
 import { GET_JOBS_BY_GAME_ID_CLIENT } from '../../../../../../../../../../graphql/queries/client/getJobsByGameIdClient';
 import { SEND_MESSAGE } from '../../../../../../../../../../graphql/mutations/server/sendMessage';
+import { PUSH_NOTIFICATION } from '../../../../../../../../../../graphql/mutations/server/pushNotification';
 
 const NewChallenge = () => {
 
@@ -38,6 +39,7 @@ const NewChallenge = () => {
   // mutations
 
   const [sendMessage] = useMutation(SEND_MESSAGE)
+  const [pushNotification] = useMutation(PUSH_NOTIFICATION)
   const [startJobApplication] = useMutation(START_JOB_APPLICATION, {
     onCompleted({ startJobApplication }) {
 
@@ -132,6 +134,14 @@ const NewChallenge = () => {
         subject: 'Quick ! You have a new challenge',
         message: 'Go see your new Challenge & apply for a new job',
         link: selectedJob.url,
+      }
+    })
+
+    pushNotification({
+      variables: {
+        recipientId: game.applicantId,
+        label: 'You have to apply to a new job selected by your friend !',
+        gameId: game.id,
       }
     })
 

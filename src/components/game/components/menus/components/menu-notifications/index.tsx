@@ -39,8 +39,8 @@ const MenuNotification = () => {
   const { loading, error, data, fetchMore, subscribeToMore }: any = useQuery(GET_NOTIFICATIONS_SERVER, {
     variables: {
       gameId: game.id,
-      recipientId: game.recruiter.id,
-      pageSize: 2,
+      recipientId: player.id,
+      pageSize: 10,
       after: 0,
     }
   })
