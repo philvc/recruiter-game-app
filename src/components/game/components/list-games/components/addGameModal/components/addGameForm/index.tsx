@@ -87,7 +87,7 @@ const AddGameForm = ({ openModal }: any) => {
         variables: {
           recipientId: addGame.applicant.id,
           subject: 'Invitation to 10 Jobs Challenge',
-          message: `<p>Visit this link <a href=${"https://admiring-haibt-ce287e.netlify.app/"}>10 Jobs Challenge</a></p>`,
+          message: `<p>Visit this link <a href=${"https://tenjobschallengev2.herokuapp.com/"}>10 Jobs Challenge</a></p>`,
         }
       })
       navigate(`/challenges/${addGame.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").join('')}/lists`)
