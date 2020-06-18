@@ -58,7 +58,7 @@ export function formReducer(state: any, action: any) {
                     error = validate('email', action.payload)
                     return {
                         ...state,
-                        email: action.payload,
+                        email: action.payload.toLowerCase(),
                         emailError: error,
                         submitMessage: '',
                         status: 'dirty',
