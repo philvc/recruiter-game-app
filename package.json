@@ -35,7 +35,7 @@
     "date-fns": "^2.14.0",
     "graphql": "^15.0.0",
     "immutability-helper": "^3.0.2",
-    "react": "0.0.0-experimental-e5d06e34b",
+    "react": "0.14.0",
     "react-aria-modal": "^4.0.0",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",
